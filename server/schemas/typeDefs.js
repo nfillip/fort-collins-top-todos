@@ -25,6 +25,20 @@ type Message {
   messageText: String
 }
 
+type Location {
+  _id: ID
+  name: String
+  address: String
+  images: [String]
+  creator: User
+  sunsetLikes: [User]
+  sunriseLikes: [User]
+  viewLikes: [User]
+  barsLikes: [User]
+  categories: [String]
+  blog: [Message]
+}
+
 type Auth {
     token: ID! 
     user: User
@@ -38,11 +52,17 @@ type Query {
   getRequestsYouSent: [User]
   getRequestsYouReceive: [User]
   me: User
+  allLocations: [Location]
+  singleLocation(locationId: ID!): Location
+
 }
 
 type Mutation {
   createUser(username: String!, email: String!, password: String!): Auth
   login(email: String!, password: String!): Auth
+  sendFriendRequest(otherId: ID!): User
+  acceptFriendRequest(otherId: ID!): Match
+  createLocation(locationName: String!, address: String!): Location
 }
 `;
 

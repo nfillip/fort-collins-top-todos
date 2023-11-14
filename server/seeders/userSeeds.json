@@ -4,5 +4,10 @@
     "email": "n@gmail.com",
     "password": "Nick123456",
     "profilePic": "testtest_nqwnz3"
+  },
+  {
+    "username": "emily",
+    "email": "e@gmail.com",
+    "password": "Emily123456"
   }
 ]

@@ -27,6 +27,12 @@ const resolvers = {
       }
       throw new AuthenticationError();
     },
+    allLocations: async () => {
+      return await Location.find();
+    },
+    singleLocation: async () => {
+      const singleLocation = await Location.findOne({_id: locationId})
+    }
   },
 
   Mutation: {
@@ -54,7 +60,72 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-  },
+    sendFriendRequest: async (parent, {otherId}, {user}) => {
+      const addToYourRequests = await User.findOneAndUpdate(
+        {_id: user._id},
+        {$push: {friendsYouRequested: otherId}},
+        {new: true}
+      )
+      const sendRequest = await User.findOneAndUpdate(
+        {_id: otherId},
+        {$push: {friendRequests: user._id}},
+        {new: true}
+      )
+      console.log("Friend Request Sent!")
+      return sendRequest;
+      },
+    acceptFriendRequest: async (parent, {otherId},{user}) => {
+      const newMatch = await Match.create({
+        user1: user._id.toString(),
+        user2: otherId.toString(),
+      });
+      // Update Own User Model  - add match, add friend, delete requests
+      await User.findOneAndUpdate(
+        { _id: user._id },
+        { $push: { matches: newMatch._id } },
+      );
+      await User.findOneAndUpdate(
+        { _id: user._id },
+        { $push: {friends: otherId}},
+      );
+      await User.findOneAndUpdate(
+        { _id: user._id },
+        { $pull: {friendsYouRequested: otherId}},
+      );
+      await User.findOneAndUpdate(
+        { _id: user._id },
+        { $pull: {friendRequests: otherId}}
+      );
+      // Update Other User Model  - add match, add friend, delete requests
+      await User.findOneAndUpdate(
+        { _id: otherId },
+        { $push: { matches: newMatch._id } },
+      );
+      await User.findOneAndUpdate(
+        { _id: otherId },
+        { $push: {friends: user._id}},
+      );
+      await User.findOneAndUpdate(
+        { _id: otherId },
+        { $pull: {friendsYouRequested: user._id}},
+      );
+      await User.findOneAndUpdate(
+        { _id: otherId },
+        { $pull: {friendRequests: user._id}}
+      );
+      return newMatch;
+    },
+    createLocation: async (parent, {locationName, address}, {user}) => {
+      const newLocation = await Location.create({
+        name: locationName, 
+        address: address,
+        creator: user._id
+       }
+      )
+      console.log("new location created!")
+      return newLocation;
+    }
+  }
 };
 
 module.exports = resolvers;
