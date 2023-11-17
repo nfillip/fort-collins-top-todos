@@ -5,6 +5,7 @@ type User {
     email: String
     password: String 
     profilePic: String
+    profilePicURL: String
     friendsYouRequested: [User]
     friendRequests: [User]
     friends: [User]
@@ -58,7 +59,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(username: String!, email: String!, password: String!): Auth
+  createUser(username: String!, email: String!, password: String!, profilePic: String, profilePicURL: String): Auth
   login(email: String!, password: String!): Auth
   sendFriendRequest(otherId: ID!): User
   acceptFriendRequest(otherId: ID!): Match

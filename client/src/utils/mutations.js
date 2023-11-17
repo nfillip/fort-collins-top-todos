@@ -10,3 +10,10 @@ mutation Login($email: String!, $password: String!) {
     }
   }
 `;
+
+export const CREATE_USER = gql`
+mutation CreateUser($username: String!, $email: String!, $password: String!, $profilePic: String, $profilePicURL: String) {
+  createUser(username: $username, email: $email, password: $password, profilePic: $profilePic, profilePicURL: $profilePicURL) {
+    token
+  }
+}`

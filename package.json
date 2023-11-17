@@ -14,10 +14,6 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@types/node": "^20.9.0",
         "concurrently": "^8.2.0"
-    },
-    "dependencies": {
-        "typescript-require": "^0.3.0"
     }
 }

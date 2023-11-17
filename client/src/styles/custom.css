@@ -1,0 +1,46 @@
+.homeImage {
+    width: 100%;
+    height: 100vh;
+    /* background-color: blue; */
+    background-image: url(../assets/social.avif);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex; 
+    flex-direction: column;
+    justify-content: start;
+    align-items:center;
+    color: white;
+    
+}
+.homeTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px;
+    margin-top: 4rem;
+    margin-left: 6rem;
+    padding: 0px;
+    font-size: 2rem;
+}
+
+.homeP {
+    margin: 0px;
+    padding: 0px;
+}
+@media (width>600px){
+    .homeTitle {
+        font-size: 3rem;
+        margin-left: 9rem;
+    }
+}
+@media (width>900px) {
+    .homeImage{
+        background-image: url(../assets/horsetooth-land.avif)
+    }
+    .homeTitle{
+        font-size: 6rem;
+        margin-left: 20rem;
+    }
+    
+}

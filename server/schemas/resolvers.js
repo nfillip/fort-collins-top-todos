@@ -37,12 +37,13 @@ const resolvers = {
 
   Mutation: {
     // CREATE route: create user account
-    createUser: async (parent, { username, email, password }) => {
+    createUser: async (parent, { username, email, password, profilePic, profilePicURL }) => {
       const user = await User.create({
         username: username,
         email: email,
         password: password,
-        image: "empty-profile_ttux5f",
+        profilePic: profilePic,
+        profilePicURL: profilePicURL
       });
       const token = signToken(user);
       return { token, user };

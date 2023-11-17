@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 import * as React from "react";
+import { useEffect, useRef, useState } from "react";
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_SELF_PROFILE } from "../../utils/queries";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { deepPurple, orange } from '@mui/material/colors';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,13 +19,42 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import LoginModal from "./LoginModal";
-import SignUpModal from "./SignUpModal"
+import Auth from "../../utils/auth"
+import { Cloudinary } from "@cloudinary/url-gen";
+import { AdvancedImage } from "@cloudinary/react";
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [imageId, setImageId] = useState("");
+  const [profileUsername, setProfileUsername] = useState("")
+
+  const {error, loading, data} = useQuery(QUERY_SELF_PROFILE, {
+    onCompleted: (data) => {
+      console.log(data.me)
+      setImageId(data.me.profilePicURL)
+      setProfileUsername(data.me.username)
+    }
+  })
+
+  const outerTheme = createTheme({
+    palette: {
+      primary: {
+        main: "#280137",
+      },
+    },
+  });
+  // Create a Cloudinary instance and set your cloud name.
+	const cld = new Cloudinary({
+		cloud: {
+			cloudName: "dkxtk2v4z",
+		},
+	});
+
+	// Instantiate a CloudinaryImage object for the image with the public ID, 'docs/models'.
+	const myImage = cld.image(imageId);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,9 +71,50 @@ function Header() {
     setAnchorElUser(null);
   };
 
+  const handleLogout = () => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger"
+      },
+      buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+      title: "Are you sure you want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, logout!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        swalWithBootstrapButtons.fire({
+          title: "Logged Out!",
+          text: "See you next time!",
+          timer: 1500,
+          icon: "success",
+          showConfirmButton: false
+        });
+        Auth.logout();
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 1000
+        });
+      }
+    });
+  }
+
+
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <ThemeProvider theme={outerTheme}>
+    <AppBar A200 position="static">
+      <Container A200 maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -93,6 +168,7 @@ function Header() {
                   <Link to="/">Best Sunset Spots</Link>
                 </Typography>
               </MenuItem>
+  
               <MenuItem key="sunset" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
                   <Link to="/">Best Sunrise Spots</Link>
@@ -159,11 +235,15 @@ function Header() {
               <Link to="/">Bars</Link>
             </Button>
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
+            {Auth.loggedIn()?<Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/broken-image.jpg" />
+                <Typography sx = {{mr: 2, display: { xs: "none", md: "flex" } }}>{`Hey ${profileUsername} `}</Typography>
+                <Avatar src= {imageId} />
+                
+                {/* <AdvancedImage
+						cldImg={myImage}
+					/> */}
               </IconButton>
             </Tooltip>
             <Menu
@@ -187,21 +267,48 @@ function Header() {
                   <Link to="/profile">Profile</Link>
                 </Typography>
               </MenuItem>
+              <MenuItem key="signup" onClick={handleCloseUserMenu}>
+                {/* <Typography textAlign="center">Login</Typography> */}
+                <Typography onClick = {handleLogout} textAlign="center">
+                  Logout
+                </Typography>
+                
+              </MenuItem>
+            </Menu>
+          </Box>:<Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar src="/broken-image.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
               <MenuItem key="login" onClick={handleCloseUserMenu}>
                 {/* <Typography textAlign="center">Login</Typography> */}
                 <LoginModal></LoginModal>
                 
               </MenuItem>
-              <MenuItem key="signup" onClick={handleCloseUserMenu}>
-                {/* <Typography textAlign="center">Login</Typography> */}
-                <SignUpModal></SignUpModal>
-                
-              </MenuItem>
             </Menu>
-          </Box>
+          </Box> }
+            
         </Toolbar>
       </Container>
     </AppBar>
+    </ThemeProvider>
   );
 }
 export default Header;

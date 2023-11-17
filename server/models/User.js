@@ -21,6 +21,9 @@ const userSchema = new Schema({
     profilePic: {
         type: String,
     },
+	profilePicURL: {
+		type: String,
+	},
     friendsYouRequested:
         [{ type: Schema.Types.ObjectId, ref: "User" }],
     friendRequests:
