@@ -2,13 +2,24 @@
   {
     "username": "nillip",
     "email": "n@gmail.com",
-    "password": "Nick123456",
+    "password": "Nick123456!",
     "profilePic": "testtest_nqwnz3",
     "profilePicURL": "https://res.cloudinary.com/dkxtk2v4z/image/upload/v1700167751/apcfwxsmaldpiz2wjinj.jpg"
   },
   {
-    "username": "emily",
+    "username": "emy123",
     "email": "e@gmail.com",
-    "password": "Emily123456"
-  }
+    "password": "Emily123456!"
+  },
+  {
+    "username": "mandy93",
+    "email": "a@gmail.com",
+    "password": "Emily123456!"
+  },
+  {
+    "username": "mark58",
+    "email": "m@gmail.com",
+    "password": "Mark123456!"
+  },
+
 ]

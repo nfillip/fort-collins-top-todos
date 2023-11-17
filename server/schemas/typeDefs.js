@@ -33,7 +33,7 @@ type Location {
   images: [String]
   creator: User
   sunsetLikes: [User]
-  sunriseLikes: [User]
+  restaurants: [User]
   viewLikes: [User]
   barsLikes: [User]
   categories: [String]

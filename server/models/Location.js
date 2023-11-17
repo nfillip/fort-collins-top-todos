@@ -14,7 +14,7 @@ const locationSchema = new Schema({
   images: [{ type: String }],
   creator: { type: Schema.Types.ObjectId, ref: "User" },
   sunsetLikes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  sunriseLikes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  restaurants: [{ type: Schema.Types.ObjectId, ref: "User" }],
   viewsLikes: [{ type: Schema.Types.ObjectId, ref: "User" }],
   barsLikes: [{ type: Schema.Types.ObjectId, ref: "User" }],
   categories: [{ type: String, required: true }],

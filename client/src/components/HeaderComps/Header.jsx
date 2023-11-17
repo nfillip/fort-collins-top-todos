@@ -165,7 +165,7 @@ function Header() {
             >
               <MenuItem key="home" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link to="/">Best Sunset Spots</Link>
+                  <Link to="/sunset">Best Sunset Spots</Link>
                 </Typography>
               </MenuItem>
   
