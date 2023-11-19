@@ -37,11 +37,43 @@ query allLocations {
 }`
 
 export const QUERY_SELF_PROFILE = gql`
-query self {
-    me {
-      profilePic
+query Query {
+  me {
+    _id
+    profilePic
+    profilePicURL
+    username
+    email
+    friendRequests {
+      _id
       username
-      profilePicURL
+    }
+    friends {
+      _id
+      username
+    }
+    friendsYouRequested {
+      _id
+      username
+    }
+    savedLocations {
+      _id
+      name
+    }
+    matches {
+      _id
+      messages {
+        _id
+        createdAt
+        messageText
+      }
+      user1 {
+        _id
+      }
+      user2 {
+        _id
+      }
     }
   }
+}
 `;

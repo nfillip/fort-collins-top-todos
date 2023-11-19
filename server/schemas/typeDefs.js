@@ -69,7 +69,9 @@ type Mutation {
   createLocation(locationName: String!, address: String!, description: String!, imagesURL:[String]!, images: [String]!, categories: [String]!): Location
   upVoteLocation(locationId: ID!, cat: String!):Location
   removeVoteLocation(locationId: ID!, cat: String!):Location
-  saveLocation(locatedId: ID!):User
+  saveLocation(locationId: ID!):User
+  unSaveLocation(locationId: ID!):User
+  
 }
 `;
 

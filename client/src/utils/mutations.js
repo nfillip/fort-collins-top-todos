@@ -32,3 +32,23 @@ mutation removeVoteLocation($locationId: ID!, $cat: String!) {
     _id
   }
 }`
+
+export const SAVE_LOCATION = gql`
+mutation SaveLocation($locationId: ID!) {
+  saveLocation(locationId: $locationId) {
+    savedLocations {
+      _id
+    }
+    email
+  }
+}`
+
+export const UNSAVE_LOCATION = gql`
+mutation UnSaveLocation($locationId: ID!) {
+  unSaveLocation(locationId: $locationId) {
+    savedLocations {
+      _id
+    }
+    email
+  }
+}`

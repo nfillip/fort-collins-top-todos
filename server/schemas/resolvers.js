@@ -8,7 +8,8 @@ const resolvers = {
       const singleUser = await User.findOne({ _id: userId })
         .populate("friendsYouRequested")
         .populate("friendRequests")
-        .populate("friends");
+        .populate("friends")
+        .populate("savedLocations");
       return singleUser;
     },
     users: async () => {
@@ -20,6 +21,7 @@ const resolvers = {
           .populate("friendsYouRequested")
           .populate("friendRequests")
           .populate("friends")
+          .populate("savedLocations")
           .populate({
             path: "matches",
             populate: [{ path: "user1" }, { path: "user2" }],
@@ -189,8 +191,18 @@ const resolvers = {
     saveLocation: async (parent, {locationId}, {user}) => {
       const addLocationToUser = await User.findOneAndUpdate(
         {_id: user._id},
-        {$push: {savedLocations: locationId}}
+        {$push: {savedLocations: locationId}},
+        {new: true}
       )
+      return addLocationToUser
+    },
+    unSaveLocation: async (parent, {locationId}, {user}) => {
+      const unSaveLocationToUser = await User.findOneAndUpdate(
+        {_id: user._id},
+        {$pull: {savedLocations: locationId}},
+        {new: true}
+      )
+      return unSaveLocationToUser
     }
   }
 }
