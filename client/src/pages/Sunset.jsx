@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
-import { ALL_LOCATIONS } from "../utils/queries";
+import { useQuery, useMutation } from "@apollo/client";
+import { ALL_LOCATIONS} from "../utils/queries";
+import {UPVOTE_LOCATION, REMOVE_VOTE_LOCATION} from "../utils/mutations"
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -14,10 +15,24 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Auth from "../utils/auth"
+import { useTheme } from '@mui/material/styles';
+import MobileStepper from '@mui/material/MobileStepper';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
 
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+const cat = "sunset"
+  
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -30,8 +45,67 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Sunset() {
-  const [expanded, setExpanded] = React.useState(false);
-  const { data, loading, error } = useQuery(ALL_LOCATIONS);
+    const theme = useTheme();
+    let Thumb = "blue"
+    const [activeStep, setActiveStep] = useState(0);
+    const [addUpVote] = useMutation(UPVOTE_LOCATION)
+    const [removeUpVote] = useMutation(REMOVE_VOTE_LOCATION);
+   const [expanded, setExpanded] = React.useState(false);
+  const { data, loading, error, refetch} = useQuery(ALL_LOCATIONS, {
+    onCompleted: (data) => {
+        data.allLocations.map((location,index) => {
+            let hasLike = false;
+            for(let i = 0; i<location.sunsetLikes.length; i++){
+                if(location.sunsetLikes[i]._id === Auth.getProfile().data._id){
+                    hasLike = true;
+                }
+            }
+            if (hasLike){
+                location.hasSunsetLike = true
+            }else{
+                location.hasSunsetLike = false
+            }
+        })
+    }
+  });
+    const handleNext = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+  
+    const handleBack = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+  
+    const handleStepChange = (step) => {
+      setActiveStep(step);
+    };
+
+    const handleUpVote = async (locationId, sunsetLikes, restaurantLikes,viewsLikes,barsLikes, hasSunsetLike ) => {
+        if(!Auth.loggedIn){
+            console.log("You're not logged in")
+        }else{
+            if(hasSunsetLike){
+                await removeUpVote({
+                    variables: {
+                        locationId: locationId,
+                        cat: cat
+                    }
+                })
+    
+            }else {
+                await addUpVote({
+                    variables: {
+                        locationId: locationId,
+                        cat: cat
+                    }
+                })
+            }
+            refetch();
+        }
+    }
+
+
+ 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -41,46 +115,90 @@ export default function Sunset() {
     console.log(error);
     return `Error! ${error.message}`;
   }
-  console.log(data)
   return (
     <>
       <div>Best Sunsets in Fort Collins</div>
       <div>
-        <Card sx={{ maxWidth: 345 }}>
+        {data.allLocations.map((location, index) => (
+            <>
+            {location.imagesURL.length !== 1 ? <Card sx={{ maxWidth: 345 }}>
           <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                R
-              </Avatar>
-            }
             action={
               <IconButton aria-label="settings">
-                <MoreVertIcon />
+                <BookmarkBorderIcon />
               </IconButton>
             }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            title={location.name}
           />
-          <CardMedia
-            component="img"
-            height="194"
-            image="/static/images/cards/paella.jpg"
-            alt="Paella dish"
-          />
+          <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+      <AutoPlaySwipeableViews
+        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        index={activeStep}
+        onChangeIndex={handleStepChange}
+        enableMouseEvents
+      >
+        {location.imagesURL.map((step, index) => (
+          <div key={index}>
+            {Math.abs(activeStep - index) <= 2 ? (
+              <Box
+                component="img"
+                sx={{
+                  height: 255,
+                  display: 'block',
+                  maxWidth: 400,
+                  overflow: 'hidden',
+                  width: '100%',
+                }}
+                src={step}
+              />
+            ) : null}
+          </div>
+        ))}
+      </AutoPlaySwipeableViews>
+      <MobileStepper
+        steps={location.imagesURL.length}
+        position="static"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === location.imagesURL.length - 1}
+          >
+            Next
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowLeft />
+            ) : (
+              <KeyboardArrowRight />
+            )}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowRight />
+            ) : (
+              <KeyboardArrowLeft />
+            )}
+            Back
+          </Button>
+        }
+      />
+    </Box>
+          
           <CardContent>
+          <Typography variant="body2" color="text.secondary">
+              {location.address}
+            </Typography>
             <Typography variant="body2" color="text.secondary">
-              This impressive paella is a perfect party dish and a fun meal to
-              cook together with your guests. Add 1 cup of frozen peas along
-              with the mussels, if you like.
+              {location.description}
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
+            <IconButton onClick = {() => handleUpVote(location._id, location.sunsetLikes, location.restaurantsLikes,location.viewsLikes,location.barsLikes, location.hasSunsetLike)} aria-label="add to favorites">
+            {location.hasSunsetLike ? ( <ThumbUpIcon sx = {{color: "purple"}}/>) : ( <ThumbUpIcon />)}
             </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
+            <Typography>{location.sunsetLikes.length} likes</Typography>
             <ExpandMore
               expand={expanded}
               onClick={handleExpandClick}
@@ -92,38 +210,64 @@ export default function Sunset() {
           </CardActions>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography paragraph>Method:</Typography>
+              <Typography paragraph>{location.name} Blog:</Typography>
               <Typography paragraph>
                 Heat 1/2 cup of the broth in a pot until simmering, add saffron
                 and set aside for 10 minutes.
               </Typography>
+            </CardContent>
+          </Collapse>
+        </Card> : <Card sx={{ maxWidth: 345 }}>
+          <CardHeader
+            action={
+              <IconButton aria-label="settings">
+                <BookmarkBorderIcon />
+              </IconButton>
+            }
+            title={location.name}
+          />
+          <CardMedia
+            component="img"
+            height="255"
+            image= {location.imagesURL[0]}
+            alt="Paella dish"
+          />
+          <CardContent>
+          <Typography variant="body2" color="text.secondary">
+              {location.address}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+            {location.description}
+            </Typography>
+          </CardContent>
+          <CardActions disableSpacing>
+            <IconButton aria-label="add to favorites">
+              <ThumbUpIcon />
+            </IconButton>
+            <Typography>X likes</Typography>
+            <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+                <Typography paragraph>{location.name} Blog:</Typography>
               <Typography paragraph>
-                Heat oil in a (14- to 16-inch) paella pan or a large, deep
-                skillet over medium-high heat. Add chicken, shrimp and chorizo,
-                and cook, stirring occasionally until lightly browned, 6 to 8
-                minutes. Transfer shrimp to a large plate and set aside, leaving
-                chicken and chorizo in the pan. Add pimentón, bay leaves,
-                garlic, tomatoes, onion, salt and pepper, and cook, stirring
-                often until thickened and fragrant, about 10 minutes. Add
-                saffron broth and remaining 4 1/2 cups chicken broth; bring to a
-                boil.
-              </Typography>
-              <Typography paragraph>
-                Add rice and stir very gently to distribute. Top with artichokes
-                and peppers, and cook without stirring, until most of the liquid
-                is absorbed, 15 to 18 minutes. Reduce heat to medium-low, add
-                reserved shrimp and mussels, tucking them down into the rice,
-                and cook again without stirring, until mussels have opened and
-                rice is just tender, 5 to 7 minutes more. (Discard any mussels
-                that don&apos;t open.)
-              </Typography>
-              <Typography>
-                Set aside off of the heat to let rest for 10 minutes, and then
-                serve.
+                Heat 1/2 cup of the broth in a pot until simmering, add saffron
+                and set aside for 10 minutes.
               </Typography>
             </CardContent>
           </Collapse>
-        </Card>
+        </Card> }
+            
+        </>
+        ))}
+        
       </div>
     </>
   );

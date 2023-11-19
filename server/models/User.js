@@ -24,6 +24,8 @@ const userSchema = new Schema({
 	profilePicURL: {
 		type: String,
 	},
+	savedLocations:
+		[{ type: Schema.Types.ObjectId, ref: "Location" }],
     friendsYouRequested:
         [{ type: Schema.Types.ObjectId, ref: "User" }],
     friendRequests:

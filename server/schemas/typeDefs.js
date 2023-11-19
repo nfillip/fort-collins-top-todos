@@ -6,6 +6,7 @@ type User {
     password: String 
     profilePic: String
     profilePicURL: String
+    savedLocations: [Location]
     friendsYouRequested: [User]
     friendRequests: [User]
     friends: [User]
@@ -30,11 +31,13 @@ type Location {
   _id: ID
   name: String
   address: String
+  description: String
   images: [String]
+  imagesURL: [String]
   creator: User
   sunsetLikes: [User]
   restaurantsLikes: [User]
-  viewLikes: [User]
+  viewsLikes: [User]
   barsLikes: [User]
   categories: [String]
   blog: [Message]
@@ -63,7 +66,10 @@ type Mutation {
   login(email: String!, password: String!): Auth
   sendFriendRequest(otherId: ID!): User
   acceptFriendRequest(otherId: ID!): Match
-  createLocation(locationName: String!, address: String!): Location
+  createLocation(locationName: String!, address: String!, description: String!, imagesURL:[String]!, images: [String]!, categories: [String]!): Location
+  upVoteLocation(locationId: ID!, cat: String!):Location
+  removeVoteLocation(locationId: ID!, cat: String!):Location
+  saveLocation(locatedId: ID!):User
 }
 `;
 

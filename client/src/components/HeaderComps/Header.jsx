@@ -33,7 +33,6 @@ function Header() {
 
   const {error, loading, data} = useQuery(QUERY_SELF_PROFILE, {
     onCompleted: (data) => {
-      console.log(data.me)
       setImageId(data.me.profilePicURL)
       setProfileUsername(data.me.username)
     }

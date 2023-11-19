@@ -15,5 +15,8 @@
     "license": "ISC",
     "devDependencies": {
         "concurrently": "^8.2.0"
+    },
+    "dependencies": {
+        "react-swipeable-views": "^0.14.0"
     }
 }

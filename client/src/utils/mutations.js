@@ -17,3 +17,18 @@ mutation CreateUser($username: String!, $email: String!, $password: String!, $pr
     token
   }
 }`
+
+export const UPVOTE_LOCATION = gql`
+mutation UpVoteLocation($locationId: ID!, $cat: String!) {
+  upVoteLocation(locationId: $locationId, cat: $cat) {
+    _id
+  }
+}
+`
+
+export const REMOVE_VOTE_LOCATION = gql`
+mutation removeVoteLocation($locationId: ID!, $cat: String!) {
+  removeVoteLocation(locationId: $locationId, cat: $cat) {
+    _id
+  }
+}`
