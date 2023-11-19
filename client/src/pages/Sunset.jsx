@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { ALL_LOCATIONS } from "../utils/queries";
+import { ALL_LOCATIONS, SUNSET_LOCATIONS } from "../utils/queries";
 import { UPVOTE_LOCATION, REMOVE_VOTE_LOCATION } from "../utils/mutations";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -47,18 +47,10 @@ const ExpandMore = styled((props) => {
 export default function Sunset() {
   const cat = "sunset";
   const theme = useTheme();
-  let Thumb = "blue";
   const [activeStep, setActiveStep] = useState(0);
-  const [addUpVote] = useMutation(UPVOTE_LOCATION);
-  const [removeUpVote] = useMutation(REMOVE_VOTE_LOCATION);
   const [expanded, setExpanded] = React.useState(false);
-  const { data, loading, error, refetch } = useQuery(ALL_LOCATIONS, {
-    onCompleted: async (data) => {
-      data.allLocations.sort(
-        (a, b) => b.sunsetLikes.length - a.sunsetLikes.length
-      );
-      console.log(data.allLocations)
-    },
+  const { data, loading, error, refetch } = useQuery(SUNSET_LOCATIONS,{
+    fetchPolicy: 'network-only'
   });
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -81,17 +73,16 @@ export default function Sunset() {
     console.log(error);
     return `Error! ${error.message}`;
   }
-
   return (
     <>
       <div>Best Sunsets in Fort Collins</div>
       <>
-        {data.allLocations.map((location, index) => (
+        {data.sunsetLocations.map((location, index) => (
           <div key = {index}>
             {location.imagesURL.length !== 1 ? (
               <Card sx={{ maxWidth: 345 }} key={index}>
                 <CardHeader
-                  action={<SaveButton location={location} />}
+                  action={<SaveButton location={location}/>}
                   title={location.name}
                 />
                 <Box sx={{ maxWidth: 400, flexGrow: 1 }}>

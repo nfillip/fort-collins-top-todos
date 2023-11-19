@@ -32,6 +32,13 @@ const resolvers = {
     allLocations: async () => {
       return await Location.find();
     },
+    sunsetLocations: async () => {
+      const sunsetLocations = await Location.find({
+        categories: "sunset"
+      })
+      sunsetLocations.sort((a,b) => b.sunsetLikes.length - a.sunsetLikes.length)
+      return sunsetLocations;
+    },
     singleLocation: async () => {
       const singleLocation = await Location.findOne({_id: locationId})
     }

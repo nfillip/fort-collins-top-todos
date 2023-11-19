@@ -11,7 +11,7 @@ db.once("open", async () => {
       address: "6550 W County Rd 38 E, Fort Collins CO 80526",
       images: ["horsetooth_cxjqyk"],
       creator: allUsers[0]._id,
-      categories: ["sunrise", "views"],
+      categories: ["sunset", "views"],
       imagesURL: ["https://res.cloudinary.com/dkxtk2v4z/image/upload/v1700252691/horsetooth_cxjqyk.jpg"],
       description: "Scenic view looking over Fort Collins. Must hike 4 miles up the trail to reach this rock summit"
     })
@@ -20,7 +20,7 @@ db.once("open", async () => {
       address: "3804 Sky Ridge Ln, Fort Collins, CO 80526",
       images: ["duncans_vnllbs"],
       creator: allUsers[0]._id,
-      categories: ["sunrise", "views"],
+      categories: ["sunset", "views"],
       imagesURL: ["https://res.cloudinary.com/dkxtk2v4z/image/upload/v1700252691/duncans_vnllbs.jpg"],
       description: "Scenic overlook across Horsetooth Resvoir. Short .2 mile hike up some stairs to get here. You can also rock climb here."
     })
@@ -29,7 +29,7 @@ db.once("open", async () => {
       address: "40.56437, -105.17464",
       images: ["arthursrock_c4ecyl"],
       creator: allUsers[1]._id,
-      categories: ["sunrise", "views"],
+      categories: ["sunset", "views"],
       imagesURL: ["https://res.cloudinary.com/dkxtk2v4z/image/upload/v1700252691/arthursrock_c4ecyl.jpg"],
       description: "Hike 3 miles up Arthur's rock to get a beautiful view of the front range, Fort Collins, and Wellington. Easier hike than Horsetooth Rock."
     })
@@ -38,7 +38,7 @@ db.once("open", async () => {
       address: "40.52532, -104.9967",
       images: ["arapahobend_jpsvei"],
       creator: allUsers[1]._id,
-      categories: ["sunrise", "views"],
+      categories: ["sunset", "views"],
       imagesURL: ["https://res.cloudinary.com/dkxtk2v4z/image/upload/v1700252691/arapahobend_jpsvei.jpg"],
       description: "Lake with some trails right off of I25 and Harmony. Great view of the foot hills in the distance allow for a great sunset spot. "
     })
@@ -56,7 +56,7 @@ db.once("open", async () => {
       address: "1 Old Town Square #7, Fort Collins, CO 80524",
       images: ["social_hxythn", "social2_tscvys"],
       creator: allUsers[2]._id,
-      categories: ["sunrise", "views"],
+      categories: ["bars"],
       imagesURL: ["https://res.cloudinary.com/dkxtk2v4z/image/upload/v1700252692/social_hxythn.jpg" , "https://res.cloudinary.com/dkxtk2v4z/image/upload/v1700337384/social2_tscvys.jpg"],
       description: "Beautiful speak easy decorated to make you feel like you're in Prohibition times. Great atmosphere, decorations, and cocktails. Probably the most visually aesthetic bar in Fort Collins."
     })

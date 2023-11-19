@@ -36,6 +36,30 @@ query allLocations {
   }
 }`
 
+export const SUNSET_LOCATIONS = gql`
+query SunsetLocations {
+  sunsetLocations {
+    name
+    _id
+    address
+    blog {
+      _id
+      createdAt
+      messageText
+    }
+    categories
+    creator {
+      _id
+      username
+    }
+    description
+    images
+    imagesURL
+    sunsetLikes {
+      _id
+    }
+  }
+}`
 export const QUERY_SELF_PROFILE = gql`
 query Query {
   me {

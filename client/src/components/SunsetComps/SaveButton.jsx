@@ -11,8 +11,7 @@ import Auth from "../../utils/auth";
 import { QUERY_SELF_PROFILE } from "../../utils/queries";
 import { SAVE_LOCATION, UNSAVE_LOCATION } from "../../utils/mutations";
 
-export default function SaveButton(location) {
-
+export default function SaveButton({location}) {
   //useStates
   const [active, setActive] = useState(false);
   //useMutations
@@ -24,12 +23,13 @@ export default function SaveButton(location) {
       setActive(true);
       let isSaved = false;
       for (let i = 0; i < data.me.savedLocations.length; i++) {
-        if (data.me.savedLocations[i]._id == location.location._id) {
+        if (data.me.savedLocations[i]._id == location._id) {
           isSaved = true;
         }
       }
       isSaved ? setActive(true) : setActive(false);
     },
+    fetchPolicy: 'network-only'
   });
 
   //click functions
@@ -37,7 +37,7 @@ export default function SaveButton(location) {
   const handleSave = async () => {
     const saveTheLocation = await saveLocation({
       variables: {
-        locationId: location.location._id,
+        locationId: location._id,
       },
     });
     console.log(saveTheLocation);
@@ -48,7 +48,7 @@ export default function SaveButton(location) {
     try {
       const unSaveTheLocation = await unSaveLocation({
         variables: {
-          locationId: location.location._id,
+          locationId: location._id,
         },
       });
       console.log("unSaved Location");

@@ -58,6 +58,7 @@ type Query {
   me: User
   allLocations: [Location]
   singleLocation(locationId: ID!): Location
+  sunsetLocations: [Location]
 
 }
 

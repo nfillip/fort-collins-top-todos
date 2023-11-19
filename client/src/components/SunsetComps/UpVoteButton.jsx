@@ -28,7 +28,7 @@ export default function UpVoteButton({location,cat}) {
         }
       }
       isSaved ? setActive(true) : setActive(false);
-    },
+    }
   });
 
   //click functions
