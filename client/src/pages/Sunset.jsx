@@ -31,53 +31,56 @@ import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import SaveButton from "../components/SunsetComps/SaveButton";
 import UpVoteButton from "../components/SunsetComps/UpVoteButton";
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+import CardMap from "../components/SunsetComps/CardMap"
+// const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+// const ExpandMore = styled((props) => {
+//   const { expand, ...other } = props;
+//   return <IconButton {...other} />;
+// })(({ theme, expand }) => ({
+//   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+//   marginLeft: "auto",
+//   transition: theme.transitions.create("transform", {
+//     duration: theme.transitions.duration.shortest,
+//   }),
+// }));
 
 export default function Sunset() {
   const cat = "sunset";
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = useState(0);
-  const [expanded, setExpanded] = React.useState(false);
+//   const theme = useTheme();
+//   const [activeStep, setActiveStep] = useState(0);
+//   const [expanded, setExpanded] = React.useState(false);
   const { data, loading, error, refetch } = useQuery(SUNSET_LOCATIONS,{
     fetchPolicy: 'network-only'
   });
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+//   const handleNext = () => {
+//     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+//   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+//   const handleBack = () => {
+//     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+//   };
 
-  const handleStepChange = (step) => {
-    setActiveStep(step);
-  };
+//   const handleStepChange = (step) => {
+//     setActiveStep(step);
+//   };
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+//   const handleExpandClick = () => {
+//     setExpanded(!expanded);
+//   };
 
   if (loading) return <span>...loading</span>;
   if (error) {
     console.log(error);
     return `Error! ${error.message}`;
   }
+
   return (
     <>
       <div>Best Sunsets in Fort Collins</div>
       <>
-        {data.sunsetLocations.map((location, index) => (
+      <CardMap data = {data.sunsetLocations} cat = {cat}/>
+        {/* {data.sunsetLocations.map((location, index) => (
           <div key = {index}>
             {location.imagesURL.length !== 1 ? (
               <Card sx={{ maxWidth: 345 }} key={index}>
@@ -217,7 +220,7 @@ export default function Sunset() {
               </Card>
             )}
           </div>
-        ))}
+        ))} */}
       </>
     </>
   );

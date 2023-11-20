@@ -7,7 +7,9 @@ import App from './App.jsx'
 import Home from './pages/Home.jsx'
 import Sunset from './pages/Sunset.jsx'
 import Profile from './pages/Profile.jsx'
-
+import Bars from './pages/Bars.jsx'
+import Views from './pages/Views.jsx'
+import Restaurants from './pages/Restaurants.jsx'
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -20,6 +22,18 @@ const router = createBrowserRouter([
 			{
 				path: "sunset",
 				element: <Sunset />
+			},
+			{
+				path: "bars",
+				element: <Bars />
+			},
+			{
+				path: "views",
+				element: <Views />
+			},
+			{
+				path: "restaurants",
+				element: <Restaurants />
 			},
 			{
 				path: "profile",

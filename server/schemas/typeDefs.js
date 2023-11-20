@@ -59,7 +59,9 @@ type Query {
   allLocations: [Location]
   singleLocation(locationId: ID!): Location
   sunsetLocations: [Location]
-
+  barsLocations: [Location]
+  viewsLocations: [Location]
+  restaurantLocations: [Location]
 }
 
 type Mutation {

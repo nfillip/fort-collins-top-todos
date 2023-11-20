@@ -20,7 +20,8 @@ import Typography from "@mui/material/Typography";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
 
-export default function LoginModal() {
+export default function LoginModal({refetchHeader}) {
+  console.log(refetchHeader)
   //useStates
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -110,6 +111,8 @@ export default function LoginModal() {
       });
       console.log("login success!")
       Auth.login(data.login.token);
+      refetchHeader();
+      // window.location.reload();
     } catch (err) {
       console.error(err)
     }

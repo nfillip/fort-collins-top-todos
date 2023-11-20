@@ -14,7 +14,7 @@ import { UPVOTE_LOCATION, REMOVE_VOTE_LOCATION } from "../../utils/mutations";
 export default function UpVoteButton({location,cat}) {
   //useStates
   const [active, setActive] = useState(false);
-  const [numLikes, setNumLikes] = useState(location.sunsetLikes.length)
+  const [numLikes, setNumLikes] = useState(0)
   //useMutations
   const [addUpVote] = useMutation(UPVOTE_LOCATION);
   const [removeUpVote] = useMutation(REMOVE_VOTE_LOCATION);
@@ -22,11 +22,40 @@ export default function UpVoteButton({location,cat}) {
   const { data, loading, error, refetch } = useQuery(QUERY_SELF_PROFILE, {
     onCompleted: (data) => {
       let isSaved = false;
-      for (let i = 0; i < location.sunsetLikes.length; i++) {
-        if (data.me._id == location.sunsetLikes[i]._id) {
-          isSaved = true;
-        }
-      }
+      switch(cat) {
+        case "sunset":
+          setNumLikes(location.sunsetLikes.length)
+          for (let i = 0; i < location.sunsetLikes.length; i++) {
+            if (data.me._id == location.sunsetLikes[i]._id) {
+              isSaved = true;
+            }
+          }
+          break;
+        case "bar":
+          setNumLikes(location.barsLikes.length)
+          for (let i = 0; i < location.barsLikes.length; i++) {
+              if (data.me._id == location.barsLikes[i]._id) {
+                isSaved = true;
+              }
+            }
+          break;
+        case "view":
+          setNumLikes(location.viewsLikes.length)
+          for (let i = 0; i < location.viewsLikes.length; i++) {
+              if (data.me._id == location.viewsLikes[i]._id) {
+                isSaved = true;
+              }
+            }
+            break;
+        case "restaurant":
+          setNumLikes(location.restaurantsLikes.length)
+          for (let i = 0; i < location.restaurantsLikes.length; i++) {
+              if (data.me._id == location.restaurantsLikes[i]._id) {
+                isSaved = true;
+              }
+            }
+             break;
+      }     
       isSaved ? setActive(true) : setActive(false);
     }
   });

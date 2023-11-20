@@ -31,8 +31,9 @@ function Header() {
   const [imageId, setImageId] = useState("");
   const [profileUsername, setProfileUsername] = useState("")
 
-  const {error, loading, data} = useQuery(QUERY_SELF_PROFILE, {
+  const {error, loading, data, refetch} = useQuery(QUERY_SELF_PROFILE, {
     onCompleted: (data) => {
+      console.log("self query")
       setImageId(data.me.profilePicURL)
       setProfileUsername(data.me.username)
     }
@@ -168,19 +169,19 @@ function Header() {
                 </Typography>
               </MenuItem>
   
-              <MenuItem key="sunset" onClick={handleCloseNavMenu}>
+              <MenuItem key="views" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link to="/">Best Sunrise Spots</Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem key="sunrise" onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link to="/">Best Views</Link>
+                  <Link to="/views">Best Views</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="bars" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link to="/">Best Bars</Link>
+                  <Link to="/bars">Best Bars</Link>
+                </Typography>
+              </MenuItem>
+              <MenuItem key="restaurants" onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">
+                  <Link to="/restaurants">Best Restaurants</Link>
                 </Typography>
               </MenuItem>
             </Menu>
@@ -213,25 +214,25 @@ function Header() {
               <Link to="/sunset">Sunsets</Link>
             </Button>
             <Button
-              key="sunrises"
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              <Link to="/">Sunrises</Link>
-            </Button>
-            <Button
               key="views"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              <Link to="/">Views</Link>
+              <Link to="/views">Views</Link>
             </Button>
             <Button
               key="bars"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              <Link to="/">Bars</Link>
+              <Link to="/bars">Bars</Link>
+            </Button>
+            <Button
+              key="bars"
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              <Link to="/restaurants">Restaurants</Link>
             </Button>
           </Box>
             {Auth.loggedIn()?<Box sx={{ flexGrow: 0 }}>
@@ -298,7 +299,7 @@ function Header() {
             >
               <MenuItem key="login" onClick={handleCloseUserMenu}>
                 {/* <Typography textAlign="center">Login</Typography> */}
-                <LoginModal></LoginModal>
+                <LoginModal refetchHeader = {refetch}></LoginModal>
                 
               </MenuItem>
             </Menu>

@@ -60,6 +60,78 @@ query SunsetLocations {
     }
   }
 }`
+export const BARS_LOCATIONS = gql`
+query BarsLocations {
+  barsLocations {
+    name
+    _id
+    address
+    blog {
+      _id
+      createdAt
+      messageText
+    }
+    categories
+    creator {
+      _id
+      username
+    }
+    description
+    images
+    imagesURL
+    barsLikes {
+      _id
+    }
+  }
+}`
+export const VIEWS_LOCATIONS = gql`
+query viewsLocations {
+  viewsLocations {
+    name
+    _id
+    address
+    blog {
+      _id
+      createdAt
+      messageText
+    }
+    categories
+    creator {
+      _id
+      username
+    }
+    description
+    images
+    imagesURL
+    viewsLikes {
+      _id
+    }
+  }
+}`
+export const RESTAURANT_LOCATIONS = gql`
+query RestaurantLocations {
+  restaurantLocations {
+    name
+    _id
+    address
+    blog {
+      _id
+      createdAt
+      messageText
+    }
+    categories
+    creator {
+      _id
+      username
+    }
+    description
+    images
+    imagesURL
+    restaurantsLikes {
+      _id
+    }
+  }
+}`
 export const QUERY_SELF_PROFILE = gql`
 query Query {
   me {

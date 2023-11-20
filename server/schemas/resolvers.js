@@ -39,6 +39,27 @@ const resolvers = {
       sunsetLocations.sort((a,b) => b.sunsetLikes.length - a.sunsetLikes.length)
       return sunsetLocations;
     },
+    barsLocations: async () => {
+      const barsLocations = await Location.find({
+        categories: "bar"
+      })
+      barsLocations.sort((a,b) => b.barsLikes.length - a.barsLikes.length)
+      return barsLocations;
+    },
+    viewsLocations: async () => {
+      const viewsLocations = await Location.find({
+        categories: "view"
+      })
+      viewsLocations.sort((a,b) => b.viewsLikes.length - a.viewsLikes.length)
+      return viewsLocations;
+    },
+    restaurantLocations: async () => {
+      const restaurantLocations = await Location.find({
+        categories: "restaurant"
+      })
+      restaurantLocations.sort((a,b) => b.restaurantsLikes.length - a.restaurantsLikes.length)
+      return restaurantLocations;
+    },
     singleLocation: async () => {
       const singleLocation = await Location.findOne({_id: locationId})
     }
@@ -147,19 +168,19 @@ const resolvers = {
             {$push: {sunsetLikes: user._id}}
           )
           break;
-        case "bars":
+        case "bar":
           const addBarsLike = await Location.findOneAndUpdate(
             {_id: locationId},
             {$push: {barsLikes: user._id}}
           )
           break;
-        case "views":
+        case "view":
           const addViewsLike = await Location.findOneAndUpdate(
               {_id: locationId},
               {$push: {viewsLikes: user._id}}
             )
           break;
-        case "restaurants":
+        case "restaurant":
             const addRestLikes = await Location.findOneAndUpdate(
                 {_id: locationId},
                 {$push: {restaurantLikes: user._id}}
@@ -175,19 +196,19 @@ const resolvers = {
             {$pull: {sunsetLikes: user._id}}
           )
           break;
-        case "bars":
+        case "bar":
           const addBarsLike = await Location.findOneAndUpdate(
             {_id: locationId},
             {$pull: {barsLikes: user._id}}
           )
           break;
-        case "views":
+        case "view":
           const addViewsLike = await Location.findOneAndUpdate(
               {_id: locationId},
               {$pull: {viewsLikes: user._id}}
             )
           break;
-        case "restaurants":
+        case "restaurant":
             const addRestLikes = await Location.findOneAndUpdate(
                 {_id: locationId},
                 {$pull: {restaurantLikes: user._id}}
