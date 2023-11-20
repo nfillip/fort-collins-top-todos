@@ -154,6 +154,14 @@ query Query {
     }
     savedLocations {
       _id
+      address
+      categories
+      creator {
+        _id
+      }
+      description
+      images
+      imagesURL
       name
     }
     matches {

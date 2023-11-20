@@ -11,7 +11,7 @@ import Auth from "../../utils/auth";
 import { QUERY_SELF_PROFILE } from "../../utils/queries";
 import { SAVE_LOCATION, UNSAVE_LOCATION } from "../../utils/mutations";
 
-export default function SaveButton({location}) {
+export default function SaveButton({location, cat}) {
   //useStates
   const [active, setActive] = useState(false);
   //useMutations
@@ -57,17 +57,26 @@ export default function SaveButton({location}) {
       console.error(err);
     }
   };
+  console.log(cat)
   return (
     <>
-      {active ? (
-        <IconButton aria-label="settings" onClick={handleUnSave}>
-          <BookmarkIcon sx={{ color: "purple" }} />
-        </IconButton>
+      {active ? (<>
+        {cat === "saved"?<IconButton disabled aria-label="settings" onClick={handleUnSave}>
+        <BookmarkIcon sx={{ color: "purple" }} />
+      </IconButton> : <IconButton aria-label="settings" onClick={handleUnSave}>
+        <BookmarkIcon sx={{ color: "purple" }} />
+      </IconButton>}
+      </>
       ) : (
-        <IconButton aria-label="settings" onClick={handleSave}>
+        <>
+        {cat === "saved" ?<IconButton disabled aria-label="settings" onClick={handleSave}>
+        <BookmarkBorderIcon />
+      </IconButton> : <IconButton aria-label="settings" onClick={handleSave}>
           <BookmarkBorderIcon />
-        </IconButton>
-      )}
-    </>
+        </IconButton> }
+        </>
+      )
+      }
+  </>
   );
 }

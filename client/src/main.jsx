@@ -10,6 +10,7 @@ import Profile from './pages/Profile.jsx'
 import Bars from './pages/Bars.jsx'
 import Views from './pages/Views.jsx'
 import Restaurants from './pages/Restaurants.jsx'
+import Saved from './pages/Saved.jsx'
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -38,7 +39,12 @@ const router = createBrowserRouter([
 			{
 				path: "profile",
 				element: <Profile />
-			}
+			},
+			{
+				path: "saved",
+				element: <Saved />
+			},
+
 		],
 	},
 ]);

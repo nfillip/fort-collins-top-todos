@@ -267,6 +267,11 @@ function Header() {
                   <Link to="/profile">Profile</Link>
                 </Typography>
               </MenuItem>
+              <MenuItem key="saved" onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">
+                  <Link to="/saved">Saved Locations</Link>
+                </Typography>
+              </MenuItem>
               <MenuItem key="signup" onClick={handleCloseUserMenu}>
                 {/* <Typography textAlign="center">Login</Typography> */}
                 <Typography onClick = {handleLogout} textAlign="center">

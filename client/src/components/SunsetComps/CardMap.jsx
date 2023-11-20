@@ -78,7 +78,7 @@ export default function CardMap({data, cat}) {
             {location.imagesURL.length !== 1 ? (
               <Card sx={{ maxWidth: 345 }} key={index}>
                 <CardHeader
-                  action={<SaveButton location={location}/>}
+                  action={<SaveButton location={location} cat = {cat}/>}
                   title={location.name}
                 />
                 <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
@@ -150,7 +150,7 @@ export default function CardMap({data, cat}) {
                   </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                  <UpVoteButton location={location} cat={cat} />
+                    {cat === "saved" ? <></>: <UpVoteButton location={location} cat={cat} />}
                   <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}
@@ -173,7 +173,7 @@ export default function CardMap({data, cat}) {
             ) : (
               <Card sx={{ maxWidth: 345 }} key = {index}>
                 <CardHeader
-                  action={<SaveButton location={location} />}
+                  action={<SaveButton location={location} cat = {cat} />}
                   title={location.name}
                 />
                 <CardMedia
@@ -191,7 +191,7 @@ export default function CardMap({data, cat}) {
                   </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                  <UpVoteButton location={location} cat={cat}/>
+                {cat === "saved" ? <></>: <UpVoteButton location={location} cat={cat} />}
                   <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}
