@@ -1,6 +1,7 @@
 //react imports
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
+import {useNavigate, useLocation} from "react-router-dom"
 
 //MUI imports
 import { styled } from "@mui/material/styles";
@@ -36,6 +37,7 @@ import UpVoteButton from "./UpVoteButton";
 import Auth from "../../utils/auth";
 import { ALL_LOCATIONS, SUNSET_LOCATIONS } from "../../utils/queries";
 import { UPVOTE_LOCATION, REMOVE_VOTE_LOCATION } from "../../utils/mutations";
+import Blog from "./Blog"
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const ExpandMore = styled((props) => {
@@ -53,6 +55,7 @@ export default function CardMap({data, cat}) {
     const theme = useTheme();
     const [activeStep, setActiveStep] = useState(0);
     const [expanded, setExpanded] = React.useState(false);
+    const navigate = useNavigate();
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -70,11 +73,17 @@ export default function CardMap({data, cat}) {
         setExpanded(!expanded);
       };
     
+      const handleSingleLocation = (e, location) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(location);
+        // navigate('../singlelocation')
+      }
 
     return (
         <>
                 {data.map((location, index) => (
-          <div key = {index}>
+          <div key = {index} onClick = {(e) => handleSingleLocation(e, location)} >
             {location.imagesURL.length !== 1 ? (
               <Card sx={{ maxWidth: 345 }} key={index}>
                 <CardHeader
@@ -163,10 +172,7 @@ export default function CardMap({data, cat}) {
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                   <CardContent>
                     <Typography paragraph>{location.name} Blog:</Typography>
-                    <Typography paragraph>
-                      Heat 1/2 cup of the broth in a pot until simmering, add
-                      saffron and set aside for 10 minutes.
-                    </Typography>
+                    <Blog location = {location} />
                   </CardContent>
                 </Collapse>
               </Card>
@@ -203,11 +209,9 @@ export default function CardMap({data, cat}) {
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                   <CardContent>
+                    <Typography>Hello</Typography>
                     <Typography paragraph>{location.name} Blog:</Typography>
-                    <Typography paragraph>
-                      Heat 1/2 cup of the broth in a pot until simmering, add
-                      saffron and set aside for 10 minutes.
-                    </Typography>
+                    <Blog />
                   </CardContent>
                 </Collapse>
               </Card>

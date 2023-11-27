@@ -35,9 +35,9 @@
     }
 }
 @media (width>900px) {
-    .homeImage{
+    /* .homeImage{
         background-image: url(../assets/horsetooth-land.avif)
-    }
+    } */
     .homeTitle{
         font-size: 6rem;
         margin-left: 20rem;

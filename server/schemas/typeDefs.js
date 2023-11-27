@@ -74,7 +74,7 @@ type Mutation {
   removeVoteLocation(locationId: ID!, cat: String!):Location
   saveLocation(locationId: ID!):User
   unSaveLocation(locationId: ID!):User
-  
+  addBlogPost(locationId: ID!, messageText: String!): Location
 }
 `;
 

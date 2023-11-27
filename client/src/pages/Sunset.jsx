@@ -32,42 +32,13 @@ import { autoPlay } from "react-swipeable-views-utils";
 import SaveButton from "../components/SunsetComps/SaveButton";
 import UpVoteButton from "../components/SunsetComps/UpVoteButton";
 import CardMap from "../components/SunsetComps/CardMap"
-// const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-// const ExpandMore = styled((props) => {
-//   const { expand, ...other } = props;
-//   return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-//   marginLeft: "auto",
-//   transition: theme.transitions.create("transform", {
-//     duration: theme.transitions.duration.shortest,
-//   }),
-// }));
 
 export default function Sunset() {
   const cat = "sunset";
-//   const theme = useTheme();
-//   const [activeStep, setActiveStep] = useState(0);
-//   const [expanded, setExpanded] = React.useState(false);
   const { data, loading, error, refetch } = useQuery(SUNSET_LOCATIONS,{
     fetchPolicy: 'network-only'
   });
-//   const handleNext = () => {
-//     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-//   };
-
-//   const handleBack = () => {
-//     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-//   };
-
-//   const handleStepChange = (step) => {
-//     setActiveStep(step);
-//   };
-
-//   const handleExpandClick = () => {
-//     setExpanded(!expanded);
-//   };
 
   if (loading) return <span>...loading</span>;
   if (error) {
@@ -80,147 +51,6 @@ export default function Sunset() {
       <div>Best Sunsets in Fort Collins</div>
       <>
       <CardMap data = {data.sunsetLocations} cat = {cat}/>
-        {/* {data.sunsetLocations.map((location, index) => (
-          <div key = {index}>
-            {location.imagesURL.length !== 1 ? (
-              <Card sx={{ maxWidth: 345 }} key={index}>
-                <CardHeader
-                  action={<SaveButton location={location}/>}
-                  title={location.name}
-                />
-                <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-                  <AutoPlaySwipeableViews
-                    axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-                    index={activeStep}
-                    onChangeIndex={handleStepChange}
-                    enableMouseEvents
-                  >
-                    {location.imagesURL.map((step, index) => (
-                      <div key={index}>
-                        {Math.abs(activeStep - index) <= 2 ? (
-                          <Box
-                            component="img"
-                            sx={{
-                              height: 255,
-                              display: "block",
-                              maxWidth: 400,
-                              overflow: "hidden",
-                              width: "100%",
-                            }}
-                            src={step}
-                          />
-                        ) : null}
-                      </div>
-                    ))}
-                  </AutoPlaySwipeableViews>
-                  <MobileStepper
-                    steps={location.imagesURL.length}
-                    position="static"
-                    activeStep={activeStep}
-                    nextButton={
-                      <Button
-                        size="small"
-                        onClick={handleNext}
-                        disabled={activeStep === location.imagesURL.length - 1}
-                      >
-                        Next
-                        {theme.direction === "rtl" ? (
-                          <KeyboardArrowLeft />
-                        ) : (
-                          <KeyboardArrowRight />
-                        )}
-                      </Button>
-                    }
-                    backButton={
-                      <Button
-                        size="small"
-                        onClick={handleBack}
-                        disabled={activeStep === 0}
-                      >
-                        {theme.direction === "rtl" ? (
-                          <KeyboardArrowRight />
-                        ) : (
-                          <KeyboardArrowLeft />
-                        )}
-                        Back
-                      </Button>
-                    }
-                  />
-                </Box>
-
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    {location.address}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {location.description}
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <UpVoteButton location={location} cat={cat} />
-                  <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                  >
-                    <ExpandMoreIcon />
-                  </ExpandMore>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                  <CardContent>
-                    <Typography paragraph>{location.name} Blog:</Typography>
-                    <Typography paragraph>
-                      Heat 1/2 cup of the broth in a pot until simmering, add
-                      saffron and set aside for 10 minutes.
-                    </Typography>
-                  </CardContent>
-                </Collapse>
-              </Card>
-            ) : (
-              <Card sx={{ maxWidth: 345 }} key = {index}>
-                <CardHeader
-                  action={<SaveButton location={location} />}
-                  title={location.name}
-                />
-                <CardMedia
-                  component="img"
-                  height="255"
-                  image={location.imagesURL[0]}
-                  alt="Paella dish"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    {location.address}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {location.description}
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <UpVoteButton location={location} cat={cat} />
-                  <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                  >
-                    <ExpandMoreIcon />
-                  </ExpandMore>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                  <CardContent>
-                    <Typography paragraph>{location.name} Blog:</Typography>
-                    <Typography paragraph>
-                      Heat 1/2 cup of the broth in a pot until simmering, add
-                      saffron and set aside for 10 minutes.
-                    </Typography>
-                  </CardContent>
-                </Collapse>
-              </Card>
-            )}
-          </div>
-        ))} */}
       </>
     </>
   );

@@ -52,3 +52,18 @@ mutation UnSaveLocation($locationId: ID!) {
     email
   }
 }`
+
+export const ADD_BLOG_POST = gql`
+mutation AddBlogPost($locationId: ID!, $messageText: String!) {
+  addBlogPost(locationId: $locationId, messageText: $messageText) {
+    _id
+    blog {
+      _id
+      createdAt
+      messageText
+      user {
+        email
+      }
+    }
+  }
+}`

@@ -62,9 +62,11 @@ export default function UpVoteButton({location,cat}) {
 
   //click functions
   //save location
-  const handleUpVote = async () => {
+  const handleUpVote = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     try {
-    console.log(location._id)
+      if(Auth.loggedIn()){
       const upVote = await addUpVote({
         variables: {
           locationId: location._id,
@@ -74,11 +76,24 @@ export default function UpVoteButton({location,cat}) {
       setActive(!active);
       setNumLikes(numLikes+1)
       console.log("location Upvoted");
+      }else {
+        console.log("not loggedIN")
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Only logged in users can upvote!",
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    
     } catch (err) {
       console.error(err);
     }
   };
   const handleRemoveVote = async () => {
+    e.preventDefault();
+    e.stopPropagation();
     try {
       await removeUpVote({
         variables: {

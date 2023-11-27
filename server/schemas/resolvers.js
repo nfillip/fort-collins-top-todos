@@ -60,8 +60,10 @@ const resolvers = {
       restaurantLocations.sort((a,b) => b.restaurantsLikes.length - a.restaurantsLikes.length)
       return restaurantLocations;
     },
-    singleLocation: async () => {
+    singleLocation: async (parent, {locationId}) => {
       const singleLocation = await Location.findOne({_id: locationId})
+      .populate("blog")
+      return singleLocation;
     }
   },
 
@@ -231,6 +233,19 @@ const resolvers = {
         {new: true}
       )
       return unSaveLocationToUser
+    },
+    addBlogPost: async (parent, {locationId, messageText}, {user}) => {
+      const newMessage = await Message.create(
+        {user: user._id,
+          messageText: messageText
+        }
+      )
+      const addBlog = await Location.findOneAndUpdate(
+        {_id: locationId},
+        {$push: {blog: newMessage }},
+        {new: true}
+      )
+      return addBlog
     }
   }
 }

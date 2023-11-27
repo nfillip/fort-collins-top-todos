@@ -11,6 +11,7 @@ import Bars from './pages/Bars.jsx'
 import Views from './pages/Views.jsx'
 import Restaurants from './pages/Restaurants.jsx'
 import Saved from './pages/Saved.jsx'
+import SingleLocation from './pages/SingleLocation.jsx'
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
 				path: "saved",
 				element: <Saved />
 			},
+			{
+				path: "singlelocation",
+				element: <SingleLocation />
+			}
 
 		],
 	},

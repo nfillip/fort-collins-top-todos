@@ -34,17 +34,31 @@ export default function SaveButton({location, cat}) {
 
   //click functions
   //save location
-  const handleSave = async () => {
-    const saveTheLocation = await saveLocation({
+  const handleSave = async (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if(Auth.loggedIn()){
+      const saveTheLocation = await saveLocation({
       variables: {
         locationId: location._id,
       },
     });
     console.log(saveTheLocation);
     setActive(!active);
+    }else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Only logged in users can save locations!",
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
   };
   //unsave location
-  const handleUnSave = async () => {
+  const handleUnSave = async () => 
+  { e.stopPropagation();
+    e.preventDefault();
     try {
       const unSaveTheLocation = await unSaveLocation({
         variables: {
@@ -57,7 +71,6 @@ export default function SaveButton({location, cat}) {
       console.error(err);
     }
   };
-  console.log(cat)
   return (
     <>
       {active ? (<>
