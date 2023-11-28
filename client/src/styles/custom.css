@@ -28,6 +28,10 @@
     margin: 0px;
     padding: 0px;
 }
+
+.swal2-container {
+    z-index: 1000001
+}
 @media (width>600px){
     .homeTitle {
         font-size: 3rem;

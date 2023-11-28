@@ -56,7 +56,7 @@ export default function SaveButton({location, cat}) {
     }
   };
   //unsave location
-  const handleUnSave = async () => 
+  const handleUnSave = async (e) => 
   { e.stopPropagation();
     e.preventDefault();
     try {

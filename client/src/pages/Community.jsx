@@ -37,7 +37,8 @@ import SaveButton from "../components/SunsetComps/SaveButton";
 import UpVoteButton from "../components/SunsetComps/UpVoteButton";
 import Auth from "../utils/auth";
 import EditProfileModal from "../components/ProfileComps/EditProfileModal"
-import {QUERY_SELF_PROFILE} from "../utils/queries"
+import CommunityCard from "../components/CommunityComps/CommunityCard"
+import {ALL_USERS} from "../utils/queries"
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -49,14 +50,19 @@ const ExpandMore = styled((props) => {
     }),
   }));
 
-export default function Profile() {
+export default function Community() {
       const theme = useTheme();
       const [activeStep, setActiveStep] = useState(0);
       const [expanded, setExpanded] = React.useState(false);
       const navigate = useNavigate();
-  
 
-      const { error, loading, data, refetch } = useQuery(QUERY_SELF_PROFILE);
+      const { data, loading, error, refetch } = useQuery(ALL_USERS,{
+        fetchPolicy: 'network-only',
+        onCompleted: (data) => {
+            console.log(data)
+        }
+      });
+
       const handleNext = () => {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         };
@@ -96,52 +102,28 @@ export default function Profile() {
         return <div>{error.message}</div>;
       }
     return (
-        <Card sx={{ maxWidth: 345 }}>
-        <CardHeader
-          action={<EditProfileModal refetch = {refetch} profilePicURL = {data.me.profilePicURL} />}
-          title= {data.me.username}
-        />
-        <CardMedia
-          component="img"
-          height="255"
-          image= {data.me.profilePicURL}
-          alt="Paella dish"
-        />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {data.me.email}
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </ExpandMore>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Box>Your Friends
-            {data.me.friends.map((friend,index) => (
-              <Typography>{friend.username}</Typography>
-            ))}
-            </Box>
-            <Box>Your Received Requests
-            {data.me.friendRequests.map((friend,index) => (
-              <Typography>{friend.username}</Typography>
-            ))}
-            </Box>
-            <Box> Your Sent Requests
-            {data.me.friendsYouRequested.map((friend,index) => (
-              <Typography>{friend.username}</Typography>
-            ))}
-            </Box>
-           
-          </CardContent>
-        </Collapse>
-      </Card>
+        <>
+        <div>Meet the Foco Fun Community</div>
+        {data.users.map((user, index) => (
+            <CommunityCard user = {user} index = {index} />
+        //     <Card sx={{ maxWidth: 345 }}>
+        //     <CardHeader
+        //     //   action={<EditProfileModal refetch = {refetch} profilePicURL = {user.profilePicURL} />}
+        //       title= {user.username}
+        //     />
+        //     <CardMedia
+        //       component="img"
+        //       height="255"
+        //       image= {user.profilePicURL}
+        //       alt="Paella dish"
+        //     />
+        //     <CardContent>
+        //       <Typography variant="body2" color="text.secondary">
+        //         {user.email}
+        //       </Typography>
+        //     </CardContent>
+        //   </Card>
+        ))}
+        </>
     )
 }

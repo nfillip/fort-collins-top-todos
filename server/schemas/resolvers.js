@@ -12,8 +12,10 @@ const resolvers = {
         .populate("savedLocations");
       return singleUser;
     },
-    users: async () => {
-      return await User.find();
+    users: async (parent, args, {user}) => {
+      const allUsers =  await User.find({_id: {$ne: user._id}});
+      allUsers.sort((a,b) => a.username.localeCompare(b.username))
+      return allUsers;
     },
     me: async (parent, args, { user }) => {
       if (user) {
@@ -36,12 +38,20 @@ const resolvers = {
       const sunsetLocations = await Location.find({
         categories: "sunset"
       })
+      .populate({
+        path: "blog",
+        populate: {path: "user"}
+      })
       sunsetLocations.sort((a,b) => b.sunsetLikes.length - a.sunsetLikes.length)
       return sunsetLocations;
     },
     barsLocations: async () => {
       const barsLocations = await Location.find({
         categories: "bar"
+      })
+      .populate({
+        path: "blog",
+        populate: {path: "user"}
       })
       barsLocations.sort((a,b) => b.barsLikes.length - a.barsLikes.length)
       return barsLocations;
@@ -50,12 +60,20 @@ const resolvers = {
       const viewsLocations = await Location.find({
         categories: "view"
       })
+      .populate({
+        path: "blog",
+        populate: {path: "user"}
+      })
       viewsLocations.sort((a,b) => b.viewsLikes.length - a.viewsLikes.length)
       return viewsLocations;
     },
     restaurantLocations: async () => {
       const restaurantLocations = await Location.find({
         categories: "restaurant"
+      })
+      .populate({
+        path: "blog",
+        populate: {path: "user"}
       })
       restaurantLocations.sort((a,b) => b.restaurantsLikes.length - a.restaurantsLikes.length)
       return restaurantLocations;
@@ -246,6 +264,33 @@ const resolvers = {
         {new: true}
       )
       return addBlog
+    },
+    updateUser: async (parent, args, {user}) => {
+      if (user) {
+        const updateInfo = { ...args };
+        if (updateInfo.password) {
+          const saltRounds = 10;
+          updateInfo.password = await bcrypt.hash(
+            updateInfo.password,
+            saltRounds
+          );
+        }
+        updateInfo.image = args.image;
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: user._id},
+          { ...updateInfo },
+          { new: true }
+        );
+        if (updatedUser) {
+          return {
+            message: "Account updated successfully.",
+            user: updatedUser,
+          };
+        } else {
+          throw new UserInputError("Update failed.");
+        }
+      }
+      throw AuthenticationError;
     }
   }
 }

@@ -1,4 +1,28 @@
 import { gql } from "@apollo/client";
+
+export const ALL_USERS = gql`
+query Users {
+  users {
+    email
+    _id
+    friendRequests {
+      _id
+    }
+    friends {
+      _id
+    }
+    friendsYouRequested {
+      _id
+    }
+    matches {
+      _id
+    }
+    profilePic
+    profilePicURL
+    username
+  }
+}`
+
 export const ALL_LOCATIONS = gql`
 query allLocations {
   allLocations {
@@ -46,6 +70,10 @@ query SunsetLocations {
       _id
       createdAt
       messageText
+      user {
+        username
+        profilePicURL
+      }
     }
     categories
     creator {
@@ -70,6 +98,10 @@ query BarsLocations {
       _id
       createdAt
       messageText
+      user {
+        username
+        profilePicURL
+      }
     }
     categories
     creator {
@@ -94,6 +126,10 @@ query viewsLocations {
       _id
       createdAt
       messageText
+      user {
+        username
+        profilePicURL
+      }
     }
     categories
     creator {
@@ -118,6 +154,10 @@ query RestaurantLocations {
       _id
       createdAt
       messageText
+      user {
+        username
+        profilePicURL
+      }
     }
     categories
     creator {

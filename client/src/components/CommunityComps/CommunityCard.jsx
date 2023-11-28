@@ -1,7 +1,9 @@
+//react imports
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { ALL_LOCATIONS, SUNSET_LOCATIONS } from "../utils/queries";
-import { UPVOTE_LOCATION, REMOVE_VOTE_LOCATION } from "../utils/mutations";
+import {useNavigate, useLocation} from "react-router-dom"
+
+//MUI imports
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -20,7 +22,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Auth from "../utils/auth";
+
 import { useTheme } from "@mui/material/styles";
 import MobileStepper from "@mui/material/MobileStepper";
 import Paper from "@mui/material/Paper";
@@ -29,30 +31,39 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
-import SaveButton from "../components/SunsetComps/SaveButton";
-import UpVoteButton from "../components/SunsetComps/UpVoteButton";
-import CardMap from "../components/SunsetComps/CardMap"
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+//local imports
+import Auth from "../../utils/auth";
 
+export default function CommunityCard({user, index}) {
+    const theme = useTheme();
+    let buttonStyler = 0
+if(user.friends.indexOf(Auth.getProfile().data._id)){
+    buttonStyler = 1
+}else if (user.friendRequests.indexOf(Auth.getProfile().data._id)){
+    buttonStyler = 2
+}
+console.log(user)
+    return (
+            <Card sx={{ maxWidth: 345 }} key = {index}>
+            <CardHeader
+            //   action={<EditProfileModal refetch = {refetch} profilePicURL = {user.profilePicURL} />}
+              title= {user.username}
+            />
+            <CardMedia
+              component="img"
+              height="255"
+              image= {user.profilePicURL}
+              alt="Paella dish"
+            />
+            <CardContent>
+              <Typography variant="body2" color="text.secondary">
+                {user.email}
+              </Typography>
+            </CardContent>
+            <Button variant="contained">Send Friend Request</Button>
+            
+          </Card>
 
-export default function Sunset() {
-  const cat = "sunset";
-  const { data, loading, error, refetch } = useQuery(SUNSET_LOCATIONS,{
-    fetchPolicy: 'network-only',
-    pollInterval: 500
-  });
-
-  if (loading) return <span>...loading</span>;
-  if (error) {
-    console.log(error);
-    return `Error! ${error.message}`;
-  }
-
-  return (
-    <>
-      <div>Best Sunsets in Fort Collins</div>
-      <>
-      <CardMap data = {data.sunsetLocations} cat = {cat}/>
-      </>
-    </>
-  );
+    )
 }

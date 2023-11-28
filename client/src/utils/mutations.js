@@ -67,3 +67,14 @@ mutation AddBlogPost($locationId: ID!, $messageText: String!) {
     }
   }
 }`
+
+export const UPDATE_USER = gql`
+mutation UpdateUser($username: String, $email: String, $password: String, $profilePic: String, $profilePicUrl: String) {
+  updateUser(username: $username, email: $email, password: $password, profilePic: $profilePic, profilePicURL: $profilePicUrl) {
+    username
+    password
+    profilePic
+    profilePicURL
+    email
+  }
+}`

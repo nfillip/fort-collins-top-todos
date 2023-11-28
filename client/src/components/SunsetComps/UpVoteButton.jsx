@@ -91,7 +91,7 @@ export default function UpVoteButton({location,cat}) {
       console.error(err);
     }
   };
-  const handleRemoveVote = async () => {
+  const handleRemoveVote = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     try {

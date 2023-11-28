@@ -38,6 +38,7 @@ import Auth from "../../utils/auth";
 import { ALL_LOCATIONS, SUNSET_LOCATIONS } from "../../utils/queries";
 import { UPVOTE_LOCATION, REMOVE_VOTE_LOCATION } from "../../utils/mutations";
 import Blog from "./Blog"
+import SingleCard from "./SingleCard"
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const ExpandMore = styled((props) => {
@@ -69,7 +70,9 @@ export default function CardMap({data, cat}) {
         setActiveStep(step);
       };
     
-      const handleExpandClick = () => {
+      const handleExpandClick = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
         setExpanded(!expanded);
       };
     
@@ -80,143 +83,149 @@ export default function CardMap({data, cat}) {
         // navigate('../singlelocation')
       }
 
+      const preventBubbling = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
     return (
         <>
                 {data.map((location, index) => (
-          <div key = {index} onClick = {(e) => handleSingleLocation(e, location)} >
-            {location.imagesURL.length !== 1 ? (
-              <Card sx={{ maxWidth: 345 }} key={index}>
-                <CardHeader
-                  action={<SaveButton location={location} cat = {cat}/>}
-                  title={location.name}
-                />
-                <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-                  <AutoPlaySwipeableViews
-                    axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-                    index={activeStep}
-                    onChangeIndex={handleStepChange}
-                    enableMouseEvents
-                  >
-                    {location.imagesURL.map((step, index) => (
-                      <div key={index}>
-                        {Math.abs(activeStep - index) <= 2 ? (
-                          <Box
-                            component="img"
-                            sx={{
-                              height: 255,
-                              display: "block",
-                              maxWidth: 400,
-                              overflow: "hidden",
-                              width: "100%",
-                            }}
-                            src={step}
-                          />
-                        ) : null}
-                      </div>
-                    ))}
-                  </AutoPlaySwipeableViews>
-                  <MobileStepper
-                    steps={location.imagesURL.length}
-                    position="static"
-                    activeStep={activeStep}
-                    nextButton={
-                      <Button
-                        size="small"
-                        onClick={handleNext}
-                        disabled={activeStep === location.imagesURL.length - 1}
-                      >
-                        Next
-                        {theme.direction === "rtl" ? (
-                          <KeyboardArrowLeft />
-                        ) : (
-                          <KeyboardArrowRight />
-                        )}
-                      </Button>
-                    }
-                    backButton={
-                      <Button
-                        size="small"
-                        onClick={handleBack}
-                        disabled={activeStep === 0}
-                      >
-                        {theme.direction === "rtl" ? (
-                          <KeyboardArrowRight />
-                        ) : (
-                          <KeyboardArrowLeft />
-                        )}
-                        Back
-                      </Button>
-                    }
-                  />
-                </Box>
+                <SingleCard location = {location} index = {index} cat = {cat} />
+          // <div key = {index} onClick = {(e) => handleSingleLocation(e, location)} >
+          //   {location.imagesURL.length !== 1 ? (
+          //     <Card sx={{ maxWidth: 345 }} key={index}>
+          //       <CardHeader
+          //         action={<SaveButton location={location} cat = {cat}/>}
+          //         title={location.name}
+          //       />
+          //       <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+          //         <AutoPlaySwipeableViews
+          //           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          //           index={activeStep}
+          //           onChangeIndex={handleStepChange}
+          //           enableMouseEvents
+          //         >
+          //           {location.imagesURL.map((step, index) => (
+          //             <div key={index}>
+          //               {Math.abs(activeStep - index) <= 2 ? (
+          //                 <Box
+          //                   component="img"
+          //                   sx={{
+          //                     height: 255,
+          //                     display: "block",
+          //                     maxWidth: 400,
+          //                     overflow: "hidden",
+          //                     width: "100%",
+          //                   }}
+          //                   src={step}
+          //                 />
+          //               ) : null}
+          //             </div>
+          //           ))}
+          //         </AutoPlaySwipeableViews>
+          //         <MobileStepper
+          //           steps={location.imagesURL.length}
+          //           position="static"
+          //           activeStep={activeStep}
+          //           nextButton={
+          //             <Button
+          //               size="small"
+          //               onClick={handleNext}
+          //               disabled={activeStep === location.imagesURL.length - 1}
+          //             >
+          //               Next
+          //               {theme.direction === "rtl" ? (
+          //                 <KeyboardArrowLeft />
+          //               ) : (
+          //                 <KeyboardArrowRight />
+          //               )}
+          //             </Button>
+          //           }
+          //           backButton={
+          //             <Button
+          //               size="small"
+          //               onClick={handleBack}
+          //               disabled={activeStep === 0}
+          //             >
+          //               {theme.direction === "rtl" ? (
+          //                 <KeyboardArrowRight />
+          //               ) : (
+          //                 <KeyboardArrowLeft />
+          //               )}
+          //               Back
+          //             </Button>
+          //           }
+          //         />
+          //       </Box>
 
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    {location.address}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {location.description}
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                    {cat === "saved" ? <></>: <UpVoteButton location={location} cat={cat} />}
-                  <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                  >
-                    <ExpandMoreIcon />
-                  </ExpandMore>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                  <CardContent>
-                    <Typography paragraph>{location.name} Blog:</Typography>
-                    <Blog location = {location} />
-                  </CardContent>
-                </Collapse>
-              </Card>
-            ) : (
-              <Card sx={{ maxWidth: 345 }} key = {index}>
-                <CardHeader
-                  action={<SaveButton location={location} cat = {cat} />}
-                  title={location.name}
-                />
-                <CardMedia
-                  component="img"
-                  height="255"
-                  image={location.imagesURL[0]}
-                  alt="Paella dish"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    {location.address}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {location.description}
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                {cat === "saved" ? <></>: <UpVoteButton location={location} cat={cat} />}
-                  <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                  >
-                    <ExpandMoreIcon />
-                  </ExpandMore>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                  <CardContent>
-                    <Typography>Hello</Typography>
-                    <Typography paragraph>{location.name} Blog:</Typography>
-                    <Blog />
-                  </CardContent>
-                </Collapse>
-              </Card>
-            )}
-          </div>
+          //       <CardContent>
+          //         <Typography variant="body2" color="text.secondary">
+          //           {location.address}
+          //         </Typography>
+          //         <Typography variant="body2" color="text.secondary">
+          //           {location.description}
+          //         </Typography>
+          //       </CardContent>
+          //       <CardActions disableSpacing>
+          //           {cat === "saved" ? <></>: <UpVoteButton location={location} cat={cat} />}
+          //         <ExpandMore
+          //           expand={expanded}
+          //           onClick={handleExpandClick}
+          //           aria-expanded={expanded}
+          //           aria-label="show more"
+          //         >
+          //           <ExpandMoreIcon />
+          //         </ExpandMore>
+          //       </CardActions>
+          //       <Collapse in={expanded} timeout="auto" unmountOnExit>
+          //         <CardContent>
+          //           <Typography paragraph>{location.name} Blog:</Typography>
+          //           <Blog location = {location} />
+          //         </CardContent>
+          //       </Collapse>
+          //     </Card>
+          //   ) : (
+          //     <Card sx={{ maxWidth: 345 }} key = {index}>
+          //       <CardHeader
+          //         action={<SaveButton location={location} cat = {cat} />}
+          //         title={location.name}
+          //       />
+          //       <CardMedia
+          //         component="img"
+          //         height="255"
+          //         image={location.imagesURL[0]}
+          //         alt="Paella dish"
+          //       />
+          //       <CardContent>
+          //         <Typography variant="body2" color="text.secondary">
+          //           {location.address}
+          //         </Typography>
+          //         <Typography variant="body2" color="text.secondary">
+          //           {location.description}
+          //         </Typography>
+          //       </CardContent>
+          //       <CardActions disableSpacing>
+          //       {cat === "saved" ? <></>: <UpVoteButton location={location} cat={cat} />}
+          //         <ExpandMore
+          //           expand={expanded}
+          //           onClick={handleExpandClick}
+          //           aria-expanded={expanded}
+          //           aria-label="show more"
+          //         >
+          //           <ExpandMoreIcon />
+          //         </ExpandMore>
+          //       </CardActions>
+          //       <Collapse in={expanded} timeout="auto" unmountOnExit>
+          //         <CardContent>
+          //           <Typography>Hello</Typography>
+          //           <Typography paragraph>{location.name} Blog:</Typography>
+          //           <Blog  location = {location} />
+          //         </CardContent>
+          //       </Collapse>
+          //     </Card>
+          //   )}
+          // </div>
         ))}
         </>
     )

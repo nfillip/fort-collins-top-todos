@@ -21,7 +21,6 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
 
 export default function LoginModal({refetchHeader}) {
-  console.log(refetchHeader)
   //useStates
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");

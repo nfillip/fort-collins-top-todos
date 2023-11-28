@@ -36,7 +36,8 @@ function Header() {
       console.log("self query")
       setImageId(data.me.profilePicURL)
       setProfileUsername(data.me.username)
-    }
+    },
+    // pollInterval: 500
   })
 
   const outerTheme = createTheme({
@@ -113,8 +114,8 @@ function Header() {
 
   return (
     <ThemeProvider theme={outerTheme}>
-    <AppBar A200 position="static">
-      <Container A200 maxWidth="xl">
+    <AppBar position="static">
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -228,7 +229,7 @@ function Header() {
               <Link to="/bars">Bars</Link>
             </Button>
             <Button
-              key="bars"
+              key="restaurants"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
@@ -270,6 +271,11 @@ function Header() {
               <MenuItem key="saved" onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">
                   <Link to="/saved">Saved Locations</Link>
+                </Typography>
+              </MenuItem>
+              <MenuItem key="community" onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">
+                  <Link to="/community">Community</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="signup" onClick={handleCloseUserMenu}>

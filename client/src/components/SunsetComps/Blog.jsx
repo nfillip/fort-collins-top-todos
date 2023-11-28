@@ -17,14 +17,22 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Avatar from "@mui/material/Avatar";
 
 //local imports
 import { ADD_BLOG_POST } from "../../utils/mutations";
-export default function Blog() {
+import Auth from "../../utils/auth";
+
+//Export function
+export default function Blog({location}) {
+    //useStates
     const [newBlog, setNewBlog] = useState("")
     const [open, setOpen] = useState(false);
-
-    const handleClickOpen = () => {
+    //useMutations
+    const [addPost] = useMutation(ADD_BLOG_POST);
+    const handleClickOpen = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
       setOpen(true);
     };
   
@@ -32,18 +40,48 @@ export default function Blog() {
       setOpen(false);
     };
   
-    const handleBlogPost = () => {
-
+    const handleBlogPost = async() => {
+    try{
+        if(Auth.loggedIn()){
+            const addNewPost = await addPost({
+                variables: {
+                    locationId: location._id,
+                    messageText: newBlog
+                }
+            })
+            setTimeout(handleClose, 2000)
+            console.log(location)
+        }else{
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Only logged in users can save locations!",
+                showConfirmButton: false,
+                timer: 2000
+              });
+        }
+    }catch (err) {
+        console.error(err)
+    }
+}
+    const handleBlogInputChange = (e) => {
+        const {target} = e;
+        setNewBlog(target.value)
     }
 
-    const handleBlogInputChange = (e) => {
-    setNewBlog(newBlog)
+    const preventBubbling = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
     }
   return (
     <>
     <Box sx = {{display: "flex", flexDirection: "column", alignItems: "start"}}>
-        <Typography> adsfasd</Typography>
-        <Typography>adsfasd</Typography>
+        {location.blog.toReversed().map((blogMessage, index) => (
+            <>
+            {blogMessage.user ? (<><Avatar src= {blogMessage.user.profilePicURL} />
+            <Typography>{blogMessage.user.username}{blogMessage.messageText}{blogMessage.createdAt}</Typography></>) : (<Typography>{blogMessage.messageText}{blogMessage.createdAt}</Typography>)}
+            </>
+        ))}
     </Box>
         
       <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -51,7 +89,7 @@ export default function Blog() {
       <Button variant="contained" onClick={handleClickOpen}>
         Post to Blog
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} onClick = {preventBubbling}>
         <DialogTitle>Post to Blog</DialogTitle>
         <DialogContent>
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>

@@ -34,7 +34,6 @@ import CardMap from "../components/SunsetComps/CardMap"
 
 export default function Bars() {
   const cat = "view";
-
   const { data, loading, error, refetch } = useQuery(VIEWS_LOCATIONS,{
     fetchPolicy: 'network-only'
   });
@@ -44,6 +43,7 @@ export default function Bars() {
     console.log(error);
     return `Error! ${error.message}`;
   }
+  console.log(data.viewsLocations)
   return (
     <>
       <div>Best Views in Fort Collins</div>
