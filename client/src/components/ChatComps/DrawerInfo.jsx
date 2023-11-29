@@ -23,23 +23,28 @@ import Avatar from "@mui/material/Avatar";
 //local imports
 import {QUERY_SELF_PROFILE} from "../../utils/queries"
 import Auth from "../../utils/auth";
+import "../../styles/custom.css"
 
-export default function DrawerInfo({matches}) {
+export default function DrawerInfo({matches, activeChat, setActiveChat}) {
 
+  const handleActive = (matchId) => {
+    setActiveChat(matchId)
+    console.log()
+  }
     return(
         <div>
       <Toolbar />
       <Divider />
       <List>
-          <ListItem key="title" disablePadding> 
+          <ListItem  key="title" disablePadding> 
           <ListItemText primary= "ALL MATCHES" />
           </ListItem>
       </List>
       <Divider />
       <List>
-        {matches.map(({matchId, username, profilePicURL}) => (
-          <ListItem key={matchId} disablePadding>
-            <ListItemButton>
+        {matches.map(({matchId, username, profilePicURL, match}) => (
+          <ListItem  className = {matchId == activeChat? "activeChat" : "inactiveChat"}  key={matchId} disablePadding>
+            <ListItemButton onClick = {() => handleActive(matchId)}>
               <ListItemIcon>
               <Avatar src = {profilePicURL} />
               </ListItemIcon>

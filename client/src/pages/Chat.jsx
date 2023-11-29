@@ -19,60 +19,31 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 //local imports
 import {QUERY_SELF_PROFILE} from "../utils/queries"
 import Auth from "../utils/auth";
 import DrawerInfo from "../components/ChatComps/DrawerInfo.jsx"
+import ActiveChat from "../components/ChatComps/ActiveChat.jsx"
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
 //useStates
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false); 
+  const [activeChat, setActiveChat] = React.useState("")
   //useQueries
   const { error, loading, data, refetch } = useQuery(QUERY_SELF_PROFILE, {
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
         console.log(data.me.matches)
-       
-    }
+    },
   });
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-//   const drawer = (
-//     <div>
-//       <Toolbar />
-//       <Divider />
-//       <List>
-//         {matches.map(({matchId, username, profilePicURL}) => (
-//           <ListItem key={matchId} disablePadding>
-//             <ListItemButton>
-//               <ListItemIcon>
-//                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-//               </ListItemIcon>
-//               <ListItemText primary={username} />
-//             </ListItemButton>
-//           </ListItem>
-//         ))}
-//       </List>
-//       <Divider />
-//       <List>
-//         {['All mail', 'Trash', 'Spam'].map((text, index) => (
-//           <ListItem key={text} disablePadding>
-//             <ListItemButton>
-//               <ListItemIcon>
-//                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-//               </ListItemIcon>
-//               <ListItemText primary={text} />
-//             </ListItemButton>
-//           </ListItem>
-//         ))}
-//       </List>
-//     </div>
-//   );
- const matches = data?.me.matches.map(({_id, user1,user2})=> {
+ const matches = data?.me.matches.map((match)=> {
+    const {_id, user1,user2, messages} = match
     const matchId = _id;
     const selfId = Auth.getProfile().data._id;
     let username, profilePicURL;
@@ -85,7 +56,7 @@ export default function ResponsiveDrawer(props) {
     } else {
         throw new Error("Neither user in match is the current user");
     }
-    return {matchId, username, profilePicURL}
+    return {match, matchId, username, profilePicURL, messages}
 }) || [];
   // Remove this const when copying and pasting into your project.
   const container = window !== undefined ? () => window().document.body : undefined;
@@ -118,7 +89,7 @@ export default function ResponsiveDrawer(props) {
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
-            <DrawerInfo matches = {matches} />
+            <DrawerInfo matches = {matches} activeChat = {activeChat} setActiveChat = {setActiveChat} />
         </Drawer>
         <Drawer
           variant="permanent"
@@ -128,50 +99,24 @@ export default function ResponsiveDrawer(props) {
           }}
           open
         >
-          <DrawerInfo matches = {matches} />
+          <DrawerInfo matches = {matches} activeChat = {activeChat} setActiveChat = {setActiveChat} />
         </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-      >
-        <Toolbar />
-        <IconButton
+      </Box> <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            // sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 0, display: { sm: 'none' } }}
           >
-            <MenuIcon />
+            <KeyboardDoubleArrowRightIcon />
           </IconButton>
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+      <Box
+        component="main"
+        sx={{ border: ".2rem solid red", height: "70vh", flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+      >
+          <Box>
+          </Box>
+          {activeChat !== "" ? <ActiveChat activeChat = {activeChat}/> : <></>}
       </Box>
     </Box>
     </>

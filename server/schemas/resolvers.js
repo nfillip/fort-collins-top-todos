@@ -26,7 +26,7 @@ const resolvers = {
           .populate("savedLocations")
           .populate({
             path: "matches",
-            populate: [{ path: "user1" }, { path: "user2" }],
+            populate: [{ path: "user1" }, { path: "user2" }, {path: "messages", populate: {path: "user"}}],
           });
       }
       throw new AuthenticationError();
@@ -82,7 +82,16 @@ const resolvers = {
       const singleLocation = await Location.findOne({_id: locationId})
       .populate("blog")
       return singleLocation;
-    }
+    },
+    oneMatch: async (parent, { matchId }) => {
+      return Match.findOne({ _id: matchId })
+        .populate("user1")
+        .populate("user2")
+        .populate({
+          path:"messages",
+          populate: {path: "user"}
+        });
+    },
   },
 
   Mutation: {
@@ -326,7 +335,16 @@ const resolvers = {
         }
       }
       throw AuthenticationError;
-    }
+    },
+    createMessage: async (parent, { matchId, messageText }, { user }) => {
+      const newMessage = await Message.create({ user: user._id, messageText });
+      const updateMatch = await Match.findOneAndUpdate(
+        { _id: matchId },
+        { $push: { messages: newMessage } }
+      );
+      console.log("Created new message and stored to Match");
+      return updateMatch;
+    },
   }
 }
 

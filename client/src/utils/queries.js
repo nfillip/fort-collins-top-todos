@@ -172,6 +172,33 @@ query RestaurantLocations {
     }
   }
 }`
+
+export const QUERY_MATCH_MESSAGES = gql`
+  query OneMatch($matchId: ID!) {
+    oneMatch(matchId: $matchId) {
+      user1 {
+        _id
+        username
+        profilePicURL
+      }
+      user2 {
+        _id
+        username
+        profilePicURL
+      }
+      messages {
+        user {
+          _id
+          username
+          profilePicURL
+        }
+        messageText
+        createdAt
+      }
+    }
+  }
+`;
+
 export const QUERY_SELF_PROFILE = gql`
 query Query {
   me {
@@ -219,6 +246,10 @@ query Query {
         _id
         createdAt
         messageText
+        user {
+          username
+          profilePicURL
+        }
       }
       user1 {
         _id

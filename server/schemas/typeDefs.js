@@ -78,6 +78,7 @@ type Mutation {
   unSaveLocation(locationId: ID!):User
   addBlogPost(locationId: ID!, messageText: String!): Location
   updateUser(username: String, email: String, password: String, profilePic: String, profilePicURL: String):User
+  createMessage(messageText: String!, matchId: ID!): Message
 }
 `;
 

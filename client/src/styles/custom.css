@@ -23,12 +23,21 @@
     padding: 0px;
     font-size: 2rem;
 }
-
+.myText {
+    color: red;
+    justify-content: flex-end;
+}
+.theirText {
+    color: blue;
+    align-items: start;
+}
 .homeP {
     margin: 0px;
     padding: 0px;
 }
-
+.activeChat {
+    border: .2rem solid purple
+}
 .swal2-container {
     z-index: 1000001
 }

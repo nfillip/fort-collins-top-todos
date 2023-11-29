@@ -108,3 +108,12 @@ mutation Mutation($otherId: ID!) {
     _id
   }
 }`
+
+export const CREATE_MESSAGE = gql`
+	mutation CreateMessage($messageText: String!, $matchId: ID!) {
+		createMessage(messageText: $messageText, matchId: $matchId) {
+			messageText
+			_id
+		}
+	}
+`;
