@@ -105,24 +105,7 @@ export default function Community() {
         <>
         <div>Meet the Foco Fun Community</div>
         {data.users.map((user, index) => (
-            <CommunityCard user = {user} index = {index} />
-        //     <Card sx={{ maxWidth: 345 }}>
-        //     <CardHeader
-        //     //   action={<EditProfileModal refetch = {refetch} profilePicURL = {user.profilePicURL} />}
-        //       title= {user.username}
-        //     />
-        //     <CardMedia
-        //       component="img"
-        //       height="255"
-        //       image= {user.profilePicURL}
-        //       alt="Paella dish"
-        //     />
-        //     <CardContent>
-        //       <Typography variant="body2" color="text.secondary">
-        //         {user.email}
-        //       </Typography>
-        //     </CardContent>
-        //   </Card>
+            <CommunityCard user = {user} index = {index} refetchCommunity = {refetch} />
         ))}
         </>
     )

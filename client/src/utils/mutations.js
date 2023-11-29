@@ -78,3 +78,33 @@ mutation UpdateUser($username: String, $email: String, $password: String, $profi
     email
   }
 }`
+
+export const SEND_FRIEND_REQUEST = gql`
+mutation Mutation($otherId: ID!) {
+  sendFriendRequest(otherId: $otherId) {
+    _id
+    username
+  }
+}`
+
+export const REMOVE_FRIEND_REQUEST = gql`
+mutation Mutation($otherId: ID!) {
+  removeFriendRequest(otherId: $otherId) {
+    _id
+    username
+  }
+}`
+
+export const ACCEPT_FRIEND_REQUEST = gql`
+mutation AcceptFriendRequest($otherId: ID!) {
+  acceptFriendRequest(otherId: $otherId) {
+    _id
+  }
+}`
+
+export const REMOVE_FRIEND = gql`
+mutation Mutation($otherId: ID!) {
+  removeFriend(otherId: $otherId) {
+    _id
+  }
+}`

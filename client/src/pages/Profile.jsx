@@ -56,7 +56,9 @@ export default function Profile() {
       const navigate = useNavigate();
   
 
-      const { error, loading, data, refetch } = useQuery(QUERY_SELF_PROFILE);
+      const { error, loading, data, refetch } = useQuery(QUERY_SELF_PROFILE, {
+        fetchPolicy: 'network-only'
+      });
       const handleNext = () => {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         };

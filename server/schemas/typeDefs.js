@@ -68,10 +68,12 @@ type Mutation {
   createUser(username: String!, email: String!, password: String!, profilePic: String, profilePicURL: String): Auth
   login(email: String!, password: String!): Auth
   sendFriendRequest(otherId: ID!): User
+  removeFriendRequest(otherId: ID!): User
   acceptFriendRequest(otherId: ID!): Match
   createLocation(locationName: String!, address: String!, description: String!, imagesURL:[String]!, images: [String]!, categories: [String]!): Location
   upVoteLocation(locationId: ID!, cat: String!):Location
   removeVoteLocation(locationId: ID!, cat: String!):Location
+  removeFriend(otherId: ID!):User
   saveLocation(locationId: ID!):User
   unSaveLocation(locationId: ID!):User
   addBlogPost(locationId: ID!, messageText: String!): Location

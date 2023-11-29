@@ -125,6 +125,20 @@ const resolvers = {
       console.log("Friend Request Sent!")
       return sendRequest;
       },
+      removeFriendRequest: async (parent, {otherId}, {user}) => {
+        const removeFromYourRequests = await User.findOneAndUpdate(
+          {_id: user._id},
+          {$pull: {friendsYouRequested: otherId}},
+          {new: true}
+        )
+        const removeRequest = await User.findOneAndUpdate(
+          {_id: otherId},
+          {$pull: {friendRequests: user._id}},
+          {new: true}
+        )
+        console.log("Friend Request Removed!")
+        return removeRequest;
+        },
     acceptFriendRequest: async (parent, {otherId},{user}) => {
       const newMatch = await Match.create({
         user1: user._id.toString(),
@@ -165,6 +179,27 @@ const resolvers = {
         { $pull: {friendRequests: user._id}}
       );
       return newMatch;
+    },
+    removeFriend: async (parent, {otherId}, {user}) => {
+      let matchId = ""
+      const allMatches = await Match.find()
+      allMatches.forEach((match,index) => {
+        if((match.user1._id.toString() === user._id && match.user2._id.toString() === otherId) || (match.user2._id.toString() === user._id && match.user1._id.toString() === otherId)){
+          matchId = match._id.toString()
+        }
+      })
+      const removeMatch = await Match.findOneAndRemove({
+        _id: matchId
+      })
+      const removeFriendFromYourAccount = await User.findOneAndUpdate(
+        { _id: user._id },
+        { $pull: {friends: otherId}},
+      );
+      const removeYouFromTheirAccount = await User.findOneAndUpdate(
+        { _id: otherId },
+        { $pull: {friends: user._id}},
+      );
+      return matchId;
     },
     createLocation: async (parent, {locationName, address, description, imagesURL, images, categories}, {user}) => {
       const newLocation = await Location.create({
