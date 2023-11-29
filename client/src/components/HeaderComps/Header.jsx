@@ -114,7 +114,7 @@ function Header() {
 
   return (
     <ThemeProvider theme={outerTheme}>
-    <AppBar position="static">
+    <AppBar position="relative" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -276,6 +276,11 @@ function Header() {
               <MenuItem key="community" onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">
                   <Link to="/community">Community</Link>
+                </Typography>
+              </MenuItem>
+              <MenuItem key="community" onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">
+                  <Link to="/chat">Chat</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="signup" onClick={handleCloseUserMenu}>

@@ -81,6 +81,17 @@ export default function LoginModal({refetchHeader}) {
     setUsername("");
   };
 
+  const handleKeyDown = (e) => {
+    console.log(e.code)
+    if(e.code === "Enter" && logOrSign === "login"){
+      handleLogin();
+    }else if(e.code === "Enter" && logOrSign === "signup"){
+       handleLogin(e);
+    }else {
+      e.stopPropagation(e);
+    }
+  }
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value)
   }
@@ -91,8 +102,8 @@ export default function LoginModal({refetchHeader}) {
   const handleUsernameChange = (e) => {
     setUsername(e.target.value)
   }
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
+    // e.preventDefault();
     console.log(email);
     console.log(password);
     try {
@@ -117,8 +128,8 @@ export default function LoginModal({refetchHeader}) {
     }
   }
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
+  const handleSignup = async () => {
+    // e.preventDefault();
 
     if (validateEmail(email) && validatePassword(password)){
       try {
@@ -183,7 +194,7 @@ export default function LoginModal({refetchHeader}) {
       <Button variant="outlined" onClick={handleClickOpen}>
         Login/SignUp
       </Button>
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} onKeyDown={handleKeyDown}>
         {logOrSign === "login" ?(<><div>
           <Button variant = "contained" onClick={() => setLogOrSign("login")}>Login</Button>
           <Button variant = "outlined" onClick={() => setLogOrSign("signup")}>Signup</Button>

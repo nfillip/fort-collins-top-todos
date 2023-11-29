@@ -13,6 +13,7 @@ import Restaurants from './pages/Restaurants.jsx'
 import Saved from './pages/Saved.jsx'
 import SingleLocation from './pages/SingleLocation.jsx'
 import Community from "./pages/Community.jsx"
+import Chat from "./pages/Chat.jsx"
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
 			{
 				path: "community",
 				element: <Community />
+			},
+			{
+				path: "chat",
+				element: <Chat />
 			}
 
 		],

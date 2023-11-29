@@ -46,7 +46,7 @@ export default function Sunset() {
     console.log(error);
     return `Error! ${error.message}`;
   }
-
+  console.log(data)
   return (
     <>
       <div>Best Sunsets in Fort Collins</div>

@@ -43,7 +43,7 @@ export default function Restaurants() {
     console.log(error);
     return `Error! ${error.message}`;
   }
-  console.log(data.restaurantLocations)
+  console.log(data)
   return (
     <>
       <div>Best Bars in Fort Collins</div>

@@ -50,7 +50,6 @@ export default function Blog({location}) {
                 }
             })
             setTimeout(handleClose, 2000)
-            console.log(location)
         }else{
             Swal.fire({
                 icon: "error",
@@ -73,6 +72,7 @@ export default function Blog({location}) {
         e.stopPropagation();
         e.preventDefault();
     }
+
   return (
     <>
     <Box sx = {{display: "flex", flexDirection: "column", alignItems: "start"}}>

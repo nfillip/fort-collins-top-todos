@@ -203,6 +203,15 @@ query Query {
       images
       imagesURL
       name
+      blog {
+        _id
+        createdAt
+        messageText
+        user {
+          username
+          profilePicURL
+        }
+      }
     }
     matches {
       _id
@@ -213,9 +222,13 @@ query Query {
       }
       user1 {
         _id
+        profilePicURL
+        username
       }
       user2 {
         _id
+        profilePicURL
+        username
       }
     }
   }
