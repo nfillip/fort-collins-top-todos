@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import './index.css'
+// import './index.css'
 
 import App from './App.jsx'
 import Home from './pages/Home.jsx'
@@ -14,6 +14,7 @@ import Saved from './pages/Saved.jsx'
 import SingleLocation from './pages/SingleLocation.jsx'
 import Community from "./pages/Community.jsx"
 import Chat from "./pages/Chat.jsx"
+import Test from "./pages/Test.jsx"
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
 			{
 				path: "chat",
 				element: <Chat />
+			},
+			{
+				path: "test",
+				element: <Test />
 			}
 
 		],

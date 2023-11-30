@@ -90,12 +90,13 @@ export default function SingleCard({location, index, cat}) {
     }
 return (
     <>
-    <div key = {index} onClick = {(e) => handleSingleLocation(e, location)} >
+    <div key = {index} onClick = {(e) => handleSingleLocation(e, location)}>
             {location.imagesURL.length !== 1 ? (
-              <Card sx={{ maxWidth: 345 }} key={index}>
+              <Card sx={{ maxWidth: 345}} key={index}>
                 <CardHeader
                   action={<SaveButton location={location} cat = {cat}/>}
                   title={location.name}
+                  sx = {{height: 50}}
                 />
                 <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
                   <AutoPlaySwipeableViews
@@ -157,7 +158,7 @@ return (
                   />
                 </Box>
 
-                <CardContent>
+                <CardContent sx = {{height: expanded?"auto":90, overflow: "auto"}} >
                   <Typography variant="body2" color="text.secondary">
                     {location.address}
                   </Typography>
@@ -188,6 +189,7 @@ return (
                 <CardHeader
                   action={<SaveButton location={location} cat = {cat} />}
                   title={location.name}
+                  sx = {{height: 50}}
                 />
                 <CardMedia
                   component="img"
@@ -195,7 +197,7 @@ return (
                   image={location.imagesURL[0]}
                   alt="Paella dish"
                 />
-                <CardContent>
+                <CardContent sx = {{height: expanded?"auto":90, overflow: "auto"}}>
                   <Typography variant="body2" color="text.secondary">
                     {location.address}
                   </Typography>

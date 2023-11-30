@@ -3,6 +3,7 @@ import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SELF_PROFILE } from "../../utils/queries";
+import {useTheme} from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { deepPurple, orange } from '@mui/material/colors';
 import AppBar from "@mui/material/AppBar";
@@ -26,6 +27,7 @@ const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
+  const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [imageId, setImageId] = useState("");
@@ -40,13 +42,7 @@ function Header() {
     // pollInterval: 500
   })
 
-  const outerTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#280137",
-      },
-    },
-  });
+
   // Create a Cloudinary instance and set your cloud name.
 	const cld = new Cloudinary({
 		cloud: {
@@ -113,8 +109,7 @@ function Header() {
 
 
   return (
-    <ThemeProvider theme={outerTheme}>
-    <AppBar position="relative" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <AppBar position="relative" sx={{zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -132,10 +127,10 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            <Link to="/">Foco Fun</Link>
+            <Link className = "headNavLinks" to="/">Foco Fun</Link>
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }}}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -166,23 +161,23 @@ function Header() {
             >
               <MenuItem key="home" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link to="/sunset">Best Sunset Spots</Link>
+                  <Link className = "headNavLinks" to="/sunset">Best Sunset Spots</Link>
                 </Typography>
               </MenuItem>
   
               <MenuItem key="views" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link to="/views">Best Views</Link>
+                  <Link className = "headNavLinks" to="/views">Best Views</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="bars" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link to="/bars">Best Bars</Link>
+                  <Link className = "headNavLinks" to="/bars">Best Bars</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="restaurants" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link to="/restaurants">Best Restaurants</Link>
+                  <Link className = "headNavLinks" to="/restaurants">Best Restaurants</Link>
                 </Typography>
               </MenuItem>
             </Menu>
@@ -203,7 +198,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            <Link to="/">Foco Fun</Link>
+            <Link className = "headNavLinks" to="/">Foco Fun</Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
@@ -212,28 +207,28 @@ function Header() {
               sx={{ my: 2, color: "white", display: "block" }}
               to= "/sunset"
             >
-              <Link to="/sunset">Sunsets</Link>
+              <Link className = "headNavLinks" to="/sunset">Sunsets</Link>
             </Button>
             <Button
               key="views"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              <Link to="/views">Views</Link>
+              <Link className = "headNavLinks" to="/views">Views</Link>
             </Button>
             <Button
               key="bars"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              <Link to="/bars">Bars</Link>
+              <Link className = "headNavLinks" to="/bars">Bars</Link>
             </Button>
             <Button
               key="restaurants"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              <Link to="/restaurants">Restaurants</Link>
+              <Link className = "headNavLinks" to="/restaurants">Restaurants</Link>
             </Button>
           </Box>
             {Auth.loggedIn()?<Box sx={{ flexGrow: 0 }}>
@@ -324,7 +319,6 @@ function Header() {
         </Toolbar>
       </Container>
     </AppBar>
-    </ThemeProvider>
   );
 }
 export default Header;

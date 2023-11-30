@@ -1,3 +1,16 @@
+
+body {
+/* background: rgb(45, 44, 44); */
+background: #201824
+  }
+
+/* HEADER */
+.headNavLinks {
+    text-decoration: none;
+    list-style: none;
+    color:inherit
+}
+/* HOME PAGE */
 .homeImage {
     width: 100%;
     height: 100vh;
@@ -10,7 +23,7 @@
     flex-direction: column;
     justify-content: start;
     align-items:center;
-    color: white;
+    /* color: white; */
     
 }
 .homeTitle {
@@ -23,6 +36,16 @@
     padding: 0px;
     font-size: 2rem;
 }
+
+/* PAGES */
+.pageBackground {
+    background-image: url(../assets/social.avif);
+    background-size: cover;
+    background-repeat:no-repeat;
+    background-position: center;
+    min-height: 100vh;
+}
+/* CHAT PAGE */
 .myText {
     color: red;
     justify-content: flex-end;
@@ -32,15 +55,20 @@
     align-items: start;
 }
 .homeP {
+    color: white;
     margin: 0px;
     padding: 0px;
 }
 .activeChat {
     border: .2rem solid purple
 }
+
+/* Sweet Alert */
 .swal2-container {
     z-index: 1000001
 }
+
+/* Media Queries */
 @media (width>600px){
     .homeTitle {
         font-size: 3rem;

@@ -49,10 +49,12 @@ export default function Sunset() {
   console.log(data)
   return (
     <>
-      <div>Best Sunsets in Fort Collins</div>
+    <div className = "pageBackground">
+      <Typography sx = {{mb:2}}>Best Sunsets in Fort Collins</Typography>
       <>
       <CardMap data = {data.sunsetLocations} cat = {cat}/>
       </>
+      </div>
     </>
   );
 }

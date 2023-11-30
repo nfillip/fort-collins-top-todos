@@ -4,9 +4,28 @@ import {
   ApolloProvider,
   createHttpLink,
 } from "@apollo/client";
+import { createTheme, colors, ThemeProvider, useTheme } from "@mui/material";
 import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
 import Header from "./components/HeaderComps/Header";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#31253d",
+      light: '#45235f',
+      dark: '#2b2030',
+      contrastText: '#d8dbe8'
+    },
+    secondary: {
+      main: "#6f5e95",
+      contrastText: '#d8dbe8'
+    }
+  },
+  typography: {
+    fontFamily: 'Vidaloka',
+  }
+});
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -32,9 +51,11 @@ const client = new ApolloClient({
 
 export default function App() {
   return (
+    <ThemeProvider theme = {theme}>
     <ApolloProvider client={client}>
       <Header></Header>
       <Outlet />
     </ApolloProvider>
+    </ThemeProvider>
   );
 }
