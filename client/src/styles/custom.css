@@ -53,12 +53,19 @@ background: #201824
 }
 /* CHAT PAGE */
 .myText {
-    color: red;
+    color: white;
     justify-content: flex-end;
+
 }
 .theirText {
-    color: blue;
     align-items: start;
+}
+.myBubble {
+    color: white;
+    background-color: #45235f;
+}
+.theirBubble {
+background-color: rgb(162, 161, 161);
 }
 .homeP {
     color: white;

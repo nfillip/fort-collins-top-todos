@@ -108,14 +108,12 @@ export default function ResponsiveDrawer(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 0, display: { sm: 'none' } }}
           >
-            <KeyboardDoubleArrowRightIcon />
+            <KeyboardDoubleArrowRightIcon sx = {{color: "white"}} />
           </IconButton>
       <Box
         component="main"
-        sx={{ border: ".2rem solid red", height: "70vh", flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ border: ".2rem solid red", height: "70vh", flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, display: "flex", flexDirection: "column", justifyContent: "space-between" }}
       >
-          <Box>
-          </Box>
           {activeChat !== "" ? <ActiveChat activeChat = {activeChat}/> : <></>}
       </Box>
     </Box>

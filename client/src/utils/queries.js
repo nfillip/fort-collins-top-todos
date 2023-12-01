@@ -210,14 +210,17 @@ query Query {
     friendRequests {
       _id
       username
+      profilePicURL
     }
     friends {
       _id
       username
+      profilePicURL
     }
     friendsYouRequested {
       _id
       username
+      profilePicURL
     }
     savedLocations {
       _id

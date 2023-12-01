@@ -81,17 +81,19 @@ const [createMessage] = useMutation(CREATE_MESSAGE);
     return (
         <>
         {data.oneMatch.user1._id == selfId? (<Typography>{data.oneMatch.user2.username}</Typography>) : (<Typography>{data.oneMatch.user1.username}</Typography>)}
-        <Box sx = {{border: ".2rem solid purple"}}>
+        <Box sx = {{border: ".2rem solid purple", height: "100%", p:3}}>
             {data.oneMatch.messages.map((message) => (
                 <>
-                <Box sx = {{display: "flex", width: 1 }} className = {message.user._id == selfId ? "myText": "theirText"}>
-                    <Box sx = {{width: "auto", border: ".2rem solid green"}}> {message.messageText}</Box>
+                <Box sx = {{display: "flex", width: 1, py:1 }} className = {message.user._id == selfId ? "myText": "theirText"}>
+                    <Box sx = {{width: "auto",maxWidth: "45%",overflow: "auto", height:"auto", p:1, borderRadius: 2}} className = {message.user._id == selfId ? "myBubble": "theirBubble"}> {message.messageText}</Box>
                 </Box>
                 </>
             ))}
         </Box>
-        <TextField value = {textMessage} id="outlined-basic" label="Chat" variant="outlined" onChange = {handleTextChange}/>
+        <Box sx = {{border: ".2rem solid green", display: "flex", justifyContent: "end"}}>
+        <TextField sx = {{bgcolor: "secondary.light", width: "100%"}}value = {textMessage} id="outlined-basic" label="Chat" variant="outlined" onChange = {handleTextChange}/>
         <Button variant="contained" onClick = {handleSend}>Send</Button>
+        </Box>
         </>
     )
 }

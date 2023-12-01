@@ -1,7 +1,7 @@
 //react imports
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import {useNavigate, useLocation} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 //MUI imports
 import { styled } from "@mui/material/styles";
@@ -15,29 +15,21 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-
-import { useTheme } from "@mui/material/styles";
-import MobileStepper from "@mui/material/MobileStepper";
-import Paper from "@mui/material/Paper";
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import CancelIcon from '@mui/icons-material/Cancel';
 import Button from "@mui/material/Button";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { useTheme } from "@mui/material/styles";
 //local imports
-import SaveButton from "../components/SunsetComps/SaveButton";
-import UpVoteButton from "../components/SunsetComps/UpVoteButton";
-import Auth from "../utils/auth";
 import EditProfileModal from "../components/ProfileComps/EditProfileModal"
 import {QUERY_SELF_PROFILE} from "../utils/queries"
+import {
+  SEND_FRIEND_REQUEST,
+  ACCEPT_FRIEND_REQUEST,
+  REMOVE_FRIEND_REQUEST,
+  REMOVE_FRIEND,
+} from "../utils/mutations";
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -50,26 +42,16 @@ const ExpandMore = styled((props) => {
   }));
 
 export default function Profile() {
-      const theme = useTheme();
-      const [activeStep, setActiveStep] = useState(0);
       const [expanded, setExpanded] = React.useState(false);
-      const navigate = useNavigate();
-  
-
+      //useMutations
+      const [acceptRequest] = useMutation(ACCEPT_FRIEND_REQUEST);
+      const [removeRequest] = useMutation(REMOVE_FRIEND_REQUEST);
+      const [removeFriend] = useMutation(REMOVE_FRIEND);  
+  //useNavigate
+  const navigate = useNavigate();
       const { error, loading, data, refetch } = useQuery(QUERY_SELF_PROFILE, {
         fetchPolicy: 'network-only'
       });
-      const handleNext = () => {
-          setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        };
-      
-        const handleBack = () => {
-          setActiveStep((prevActiveStep) => prevActiveStep - 1);
-        };
-      
-        const handleStepChange = (step) => {
-          setActiveStep(step);
-        };
       
         const handleExpandClick = (e) => {
           e.stopPropagation();
@@ -77,20 +59,65 @@ export default function Profile() {
           setExpanded(!expanded);
         };
       
-        const handleSingleLocation = (e, location) => {
-          e.preventDefault();
-          e.stopPropagation();
-          console.log(location);
-          // navigate('../singlelocation')
+        const confirmAlert = (id) => {
+          swal.fire({
+            title: "Are you sure you want to remove friend?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, remove!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              handleRemoveFriend(id);
+              swalWithBootstrapButtons.fire({
+                title: "Removed Friend",
+                timer: 1500,
+                icon: "success",
+                showConfirmButton: false
+              });
+            } else if (
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire({
+                title: "Cancelled",
+                icon: "error",
+                showConfirmButton: false,
+                timer: 1000
+              });
+            }
+          });
         }
-  
-        const preventBubbling = (e) => {
-          e.stopPropagation();
-          e.preventDefault();
-      }
-      const openEditModal = () => {
+        const removeFriendRequest = async (id) => {
+          const removingRequest = await removeRequest({
+            variables: {
+              otherId: id,
+            },
+          });
+          refetch();
+        };
+      
+        const acceptFriendRequest = async (id) => {
+          const acceptF = await acceptRequest({
+            variables: {
+              otherId: id,
+            },
+          });
+          refetch();
+        };
+      
+        const handleRemoveFriend = async (id) => {
+          const removingFriend = await removeFriend({
+            variables: {
+              otherId: id,
+            },
+          });
+          refetch();
+        };
 
-      }
+        const goToSaved = () => {
+          navigate('/saved')
+        }
       if (loading) {
         return <span className="loading loading-ball loading-lg"></span>;
       }
@@ -112,11 +139,13 @@ export default function Profile() {
           alt="Paella dish"
         />
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
+          <Typography color="text.secondary">
             {data.me.email}
           </Typography>
+          <Button variant = "none" sx = {{m:0, p:0}}onClick = {goToSaved} >Go To Saved Locations</Button>
         </CardContent>
         <CardActions disableSpacing>
+        See your community below:
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
@@ -130,20 +159,33 @@ export default function Profile() {
           <CardContent>
             <Box>Your Friends
             {data.me.friends.map((friend,index) => (
-              <Typography key = {index}>{friend.username}</Typography>
+              <>
+              <Box key = {index} sx = {{display: "flex", flexDirection: "row", alignItems:"center", my:1}}>
+              <IconButton onClick = {() => confirmAlert(friend._id)}><PersonRemoveIcon/></IconButton>
+              <Avatar src = {friend.profilePicURL} sx = {{mr:1}}/>
+              <Typography>{friend.username}</Typography>
+              </Box>
+              </>
             ))}
             </Box>
             <Box>Your Received Requests
             {data.me.friendRequests.map((friend,index) => (
-              <Typography  key = {index}>{friend.username}</Typography>
+              <Box key = {index} sx = {{display: "flex", flexDirection: "row", alignItems:"center", my:1}}>
+                <IconButton   onClick = {() => acceptFriendRequest(friend._id)} ><PersonAddIcon/></IconButton>
+                <Avatar src = {friend.profilePicURL} sx = {{mr:1}}/>
+              <Typography>{friend.username}</Typography>
+              </Box>
             ))}
             </Box>
             <Box> Your Sent Requests
             {data.me.friendsYouRequested.map((friend,index) => (
-              <Typography  key = {index}>{friend.username}</Typography>
+              <Box key = {index} sx = {{display: "flex", flexDirection: "row", alignItems:"center", my:1}}>
+                <IconButton onClick = {() => removeFriendRequest(friend._id)}><CancelIcon /></IconButton>
+                <Avatar src = {friend.profilePicURL} sx = {{mr:1}}/>
+              <Typography>{friend.username}</Typography>
+              </Box>
             ))}
             </Box>
-           
           </CardContent>
         </Collapse>
       </Card>
