@@ -212,7 +212,8 @@ const resolvers = {
       return matchId;
     },
     createLocation: async (parent, {locationName, address, description, imagesURL, images, categories}, {user}) => {
-      const newLocation = await Location.create({
+      try{
+        const newLocation = await Location.create({
         name: locationName, 
         address: address,
         creator: user._id,
@@ -224,6 +225,9 @@ const resolvers = {
       )
       console.log("new location created!")
       return newLocation;
+      }catch(err) {
+        console.error(err)
+      }
     },
     upVoteLocation: async (parent, {locationId, cat}, {user}) => {
       switch(cat) {
@@ -336,6 +340,45 @@ const resolvers = {
         }
       }
       throw AuthenticationError;
+    },
+    updateLocation: async (parent, args, {user})=> {
+      try {
+          const updateInfo = {...args};
+          if(updateInfo.imagesURL){
+            let tempImagesURL = updateInfo.imagesURL
+            let tempImagesID = updateInfo.imagesID
+            delete updateInfo.imagesURL
+            delete updateInfo.imagesID
+            const updatedLoc = await Location.findOneAndUpdate(
+            {_id: args.locationId},
+            {...updateInfo},
+            {new: true}
+          );
+            const updatedLocImages = await Location.findOneAndUpdate(
+              {_id: args.locationId},
+              {$push: {imagesURL: tempImagesURL }},
+              {new: true}
+            )
+            const updatedLocImagesID = await Location.findOneAndUpdate(
+              {_id: args.locationId},
+              {$push: {images: tempImagesID }},
+              {new: true}
+            )
+          console.log("updated location")
+          return updatedLocImagesID
+          } else {
+            const updateInfo = {...args};
+            const updatedLoc = await Location.findOneAndUpdate(
+              {_id: args.locationId},
+              {...updateInfo},
+              {new: true}
+            );
+            console.log("updated location")
+          return updatedLoc
+          }
+        } catch (err) {
+        console.error(err)
+      }
     },
     createMessage: async (parent, { matchId, messageText }, { user }) => {
       const newMessage = await Message.create({ user: user._id, messageText });

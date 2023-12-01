@@ -31,6 +31,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
+import EditIcon from '@mui/icons-material/Edit';
 //local imports
 import SaveButton from "./SaveButton";
 import UpVoteButton from "./UpVoteButton";
@@ -38,7 +39,7 @@ import Auth from "../../utils/auth";
 import { ALL_LOCATIONS, SUNSET_LOCATIONS } from "../../utils/queries";
 import { UPVOTE_LOCATION, REMOVE_VOTE_LOCATION } from "../../utils/mutations";
 import Blog from "./Blog"
-
+import EditLocModal from "./EditLocModal"
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -80,8 +81,6 @@ export default function SingleCard({location, index, cat}) {
       const handleSingleLocation = (e, location) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(location);
-        // navigate('../singlelocation')
       }
 
       const preventBubbling = (e) => {
@@ -90,7 +89,7 @@ export default function SingleCard({location, index, cat}) {
     }
 return (
     <>
-    <div key = {index} onClick = {(e) => handleSingleLocation(e, location)}>
+    <div key = {index}>
             {location.imagesURL.length !== 1 ? (
               <Card sx={{ maxWidth: 345}} key={index}>
                 <CardHeader
@@ -124,6 +123,7 @@ return (
                     ))}
                   </AutoPlaySwipeableViews>
                   <MobileStepper
+                    sx = {{height: 30}}
                     steps={location.imagesURL.length}
                     position="static"
                     activeStep={activeStep}
@@ -197,6 +197,7 @@ return (
                   image={location.imagesURL[0]}
                   alt="Paella dish"
                 />
+                <Box sx = {{height: 46}}></Box>
                 <CardContent sx = {{height: expanded?"auto":90, overflow: "auto"}}>
                   <Typography variant="body2" color="text.secondary">
                     {location.address}

@@ -117,3 +117,22 @@ export const CREATE_MESSAGE = gql`
 		}
 	}
 `;
+
+export const CREATE_LOCATION = gql`
+mutation CreateLocation($locationName: String!, $address: String!, $description: String!, $imagesUrl: [String]!, $imagesId: [String]!, $categories: [String]!) {
+  createLocation(locationName: $locationName, address: $address, description: $description, imagesURL: $imagesUrl, imagesID: $imagesId, categories: $categories) {
+    name
+    description
+  }
+}`
+
+export const UPDATE_LOCATION = gql`
+mutation UpdateLocation($name: String, $description: String, $address: String, $categories: [String], $locationId: ID!, $imagesUrl: [String], $imagesId: [String]) {
+  updateLocation(name: $name, description: $description, address: $address, categories: $categories, locationId: $locationId, imagesURL: $imagesUrl, imagesID: $imagesId) {
+    name
+    imagesURL
+    description
+    address
+    images
+  }
+}`

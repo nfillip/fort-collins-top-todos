@@ -22,6 +22,7 @@ import Avatar from "@mui/material/Avatar";
 //local imports
 import { ADD_BLOG_POST } from "../../utils/mutations";
 import Auth from "../../utils/auth";
+import EditLocationModal from "./EditLocModal"
 //Cloudinary
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
@@ -96,9 +97,7 @@ export default function Blog({location}) {
         const {target} = e;
         setNewBlog(target.value)
     }
-    const handleImageUpload = () => {
 
-    }
     const preventBubbling = (e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -120,9 +119,7 @@ export default function Blog({location}) {
       <Button variant="contained" onClick={handleClickOpen}>
         Post to Blog
       </Button>
-      <Button variant="contained" onClick={handleImageUpload}>
-        Upload Photo
-      </Button>
+      <EditLocationModal id = {location._id}/>
       <Dialog open={open} onClose={handleClose} onClick = {preventBubbling}>
         <DialogTitle>Post to Blog</DialogTitle>
         <DialogContent>
