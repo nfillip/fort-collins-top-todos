@@ -1,9 +1,14 @@
 const userSeeds = require("./userSeeds.json");
+const cleanDB = require("./cleanDB")
 const db = require("../config/connection");
 const { User, Location } = require("../models");
 
 db.once("open", async () => {
   try {
+    await cleanDB("User", "users" )
+    await cleanDB("Location", "locations" )
+    await cleanDB("Match", "matches" )
+    await cleanDB("Message", "messages" )
     const newSeed = await User.create(userSeeds);
     const allUsers = await User.find();
     await Location.create({
