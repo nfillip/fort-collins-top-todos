@@ -12,6 +12,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
+import Grid from '@mui/material/Grid';
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -58,9 +59,9 @@ export default function Community() {
 
       const { data, loading, error, refetch } = useQuery(ALL_USERS,{
         fetchPolicy: 'network-only',
-        onCompleted: (data) => {
-            console.log(data)
-        }
+        // onCompleted: (data) => {
+        //     console.log(data)
+        // }
       });
 
       const handleNext = () => {
@@ -102,11 +103,17 @@ export default function Community() {
         return <div>{error.message}</div>;
       }
     return (
-        <>
-        <div>Meet the Foco Fun Community</div>
-        {data.users.map((user, index) => (
-            <CommunityCard user = {user} index = {index} refetchCommunity = {refetch} />
-        ))}
-        </>
+        <div className = "pageBackground">Meet the Foco Fun Community
+          <Typography sx = {{mb:2, color: "white"}}>Meet the Foco Fun Community</Typography>
+          <Grid container spacing={2}  sx = {{border: '.2rem solid pink', paddingTop: 0}}>
+          {data.users.map((user, index) => (
+            <Grid item key = {index} xs={12} md={4} lg = {3} sx = {{display: "flex", border: '.2rem solid green', justifyContent: 'center', p: 2}}>
+              <CommunityCard user = {user} index = {index} refetchCommunity = {refetch} />
+            </Grid>
+          
+          ))}
+          </Grid>
+        </div>
+
     )
 }

@@ -43,10 +43,8 @@ export default function Bars() {
     console.log(error);
     return `Error! ${error.message}`;
   }
-  console.log(data)
   return (
     <>
-      <div>Best Views in Fort Collins</div>
       <CardMap data = {data.viewsLocations} cat = {cat} />
     </>
   );

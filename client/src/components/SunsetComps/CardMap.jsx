@@ -58,7 +58,7 @@ export default function CardMap({data, cat}) {
     const [activeStep, setActiveStep] = useState(0);
     const [expanded, setExpanded] = React.useState(false);
     const navigate = useNavigate();
-
+    const titleLine = `BEST ${cat}S`.toUpperCase()
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       };
@@ -97,15 +97,17 @@ export default function CardMap({data, cat}) {
     }));
     return (
       <>
-
-   <Grid container spacing={2}  sx = {{border: '.2rem solid pink'}}>
+  <div className = "pageBackground">
+      <Typography className = "pageTitle" sx = {{ml:5, mb:0, color: "white", fontSize: {xs: "2rem", sm: "3rem", lg: "3rem"}}}>{titleLine}</Typography>
+      <Typography className = "pageTitle" sx = {{ml:5, mb:2, color: "white", fontSize: {xs: "1.5rem", sm:"2.5rem", lg: "2.5rem"}}}>Fort Collins</Typography>
+   <Grid container spacing={2}  sx = {{border: '.2rem solid pink', paddingTop: 0}}>
          {data.map((location, index) => (
-          <Grid item xs={12} md={4} lg = {3} sx = {{display: "flex", border: '.2rem solid green', justifyContent: 'center'}}>
+          <Grid item key = {index} xs={12} md={4} lg = {3} sx = {{display: "flex", border: '.2rem solid green', justifyContent: 'center', p: 2}}>
              <SingleCard location = {location} index = {index} cat = {cat} />
           </Grid>
      ))}
    </Grid>
-
+   </div>
              
      </>
     )

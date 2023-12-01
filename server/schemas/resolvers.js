@@ -208,6 +208,7 @@ const resolvers = {
         { _id: otherId },
         { $pull: {friends: user._id}},
       );
+      console.log("removed friend")
       return matchId;
     },
     createLocation: async (parent, {locationName, address, description, imagesURL, images, categories}, {user}) => {

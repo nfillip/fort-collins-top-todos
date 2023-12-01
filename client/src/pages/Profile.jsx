@@ -98,6 +98,8 @@ export default function Profile() {
         return <div>{error.message}</div>;
       }
     return (
+        <div className = "pageBackground">
+          <Box sx = {{display: "flex", justifyContent: "center", alignItems: "center", p:5}}>
         <Card sx={{ maxWidth: 345 }}>
         <CardHeader
           action={<EditProfileModal refetch = {refetch} profilePicURL = {data.me.profilePicURL} />}
@@ -128,22 +130,24 @@ export default function Profile() {
           <CardContent>
             <Box>Your Friends
             {data.me.friends.map((friend,index) => (
-              <Typography>{friend.username}</Typography>
+              <Typography key = {index}>{friend.username}</Typography>
             ))}
             </Box>
             <Box>Your Received Requests
             {data.me.friendRequests.map((friend,index) => (
-              <Typography>{friend.username}</Typography>
+              <Typography  key = {index}>{friend.username}</Typography>
             ))}
             </Box>
             <Box> Your Sent Requests
             {data.me.friendsYouRequested.map((friend,index) => (
-              <Typography>{friend.username}</Typography>
+              <Typography  key = {index}>{friend.username}</Typography>
             ))}
             </Box>
            
           </CardContent>
         </Collapse>
       </Card>
+      </Box>
+      </div>
     )
 }

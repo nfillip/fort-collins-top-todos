@@ -22,12 +22,16 @@ import Avatar from "@mui/material/Avatar";
 //local imports
 import { ADD_BLOG_POST } from "../../utils/mutations";
 import Auth from "../../utils/auth";
-
+//Cloudinary
+import { Cloudinary } from "@cloudinary/url-gen";
+import { AdvancedImage } from "@cloudinary/react";
 //Export function
 export default function Blog({location}) {
     //useStates
     const [newBlog, setNewBlog] = useState("")
     const [open, setOpen] = useState(false);
+    const [newPhotoID, setNewPhotoID] = useState("")
+    const [newPhotoURL , setNewPhotoURL] = useState("")
     //useMutations
     const [addPost] = useMutation(ADD_BLOG_POST);
     const handleClickOpen = (e) => {
@@ -35,11 +39,36 @@ export default function Blog({location}) {
         e.preventDefault();
       setOpen(true);
     };
-  
+    //cloudinary widget
+    const cld = new Cloudinary({
+      cloud: {
+        cloudName: "dkxtk2v4z",
+      },
+    });
+    const cloudinaryRef = useRef();
+    const widgetRef = useRef();
+    useEffect(() => {
+      cloudinaryRef.current = window.cloudinary;
+      widgetRef.current = cloudinaryRef.current.createUploadWidget(
+        {
+          cloudName: "dkxtk2v4z",
+          uploadPreset: "dogprofile_test",
+        },
+        async function (error, result) {
+          if (result.info.public_id) {
+            setNewPhotoURL(result.info.secure_url);
+            setNewPhotoID(result.info.public_id);
+            handlePushImageToLocation();
+          }
+        }
+      );
+    });
+    const handlePushImageToLocation = async () => {
+
+    }
     const handleClose = () => {
       setOpen(false);
     };
-  
     const handleBlogPost = async() => {
     try{
         if(Auth.loggedIn()){
@@ -67,7 +96,9 @@ export default function Blog({location}) {
         const {target} = e;
         setNewBlog(target.value)
     }
+    const handleImageUpload = () => {
 
+    }
     const preventBubbling = (e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -88,6 +119,9 @@ export default function Blog({location}) {
     </Box>
       <Button variant="contained" onClick={handleClickOpen}>
         Post to Blog
+      </Button>
+      <Button variant="contained" onClick={handleImageUpload}>
+        Upload Photo
       </Button>
       <Dialog open={open} onClose={handleClose} onClick = {preventBubbling}>
         <DialogTitle>Post to Blog</DialogTitle>

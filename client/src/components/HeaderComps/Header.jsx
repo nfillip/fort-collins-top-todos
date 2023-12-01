@@ -23,6 +23,7 @@ import LoginModal from "./LoginModal";
 import Auth from "../../utils/auth"
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
+import logo from '../../assets/logo.png'
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -35,7 +36,6 @@ function Header() {
 
   const {error, loading, data, refetch} = useQuery(QUERY_SELF_PROFILE, {
     onCompleted: (data) => {
-      console.log("self query")
       setImageId(data.me.profilePicURL)
       setProfileUsername(data.me.username)
     },
@@ -112,15 +112,14 @@ function Header() {
     <AppBar position="relative" sx={{zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Avatar sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} src = {logo}></Avatar>
           <Typography
             variant="h6"
             noWrap
-            component="a"
             sx={{
               mr: 2,
+              ml: 1,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
@@ -161,37 +160,36 @@ function Header() {
             >
               <MenuItem key="home" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link className = "headNavLinks" to="/sunset">Best Sunset Spots</Link>
+                  <Link className = "headNavLinks" to="/sunset">Sunsets</Link>
                 </Typography>
               </MenuItem>
   
               <MenuItem key="views" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link className = "headNavLinks" to="/views">Best Views</Link>
+                  <Link className = "headNavLinks" to="/views">Views</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="bars" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link className = "headNavLinks" to="/bars">Best Bars</Link>
+                  <Link className = "headNavLinks" to="/bars">Bars</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="restaurants" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link className = "headNavLinks" to="/restaurants">Best Restaurants</Link>
+                  <Link className = "headNavLinks" to="/restaurants">Restaurants</Link>
                 </Typography>
               </MenuItem>
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <Avatar src = {logo} sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
-            component="a"
             sx={{
               mr: 2,
+              ml: 1,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
@@ -205,7 +203,6 @@ function Header() {
               key="sunsets"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
-              to= "/sunset"
             >
               <Link className = "headNavLinks" to="/sunset">Sunsets</Link>
             </Button>
@@ -234,12 +231,8 @@ function Header() {
             {Auth.loggedIn()?<Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Typography sx = {{mr: 2, display: { xs: "none", md: "flex" } }}>{`Hey ${profileUsername} `}</Typography>
+                <Typography sx = {{mr: 2, display: { xs: "none", md: "flex" }, color: "white" }}>{`Hey ${profileUsername} `}</Typography>
                 <Avatar src= {imageId} />
-                
-                {/* <AdvancedImage
-						cldImg={myImage}
-					/> */}
               </IconButton>
             </Tooltip>
             <Menu
@@ -260,26 +253,25 @@ function Header() {
             >
               <MenuItem key="profile" onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">
-                  <Link to="/profile">Profile</Link>
+                  <Link className = "headNavLinks" to="/profile">Profile</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="saved" onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">
-                  <Link to="/saved">Saved Locations</Link>
+                  <Link className = "headNavLinks" to="/saved">Saved Locations</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="community" onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">
-                  <Link to="/community">Community</Link>
+                  <Link className = "headNavLinks" to="/community">Community</Link>
                 </Typography>
               </MenuItem>
-              <MenuItem key="community" onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">
-                  <Link to="/chat">Chat</Link>
-                </Typography>
+              <MenuItem key="chat" onClick={handleCloseUserMenu}>
+              <Typography textAlign="center">
+                  <Link className = "headNavLinks" to="/chat">Chat</Link>
+              </Typography>
               </MenuItem>
               <MenuItem key="signup" onClick={handleCloseUserMenu}>
-                {/* <Typography textAlign="center">Login</Typography> */}
                 <Typography onClick = {handleLogout} textAlign="center">
                   Logout
                 </Typography>
@@ -309,9 +301,7 @@ function Header() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem key="login" onClick={handleCloseUserMenu}>
-                {/* <Typography textAlign="center">Login</Typography> */}
                 <LoginModal refetchHeader = {refetch}></LoginModal>
-                
               </MenuItem>
             </Menu>
           </Box> }

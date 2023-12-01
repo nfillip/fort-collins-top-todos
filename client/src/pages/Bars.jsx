@@ -20,7 +20,6 @@ export default function Bars() {
   }
   return (
     <>
-      <div>Best Bars in Fort Collins</div>
       <CardMap data = {data.barsLocations} cat = {cat} />
     </>
   );

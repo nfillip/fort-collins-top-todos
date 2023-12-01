@@ -218,7 +218,6 @@ return (
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                   <CardContent>
-                    <Typography>Hello</Typography>
                     <Typography paragraph>{location.name} Blog:</Typography>
                     <Blog  location = {location} />
                   </CardContent>

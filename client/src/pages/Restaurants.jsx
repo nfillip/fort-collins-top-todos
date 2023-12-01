@@ -43,10 +43,8 @@ export default function Restaurants() {
     console.log(error);
     return `Error! ${error.message}`;
   }
-  console.log(data)
   return (
     <>
-      <div>Best Bars in Fort Collins</div>
       <CardMap data = {data.restaurantLocations} cat = {cat} />
     </>
   );

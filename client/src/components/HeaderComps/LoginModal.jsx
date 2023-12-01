@@ -56,12 +56,6 @@ export default function LoginModal({refetchHeader}) {
           console.log(result.info)
 					setImageURL(result.info.secure_url);
           setImageID(result.info.public_id)
-					// const { updatedData } = await update({
-					// 	variables: {
-					// 		profilePic: result.info.public_id,
-          //     profilePicURL: result.info.public_URL
-					// 	},
-					// });
 				}
 			}
 		);

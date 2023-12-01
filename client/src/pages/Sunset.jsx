@@ -36,6 +36,8 @@ import CardMap from "../components/SunsetComps/CardMap"
 
 export default function Sunset() {
   const cat = "sunset";
+  const titleLine = `BEST ${cat}S IN FORT COLLINS`.toUpperCase()
+
   const { data, loading, error, refetch } = useQuery(SUNSET_LOCATIONS,{
     fetchPolicy: 'network-only',
     pollInterval: 500
@@ -46,15 +48,9 @@ export default function Sunset() {
     console.log(error);
     return `Error! ${error.message}`;
   }
-  console.log(data)
   return (
-    <>
-    <div className = "pageBackground">
-      <Typography sx = {{mb:2}}>Best Sunsets in Fort Collins</Typography>
       <>
       <CardMap data = {data.sunsetLocations} cat = {cat}/>
       </>
-      </div>
-    </>
   );
 }

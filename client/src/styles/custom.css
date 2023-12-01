@@ -37,6 +37,9 @@ background: #201824
     font-size: 2rem;
 }
 
+.css-1mba6s8-MuiGrid-root {
+    padding: 10px!important
+}
 /* PAGES */
 .pageBackground {
     background-image: url(../assets/social.avif);
@@ -44,6 +47,9 @@ background: #201824
     background-repeat:no-repeat;
     background-position: center;
     min-height: 100vh;
+}
+.pageTitle {
+    color: blue;
 }
 /* CHAT PAGE */
 .myText {

@@ -22,7 +22,10 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
+import PendingIcon from '@mui/icons-material/Pending';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useTheme } from "@mui/material/styles";
 import MobileStepper from "@mui/material/MobileStepper";
 import Paper from "@mui/material/Paper";
@@ -40,6 +43,7 @@ import {
   REMOVE_FRIEND_REQUEST,
   REMOVE_FRIEND,
 } from "../../utils/mutations";
+import PersonAdd from "@mui/icons-material/PersonAdd";
 
 export default function CommunityCard({ user, index, refetchCommunity }) {
   const [sendRequest] = useMutation(SEND_FRIEND_REQUEST);
@@ -59,7 +63,35 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
     });
     refetchCommunity();
   };
-
+  const confirmAlert = () => {
+    swal.fire({
+      title: "Are you sure you want to remove friend?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, remove!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleRemoveFriend();
+        swalWithBootstrapButtons.fire({
+          title: "Removed Friend",
+          timer: 1500,
+          icon: "success",
+          showConfirmButton: false
+        });
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 1000
+        });
+      }
+    });
+  }
   const removeFriendRequest = async () => {
     console.log("removing request");
     const removingRequest = await removeRequest({
@@ -104,10 +136,10 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
     buttonStyler = 4;
   }
   return (
-    <Card sx={{ maxWidth: 345 }} key={index}>
+    <Card sx={{ width: 250 }} key={index}>
       <CardHeader
-        //   action={<EditProfileModal refetch = {refetch} profilePicURL = {user.profilePicURL} />}
         title={user.username}
+        action = {buttonStyler === 1 ? <HowToRegIcon sx = {{color: "green"}} />: buttonStyler===2 ? <PendingIcon sx = {{color: "gray"}}/>: buttonStyler ===3 ?<NewReleasesIcon sx = {{color: "red"}} /> : <PersonAddIcon sx = {{color: "secondary.light"}}/> }
       />
       <CardMedia
         component="img"
@@ -115,26 +147,22 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
         image={user.profilePicURL}
         alt="Paella dish"
       />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {user.email}
-        </Typography>
-      </CardContent>
+      <Box sx = {{display: "flex", justifyContent: "center", p:2}}>
       {buttonStyler === 1 ? (
         <Button
           variant="contained"
           sx={{ background: "green" }}
-          onClick={handleRemoveFriend}
+          onClick={confirmAlert}
         >
           Your Friend
         </Button>
       ) : buttonStyler === 2 ? (
         <Button
           variant="contained"
-          sx={{ background: "purple" }}
+          sx={{ background: "gray" }}
           onClick={removeFriendRequest}
         >
-          Waiting their response
+          Request Pending
         </Button>
       ) : buttonStyler === 3 ? (
         <Button
@@ -145,10 +173,15 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
           Accept Friend Request
         </Button>
       ) : (
-        <Button variant="outlined" onClick={sendFriendRequest}>
+        <Button 
+          color = "primary"
+          sx={{ bgcolor: "secondary.light" }}
+          variant="contained" 
+          onClick={sendFriendRequest}>
           Send Friend Request
         </Button>
       )}
+      </Box>
     </Card>
   );
 }
