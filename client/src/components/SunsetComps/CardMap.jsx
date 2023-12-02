@@ -128,7 +128,7 @@ export default function CardMap({data, cat, refetchPageLocs}) {
     </Box>
    <Grid container spacing={2}  sx = {{ paddingTop: 0}}>
          {data.map((location, index) => (
-          <Grid item key = {index} xs={12} md={4} lg = {3} sx = {{display: "flex", justifyContent: 'center', p: 2}}>
+          <Grid className = "noPaddingGrid" item key = {index} xs={12} md={4} lg = {3} sx = {{display: "flex", justifyContent: 'center', p: 2}}>
              <SingleCard location = {location} index = {index} cat = {cat} refetchPageLocs = {refetchPageLocs}/>
           </Grid>
      ))}

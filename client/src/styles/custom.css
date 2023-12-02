@@ -63,7 +63,8 @@ background: #201824;
     height: 100%;
 }
 .css-1g2s0uz-MuiGrid-root{
-    padding: 0px;
+    padding-right: 0px !important;
+    padding-bottom: 0px !important;
 }
 /* CHAT PAGE */
 .myText {
