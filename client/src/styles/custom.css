@@ -62,7 +62,9 @@ background: #201824;
     background-position: center;
     height: 100%;
 }
-
+.css-1g2s0uz-MuiGrid-root{
+    padding: 0px;
+}
 /* CHAT PAGE */
 .myText {
     color: white;
