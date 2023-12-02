@@ -103,7 +103,7 @@ export default function Community() {
         return <div>{error.message}</div>;
       }
     return (
-        <div className = "pageBackground">Meet the Foco Fun Community
+        <div className = "pageBackground">
           <Typography sx = {{ml:5, mb:0, color: "white", fontSize: {xs: "2rem", sm: "3rem", lg: "3rem"}}}>Meet the Foco Fun Community</Typography>
           <Grid container spacing={2}  sx = {{paddingTop: 0}}>
           {data.users.map((user, index) => (

@@ -20,7 +20,7 @@ let { data, loading, err } = useQuery(QUERY_MATCH_MESSAGES, {
     variables: {
         matchId: activeChat,
     },
-    // pollInterval: 500
+    pollInterval: 500
 });
 //useMutations
 const [createMessage] = useMutation(CREATE_MESSAGE);
