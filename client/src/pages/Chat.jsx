@@ -36,7 +36,17 @@ export default function ResponsiveDrawer(props) {
   const { error, loading, data, refetch } = useQuery(QUERY_SELF_PROFILE, {
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
-        console.log(data.me.matches)
+      if(data.me.matches.length > 0){
+          setActiveChat(data.me.matches[0]._id)
+      }else{
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No Friends Yet!",
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
     },
   });
   const handleDrawerToggle = () => {
@@ -68,7 +78,8 @@ export default function ResponsiveDrawer(props) {
   }
   return (
     <>
-    <Box sx={{ display: 'flex' }}>
+    <div className = "chatBackground">
+    <Box sx={{ display: 'flex',height: "100%" }}>
       
       <Box
         component="nav"
@@ -112,11 +123,12 @@ export default function ResponsiveDrawer(props) {
           </IconButton>
       <Box
         component="main"
-        sx={{ border: ".2rem solid red", height: "70vh", flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, display: "flex", flexDirection: "column", justifyContent: "space-between" }}
+        sx={{ height: "80%", flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, display: "flex", flexDirection: "column", justifyContent: "space-between" }}
       >
           {activeChat !== "" ? <ActiveChat activeChat = {activeChat}/> : <></>}
       </Box>
     </Box>
+    </div>
     </>
   );
 }

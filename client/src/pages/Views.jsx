@@ -45,7 +45,7 @@ export default function Bars() {
   }
   return (
     <>
-      <CardMap data = {data.viewsLocations} cat = {cat} />
+      <CardMap data = {data.viewsLocations} cat = {cat} refetchPageLocs={refetch} />
     </>
   );
 }

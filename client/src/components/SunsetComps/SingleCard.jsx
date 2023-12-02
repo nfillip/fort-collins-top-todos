@@ -54,7 +54,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function SingleCard({location, index, cat}) {
+export default function SingleCard({location, index, cat, refetchPageLocs}) {
     const theme = useTheme();
     const [activeStep, setActiveStep] = useState(0);
     const [expanded, setExpanded] = React.useState(false);
@@ -220,7 +220,7 @@ return (
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                   <CardContent>
                     <Typography paragraph>{location.name} Blog:</Typography>
-                    <Blog  location = {location} />
+                    <Blog  location = {location} refetchPageLocs = {refetchPageLocs} />
                   </CardContent>
                 </Collapse>
               </Card>

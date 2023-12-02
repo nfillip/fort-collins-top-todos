@@ -37,7 +37,7 @@ export default function DrawerInfo({matches, activeChat, setActiveChat}) {
       <Divider />
       <List>
           <ListItem  key="title" disablePadding> 
-          <ListItemText primary= "ALL MATCHES" />
+          <ListItemText primary= "CHAT WITH FRIENDS" />
           </ListItem>
       </List>
       <Divider />

@@ -27,7 +27,7 @@ import EditLocationModal from "./EditLocModal"
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
 //Export function
-export default function Blog({location}) {
+export default function Blog({location, refetchPageLocs}) {
     //useStates
     const [newBlog, setNewBlog] = useState("")
     const [open, setOpen] = useState(false);
@@ -70,6 +70,7 @@ export default function Blog({location}) {
     const handleClose = () => {
       setOpen(false);
     };
+
     const handleBlogPost = async() => {
     try{
         if(Auth.loggedIn()){
@@ -79,7 +80,18 @@ export default function Blog({location}) {
                     messageText: newBlog
                 }
             })
-            setTimeout(handleClose, 2000)
+            // setTimeout(handleClose, 2000)
+            if(addNewPost){
+              Swal.fire({
+                icon: "success",
+                title: "Post Added",
+                showConfirmButton: false,
+                timer: 2000
+              });
+            }
+            refetchPageLocs();
+            handleClose();
+            setNewBlog("")
         }else{
             Swal.fire({
                 icon: "error",
@@ -102,24 +114,30 @@ export default function Blog({location}) {
         e.stopPropagation();
         e.preventDefault();
     }
-
+console.log(location.blog)
   return (
     <>
     <Box sx = {{display: "flex", flexDirection: "column", alignItems: "start"}}>
         {location.blog.toReversed().map((blogMessage, index) => (
             <>
-            {blogMessage.user ? (<><Avatar src= {blogMessage.user.profilePicURL} />
-            <Typography>{blogMessage.user.username}{blogMessage.messageText}{blogMessage.createdAt}</Typography></>) : (<Typography>{blogMessage.messageText}{blogMessage.createdAt}</Typography>)}
+            {blogMessage.user ? (<>
+            <Box key = {index} sx = {{mb:1, border: ".1rem solid purple", width: "100%", borderRadius:1}}>
+            <Box sx = {{m:1, display:"flex", alignItems: "center"}}><Avatar sx = {{mr:1}}src= {blogMessage.user.profilePicURL} />
+            <Typography >{blogMessage.user.username} ({blogMessage.createdAt})  </Typography></Box>
+            <Typography sx = {{m:1}}>{blogMessage.messageText}</Typography>
+            </Box>
+            </>) : (<Typography key = {index}>{blogMessage.messageText}{blogMessage.createdAt}</Typography>)}
             </>
         ))}
     </Box>
         
-      <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-    </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around'}}>
+    
       <Button variant="contained" onClick={handleClickOpen}>
         Post to Blog
       </Button>
       <EditLocationModal id = {location._id}/>
+      </Box>
       <Dialog open={open} onClose={handleClose} onClick = {preventBubbling}>
         <DialogTitle>Post to Blog</DialogTitle>
         <DialogContent>

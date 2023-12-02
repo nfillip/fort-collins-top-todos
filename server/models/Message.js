@@ -8,7 +8,7 @@ const messageSchema = new Schema({
     createdAt: {
         type: Date, 
         default: Date.now, 
-        get: (date => {return date.toString()})
+        get: (date => {return date.toLocaleDateString('en-GB')})
     },
     messageText: {
         type: String,

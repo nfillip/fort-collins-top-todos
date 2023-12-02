@@ -40,7 +40,6 @@ export default function Sunset() {
 
   const { data, loading, error, refetch } = useQuery(SUNSET_LOCATIONS,{
     fetchPolicy: 'network-only',
-    pollInterval: 500
   });
 
   if (loading) return <span>...loading</span>;
@@ -48,9 +47,10 @@ export default function Sunset() {
     console.log(error);
     return `Error! ${error.message}`;
   }
+  console.log(data.sunsetLocations)
   return (
       <>
-      <CardMap data = {data.sunsetLocations} cat = {cat}/>
+      <CardMap data = {data.sunsetLocations} cat = {cat} refetchPageLocs = {refetch}/>
       </>
   );
 }

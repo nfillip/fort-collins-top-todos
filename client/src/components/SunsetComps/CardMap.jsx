@@ -66,12 +66,18 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function CardMap({data, cat}) {
+export default function CardMap({data, cat, refetchPageLocs}) {
     const theme = useTheme();
     const [activeStep, setActiveStep] = useState(0);
     const [expanded, setExpanded] = React.useState(false);
     const navigate = useNavigate();
-    const titleLine = `BEST ${cat}S`.toUpperCase()
+    let titleLine = ``
+    if(cat == "saved"){
+      titleLine = `SAVED LOCATIONS`
+    }else{
+      titleLine = `BEST ${cat}S`.toUpperCase()
+    }
+    
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -113,17 +119,17 @@ export default function CardMap({data, cat}) {
     return (
       <>
   <div className = "pageBackground">
-    <Box sx = {{display: "flex", flexDirection: {xs: "column", sm: "column", md: "row"}, justifyContent: "space-between", alignItems: {xs: "start", sm: "start", md: "center"}, border:".2rem solid red"}}>
+    <Box sx = {{display: "flex", flexDirection: {xs: "column", sm: "column", md: "row"}, justifyContent: "space-between", alignItems: {xs: "start", sm: "start", md: "center"}}}>
       <Box>
       <Typography className = "pageTitle" sx = {{ml:5, mb:0, color: "white", fontSize: {xs: "2rem", sm: "3rem", lg: "3rem"}}}>{titleLine}</Typography>
-      <Typography className = "pageTitle" sx = {{ml:5, mb:2, color: "white", fontSize: {xs: "1.5rem", sm:"2.5rem", lg: "2.5rem"}}}>Fort Collins</Typography>
+      <Typography className = "pageTitle" sx = {{ml:5, mb:0, color: "white", fontSize: {xs: "1.5rem", sm:"2.5rem", lg: "2.5rem"}}}>Fort Collins</Typography>
       </Box>
       <AddLocationModal />
     </Box>
-   <Grid container spacing={2}  sx = {{border: '.2rem solid pink', paddingTop: 0}}>
+   <Grid container spacing={2}  sx = {{paddingTop: 0}}>
          {data.map((location, index) => (
-          <Grid item key = {index} xs={12} md={4} lg = {3} sx = {{display: "flex", border: '.2rem solid green', justifyContent: 'center', p: 2}}>
-             <SingleCard location = {location} index = {index} cat = {cat} />
+          <Grid item key = {index} xs={12} md={4} lg = {3} sx = {{display: "flex", justifyContent: 'center', p: 2}}>
+             <SingleCard location = {location} index = {index} cat = {cat} refetchPageLocs = {refetchPageLocs}/>
           </Grid>
      ))}
    </Grid>

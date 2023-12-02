@@ -45,7 +45,7 @@ export default function Restaurants() {
   }
   return (
     <>
-      <CardMap data = {data.restaurantLocations} cat = {cat} />
+      <CardMap data = {data.restaurantLocations} cat = {cat} refetchPageLocs={refetch} />
     </>
   );
 }

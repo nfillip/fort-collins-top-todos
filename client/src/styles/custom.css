@@ -1,7 +1,10 @@
 
+#root {
+    height:100%;
+}
 body {
-/* background: rgb(45, 44, 44); */
-background: #201824
+height:100vh;
+background: #201824;
   }
 
 /* HEADER */
@@ -46,11 +49,20 @@ background: #201824
     background-size: cover;
     background-repeat:no-repeat;
     background-position: center;
-    min-height: 100vh;
+    min-height: 100%;
+
 }
-.pageTitle {
-    color: blue;
+.activeChatBackground {
+    background: rgb(163,173,209,0.4)
 }
+.chatBackground {
+    background-image: url(../assets/social.avif);
+    background-size: cover;
+    background-repeat:no-repeat;
+    background-position: center;
+    height: 100%;
+}
+
 /* CHAT PAGE */
 .myText {
     color: white;
@@ -59,13 +71,14 @@ background: #201824
 }
 .theirText {
     align-items: start;
+    color: white;
 }
 .myBubble {
     color: white;
-    background-color: #45235f;
+    background-color: #613186;
 }
 .theirBubble {
-background-color: rgb(162, 161, 161);
+background-color: rgb(148, 16, 148);
 }
 .homeP {
     color: white;
@@ -73,7 +86,8 @@ background-color: rgb(162, 161, 161);
     padding: 0px;
 }
 .activeChat {
-    border: .2rem solid purple
+    border: .2rem solid purple;
+    border-radius: 5px;
 }
 
 /* Sweet Alert */

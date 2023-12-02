@@ -152,7 +152,7 @@ export default function AddLocationModal() {
       <Button
         variant="contained"
         onClick={handleClickOpen}
-        sx={{ height: 50, m: 5 }}
+        sx={{ height: 50,ml:5,mb:1,mr:5, mt: {xs: 0, sm: 0 , md: 5, lg:5} }}
       >
         Add A Location
       </Button>

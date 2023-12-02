@@ -104,10 +104,10 @@ export default function Community() {
       }
     return (
         <div className = "pageBackground">Meet the Foco Fun Community
-          <Typography sx = {{mb:2, color: "white"}}>Meet the Foco Fun Community</Typography>
-          <Grid container spacing={2}  sx = {{border: '.2rem solid pink', paddingTop: 0}}>
+          <Typography sx = {{ml:5, mb:0, color: "white", fontSize: {xs: "2rem", sm: "3rem", lg: "3rem"}}}>Meet the Foco Fun Community</Typography>
+          <Grid container spacing={2}  sx = {{paddingTop: 0}}>
           {data.users.map((user, index) => (
-            <Grid item key = {index} xs={12} md={4} lg = {3} sx = {{display: "flex", border: '.2rem solid green', justifyContent: 'center', p: 2}}>
+            <Grid item key = {index} xs={12} md={4} lg = {3} sx = {{display: "flex", justifyContent: 'center', p: 2}}>
               <CommunityCard user = {user} index = {index} refetchCommunity = {refetch} />
             </Grid>
           

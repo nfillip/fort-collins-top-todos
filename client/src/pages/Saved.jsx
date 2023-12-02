@@ -49,7 +49,6 @@ export default function Saved() {
   }
   return (
     <>
-      <div>Best Bars in Fort Collins</div>
       <CardMap data = {data.me.savedLocations} cat = {cat} />
     </>
   );

@@ -20,7 +20,7 @@ export default function Bars() {
   }
   return (
     <>
-      <CardMap data = {data.barsLocations} cat = {cat} />
+      <CardMap data = {data.barsLocations} cat = {cat} refetchPageLocs={refetch}/>
     </>
   );
 }
