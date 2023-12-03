@@ -1,40 +1,17 @@
 //react imports
-import React, { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import { useNavigate, useLocation } from "react-router-dom";
-
+import React from "react";
+import { useMutation } from "@apollo/client";
 //MUI imports
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
 import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PendingIcon from '@mui/icons-material/Pending';
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import PendingIcon from "@mui/icons-material/Pending";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useTheme } from "@mui/material/styles";
-import MobileStepper from "@mui/material/MobileStepper";
-import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 //local imports
 import Auth from "../../utils/auth";
 import {
@@ -43,9 +20,9 @@ import {
   REMOVE_FRIEND_REQUEST,
   REMOVE_FRIEND,
 } from "../../utils/mutations";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 
 export default function CommunityCard({ user, index, refetchCommunity }) {
+  // useMutations
   const [sendRequest] = useMutation(SEND_FRIEND_REQUEST);
   const [acceptRequest] = useMutation(ACCEPT_FRIEND_REQUEST);
   const [removeRequest] = useMutation(REMOVE_FRIEND_REQUEST);
@@ -54,6 +31,7 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
 
   let buttonStyler = 0;
 
+  //send friend request
   const sendFriendRequest = async () => {
     console.log("sending request");
     const sendingRequest = await sendRequest({
@@ -63,35 +41,39 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
     });
     refetchCommunity();
   };
+
+  //confirm removing friend
   const confirmAlert = () => {
-    swal.fire({
-      title: "Are you sure you want to remove friend?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, remove!",
-      cancelButtonText: "No, cancel!",
-      reverseButtons: true
-    }).then((result) => {
-      if (result.isConfirmed) {
-        handleRemoveFriend();
-        swalWithBootstrapButtons.fire({
-          title: "Removed Friend",
-          timer: 1500,
-          icon: "success",
-          showConfirmButton: false
-        });
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire({
-          title: "Cancelled",
-          icon: "error",
-          showConfirmButton: false,
-          timer: 1000
-        });
-      }
-    });
-  }
+    swal
+      .fire({
+        title: "Are you sure you want to remove friend?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, remove!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          handleRemoveFriend();
+          swalWithBootstrapButtons.fire({
+            title: "Removed Friend",
+            timer: 1500,
+            icon: "success",
+            showConfirmButton: false,
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire({
+            title: "Cancelled",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        }
+      });
+  };
+
+  //remove friend request
   const removeFriendRequest = async () => {
     console.log("removing request");
     const removingRequest = await removeRequest({
@@ -102,6 +84,7 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
     refetchCommunity();
   };
 
+  //accept friend request
   const acceptFriendRequest = async () => {
     console.log("sending reqeust");
     const acceptF = await acceptRequest({
@@ -112,6 +95,7 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
     refetchCommunity();
   };
 
+  //remove friend
   const handleRemoveFriend = async () => {
     console.log("removing friend");
     const removingFriend = await removeFriend({
@@ -122,6 +106,7 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
     refetchCommunity();
   };
 
+  //determine which card icon to style card with
   if (user.friends.find((o) => o._id === Auth.getProfile().data._id)) {
     buttonStyler = 1;
   } else if (
@@ -139,7 +124,17 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
     <Card sx={{ width: 250 }} key={index}>
       <CardHeader
         title={user.username}
-        action = {buttonStyler === 1 ? <HowToRegIcon sx = {{color: "green"}} />: buttonStyler===2 ? <PendingIcon sx = {{color: "gray"}}/>: buttonStyler ===3 ?<NewReleasesIcon sx = {{color: "red"}} /> : <PersonAddIcon sx = {{color: "secondary.light"}}/> }
+        action={
+          buttonStyler === 1 ? (
+            <HowToRegIcon sx={{ color: "green" }} />
+          ) : buttonStyler === 2 ? (
+            <PendingIcon sx={{ color: "gray" }} />
+          ) : buttonStyler === 3 ? (
+            <NewReleasesIcon sx={{ color: "red" }} />
+          ) : (
+            <PersonAddIcon sx={{ color: "secondary.light" }} />
+          )
+        }
       />
       <CardMedia
         component="img"
@@ -147,40 +142,41 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
         image={user.profilePicURL}
         alt="Paella dish"
       />
-      <Box sx = {{display: "flex", justifyContent: "center", p:2}}>
-      {buttonStyler === 1 ? (
-        <Button
-          variant="contained"
-          sx={{ background: "green" }}
-          onClick={confirmAlert}
-        >
-          Your Friend
-        </Button>
-      ) : buttonStyler === 2 ? (
-        <Button
-          variant="contained"
-          sx={{ background: "gray" }}
-          onClick={removeFriendRequest}
-        >
-          Request Pending
-        </Button>
-      ) : buttonStyler === 3 ? (
-        <Button
-          sx={{ background: "purple" }}
-          variant="contained"
-          onClick={acceptFriendRequest}
-        >
-          Accept Friend Request
-        </Button>
-      ) : (
-        <Button 
-          color = "primary"
-          sx={{ bgcolor: "secondary.light" }}
-          variant="contained" 
-          onClick={sendFriendRequest}>
-          Send Friend Request
-        </Button>
-      )}
+      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
+        {buttonStyler === 1 ? (
+          <Button
+            variant="contained"
+            sx={{ background: "green" }}
+            onClick={confirmAlert}
+          >
+            Your Friend
+          </Button>
+        ) : buttonStyler === 2 ? (
+          <Button
+            variant="contained"
+            sx={{ background: "gray" }}
+            onClick={removeFriendRequest}
+          >
+            Request Pending
+          </Button>
+        ) : buttonStyler === 3 ? (
+          <Button
+            sx={{ background: "purple" }}
+            variant="contained"
+            onClick={acceptFriendRequest}
+          >
+            Accept Friend Request
+          </Button>
+        ) : (
+          <Button
+            color="primary"
+            sx={{ bgcolor: "secondary.light" }}
+            variant="contained"
+            onClick={sendFriendRequest}
+          >
+            Send Friend Request
+          </Button>
+        )}
       </Box>
     </Card>
   );

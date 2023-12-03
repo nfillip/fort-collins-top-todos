@@ -1,11 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useState } from "react";
+import { useQuery} from "@apollo/client";
 import { QUERY_SELF_PROFILE } from "../../utils/queries";
 import { useTheme } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { deepPurple, orange } from "@mui/material/colors";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -38,8 +36,7 @@ function Header() {
     onCompleted: (data) => {
       setImageId(data.me.profilePicURL);
       setProfileUsername(data.me.username);
-    },
-    // pollInterval: 500
+    }
   });
   const navigate = useNavigate();
 
@@ -98,7 +95,6 @@ function Header() {
           refetch();
           navigate("/");
         } else if (
-          /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
         ) {
           swalWithBootstrapButtons.fire({

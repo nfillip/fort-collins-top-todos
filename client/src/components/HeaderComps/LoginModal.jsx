@@ -19,6 +19,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import Popper from "@mui/material/Popper";
+import Fade from "@mui/material/Fade";
+import Paper from "@mui/material/Paper";
 //Cloudinary
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
@@ -35,6 +38,10 @@ export default function LoginModal({ refetchHeader }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [pwErrorMessage, setPwErrorMessage] = useState("");
   const [unErrorMessage, setUnErrorMessage] = useState("");
+   //popper
+   const [anchorEl, setAnchorEl] = useState(null);
+   const [openPopper, setOpenPopper] = useState(false);
+   const [placement, setPlacement] = useState("top");
   //useMutations
   const [login] = useMutation(LOGIN);
   const [signUp] = useMutation(CREATE_USER);
@@ -66,11 +73,13 @@ export default function LoginModal({ refetchHeader }) {
 
   // Instantiate a CloudinaryImage object for the image with the public ID, 'docs/models'.
   const myImage = cld.image(imageURL);
-  //functions
+  
+  // open login modal
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  // close login modal
   const handleClose = () => {
     setOpen(false);
     setPassword("");
@@ -78,8 +87,8 @@ export default function LoginModal({ refetchHeader }) {
     setUsername("");
   };
 
+  // ensure when enter is pressed, modal form submits
   const handleKeyDown = (e) => {
-    console.log(e.code);
     if (e.code === "Enter" && logOrSign === "login") {
       handleLogin();
     } else if (e.code === "Enter" && logOrSign === "signup") {
@@ -99,7 +108,11 @@ export default function LoginModal({ refetchHeader }) {
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
-  const handleLogin = async () => {
+
+  // attempt login
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setAnchorEl(e.currentTarget);
     try {
       const { data } = await login({
         variables: {
@@ -117,10 +130,17 @@ export default function LoginModal({ refetchHeader }) {
       Auth.login(data.login.token);
       refetchHeader();
     } catch (err) {
+      console.log("Hey")
+      setOpenPopper(!openPopper);
+      setPlacement("top");
+      setTimeout(() => {
+        setOpenPopper(false);
+      }, 2000);
       console.error(err);
     }
   };
 
+  // attempt sign up and create user
   const handleSignup = async () => {
     if (validateEmail(email) && validatePassword(password)) {
       try {
@@ -147,6 +167,7 @@ export default function LoginModal({ refetchHeader }) {
     }
   };
 
+  // set useStates of form inputs
   const handleInputChange = async (e) => {
     const { target } = e;
     const inputType = target.type;
@@ -249,6 +270,23 @@ export default function LoginModal({ refetchHeader }) {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
+              <Popper
+            sx={{ zIndex: "100001" }}
+            open={openPopper}
+            anchorEl={anchorEl}
+            placement="top"
+            transition
+          >
+            {({ TransitionProps }) => (
+              <Fade {...TransitionProps} timeout={350}>
+                <Paper>
+                  <Typography sx={{ p: 2, color: "red" }}>
+                    Invalid credentials
+                  </Typography>
+                </Paper>
+              </Fade>
+            )}
+          </Popper>
               <Button onClick={handleLogin}>Login</Button>
             </DialogActions>
           </>
