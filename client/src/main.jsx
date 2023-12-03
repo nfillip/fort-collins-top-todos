@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import './index.css'
-
 import App from './App.jsx'
 import Home from './pages/Home.jsx'
 import Sunset from './pages/Sunset.jsx'
@@ -11,10 +9,8 @@ import Bars from './pages/Bars.jsx'
 import Views from './pages/Views.jsx'
 import Restaurants from './pages/Restaurants.jsx'
 import Saved from './pages/Saved.jsx'
-import SingleLocation from './pages/SingleLocation.jsx'
 import Community from "./pages/Community.jsx"
 import Chat from "./pages/Chat.jsx"
-import Test from "./pages/Test.jsx"
 import Error from "./pages/Error.jsx"
 const router = createBrowserRouter([
 	{
@@ -57,10 +53,6 @@ const router = createBrowserRouter([
 			{
 				path: "chat",
 				element: <Chat />
-			},
-			{
-				path: "test",
-				element: <Test />
 			},
 			{
 				path: "error",

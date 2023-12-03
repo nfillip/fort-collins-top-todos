@@ -1,10 +1,6 @@
-import React, { useState } from "react";
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import backgroundVertImg from '../assets/social.avif'
+import React from "react";
 import '../styles/custom.css'
+
 export default function LandingPage() {
     return (
         <React.Fragment>
@@ -13,10 +9,7 @@ export default function LandingPage() {
                     <p className = "homeP" >Fort Collins</p>
                     <p className = "homeP">101</p>
                 </div>
-                
-                
             </div>
-
         </React.Fragment>
       );
 }

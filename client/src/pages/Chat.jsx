@@ -1,24 +1,10 @@
 //react imports
 import * as React from 'react';
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery} from "@apollo/client";
 //mui imports
-import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 //local imports
 import {QUERY_SELF_PROFILE} from "../utils/queries"
@@ -26,6 +12,7 @@ import Auth from "../utils/auth";
 import DrawerInfo from "../components/ChatComps/DrawerInfo.jsx"
 import ActiveChat from "../components/ChatComps/ActiveChat.jsx"
 import LoadingComp from "../components/LoadingComp/LoadingComp"
+import Error from "./Error.jsx"
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -37,6 +24,7 @@ export default function ResponsiveDrawer(props) {
   const { error, loading, data, refetch } = useQuery(QUERY_SELF_PROFILE, {
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
+      // fire a modal if user has no friends
       if(data.me.matches.length > 0){
           setActiveChat(data.me.matches[0]._id)
       }else{
@@ -53,6 +41,7 @@ export default function ResponsiveDrawer(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  // determine which user in Match is the logged in user
  const matches = data?.me.matches.map((match)=> {
     const {_id, user1,user2, messages} = match
     const matchId = _id;
@@ -73,19 +62,18 @@ export default function ResponsiveDrawer(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
   if (loading) return <LoadingComp />;
   if (error) {
-    return <div>{error.message}</div>;
+    console.error(error);
+    return <Error />;
   }
   return (
     <>
     <div className = "chatBackground">
     <Box sx={{ display: 'flex',height: "100%" }}>
-      
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"

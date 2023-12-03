@@ -1,5 +1,3 @@
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-
 //react imports
 import React, { useState, useRef, useEffect } from "react";
 import { useMutation } from "@apollo/client";
@@ -11,7 +9,7 @@ import {
   validatePassword,
   validateUsername,
 } from "../../utils/validators.js";
-//MatUI imports
+//MUI imports
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -21,12 +19,13 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import Typography from "@mui/material/Typography";
-import Popper from '@mui/material/Popper';
-import Fade from '@mui/material/Fade';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Popper from "@mui/material/Popper";
+import Fade from "@mui/material/Fade";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 //Cloudinary
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
@@ -106,7 +105,12 @@ export default function EditProfileModal({ refetch, profilePicURL }) {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      if ((!errorMessage && !pwErrorMessage && !unErrorMessage) && (email !== "" || password !== "" || username !== ""||imageURL !== "")) {
+      if (
+        !errorMessage &&
+        !pwErrorMessage &&
+        !unErrorMessage &&
+        (email !== "" || password !== "" || username !== "" || imageURL !== "")
+      ) {
         console.log(newUserData);
         const data = await editProfile({
           variables: {
@@ -117,18 +121,18 @@ export default function EditProfileModal({ refetch, profilePicURL }) {
         handleClose();
         refetch();
         setNewUserData({});
-        setImageURL("")
+        setImageURL("");
         setImageID("");
         setEmail("");
-        setPassword("")
-        setUsername("")
-        } else {
+        setPassword("");
+        setUsername("");
+      } else {
         setAnchorEl(e.currentTarget);
         setOpenPopper(!openPopper);
         setPlacement("top");
         setTimeout(() => {
-          setOpenPopper(false)
-        }, 2000)
+          setOpenPopper(false);
+        }, 2000);
       }
     } catch (err) {
       console.error(err);
@@ -267,15 +271,23 @@ export default function EditProfileModal({ refetch, profilePicURL }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Popper sx = {{zIndex: "100001"}}open={openPopper} anchorEl={anchorEl} placement= "top" transition>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Paper>
-              <Typography sx={{ p: 2, color: "red"}}>Invalid credentials</Typography>
-            </Paper>
-          </Fade>
-        )}
-      </Popper>
+          <Popper
+            sx={{ zIndex: "100001" }}
+            open={openPopper}
+            anchorEl={anchorEl}
+            placement="top"
+            transition
+          >
+            {({ TransitionProps }) => (
+              <Fade {...TransitionProps} timeout={350}>
+                <Paper>
+                  <Typography sx={{ p: 2, color: "red" }}>
+                    Invalid credentials
+                  </Typography>
+                </Paper>
+              </Fade>
+            )}
+          </Popper>
           <Button onClick={handleUpdate}>Update</Button>
         </DialogActions>
       </Dialog>

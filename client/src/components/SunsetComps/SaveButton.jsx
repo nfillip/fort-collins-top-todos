@@ -1,7 +1,6 @@
 //react imports
 import React, { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-
 //MUI imports
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
@@ -11,7 +10,7 @@ import Auth from "../../utils/auth";
 import { QUERY_SELF_PROFILE } from "../../utils/queries";
 import { SAVE_LOCATION, UNSAVE_LOCATION } from "../../utils/mutations";
 
-export default function SaveButton({location, cat}) {
+export default function SaveButton({ location, cat }) {
   //useStates
   const [active, setActive] = useState(false);
   //useMutations
@@ -29,35 +28,35 @@ export default function SaveButton({location, cat}) {
       }
       isSaved ? setActive(true) : setActive(false);
     },
-    fetchPolicy: 'network-only'
+    fetchPolicy: "network-only",
   });
 
-  //click functions
-  //save location
+  //add location to user profile: savedLocations
   const handleSave = async (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if(Auth.loggedIn()){
+    if (Auth.loggedIn()) {
       const saveTheLocation = await saveLocation({
-      variables: {
-        locationId: location._id,
-      },
-    });
-    console.log(saveTheLocation);
-    setActive(!active);
-    }else {
+        variables: {
+          locationId: location._id,
+        },
+      });
+      console.log("saved location");
+      setActive(!active);
+    } else {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Only logged in users can save locations!",
         showConfirmButton: false,
-        timer: 2000
+        timer: 2000,
       });
     }
   };
-  //unsave location
-  const handleUnSave = async (e) => 
-  { e.stopPropagation();
+
+  //remove location from user profile: savedLocations
+  const handleUnSave = async (e) => {
+    e.stopPropagation();
     e.preventDefault();
     try {
       const unSaveTheLocation = await unSaveLocation({
@@ -73,23 +72,31 @@ export default function SaveButton({location, cat}) {
   };
   return (
     <>
-      {active ? (<>
-        {cat === "saved"?<IconButton disabled aria-label="settings" onClick={handleUnSave}>
-        <BookmarkIcon sx={{ color: "purple" }} />
-      </IconButton> : <IconButton aria-label="settings" onClick={handleUnSave}>
-        <BookmarkIcon sx={{ color: "purple" }} />
-      </IconButton>}
-      </>
+      {active ? (
+        <>
+          {cat === "saved" ? (
+            <IconButton disabled aria-label="settings" onClick={handleUnSave}>
+              <BookmarkIcon sx={{ color: "purple" }} />
+            </IconButton>
+          ) : (
+            <IconButton aria-label="settings" onClick={handleUnSave}>
+              <BookmarkIcon sx={{ color: "purple" }} />
+            </IconButton>
+          )}
+        </>
       ) : (
         <>
-        {cat === "saved" ?<IconButton disabled aria-label="settings" onClick={handleSave}>
-        <BookmarkBorderIcon />
-      </IconButton> : <IconButton aria-label="settings" onClick={handleSave}>
-          <BookmarkBorderIcon />
-        </IconButton> }
+          {cat === "saved" ? (
+            <IconButton disabled aria-label="settings" onClick={handleSave}>
+              <BookmarkBorderIcon />
+            </IconButton>
+          ) : (
+            <IconButton aria-label="settings" onClick={handleSave}>
+              <BookmarkBorderIcon />
+            </IconButton>
+          )}
         </>
-      )
-      }
-  </>
+      )}
+    </>
   );
 }
