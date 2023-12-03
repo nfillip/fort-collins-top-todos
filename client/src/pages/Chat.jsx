@@ -25,6 +25,7 @@ import {QUERY_SELF_PROFILE} from "../utils/queries"
 import Auth from "../utils/auth";
 import DrawerInfo from "../components/ChatComps/DrawerInfo.jsx"
 import ActiveChat from "../components/ChatComps/ActiveChat.jsx"
+import LoadingComp from "../components/LoadingComp/LoadingComp"
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -70,9 +71,7 @@ export default function ResponsiveDrawer(props) {
 }) || [];
   // Remove this const when copying and pasting into your project.
   const container = window !== undefined ? () => window().document.body : undefined;
-  if (loading) {
-    return <span className="loading loading-ball loading-lg"></span>;
-  }
+  if (loading) return <LoadingComp />;
   if (error) {
     return <div>{error.message}</div>;
   }

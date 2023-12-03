@@ -31,7 +31,7 @@ import { autoPlay } from "react-swipeable-views-utils";
 import SaveButton from "../components/SunsetComps/SaveButton";
 import UpVoteButton from "../components/SunsetComps/UpVoteButton";
 import CardMap from "../components/SunsetComps/CardMap"
-
+import LoadingComp from "../components/LoadingComp/LoadingComp"
 export default function Saved() {
   const cat = "saved";
 
@@ -42,7 +42,7 @@ export default function Saved() {
     }
   });
 
-  if (loading) return <span>...loading</span>;
+  if (loading) return <LoadingComp />;
   if (error) {
     console.log(error);
     return `Error! ${error.message}`;

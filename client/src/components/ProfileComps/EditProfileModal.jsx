@@ -106,7 +106,7 @@ export default function EditProfileModal({ refetch, profilePicURL }) {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      if ((!errorMessage && !pwErrorMessage && !unErrorMessage) && (email !== "" || password !== "" || username !== "")) {
+      if ((!errorMessage && !pwErrorMessage && !unErrorMessage) && (email !== "" || password !== "" || username !== ""||imageURL !== "")) {
         console.log(newUserData);
         const data = await editProfile({
           variables: {
@@ -117,6 +117,11 @@ export default function EditProfileModal({ refetch, profilePicURL }) {
         handleClose();
         refetch();
         setNewUserData({});
+        setImageURL("")
+        setImageID("");
+        setEmail("");
+        setPassword("")
+        setUsername("")
         } else {
         setAnchorEl(e.currentTarget);
         setOpenPopper(!openPopper);

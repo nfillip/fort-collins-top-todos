@@ -23,6 +23,7 @@ import Button from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
 //local imports
 import EditProfileModal from "../components/ProfileComps/EditProfileModal"
+import LoadingComp from "../components/LoadingComp/LoadingComp"
 import {QUERY_SELF_PROFILE} from "../utils/queries"
 import {
   SEND_FRIEND_REQUEST,
@@ -118,9 +119,7 @@ export default function Profile() {
         const goToSaved = () => {
           navigate('/saved')
         }
-      if (loading) {
-        return <span className="loading loading-ball loading-lg"></span>;
-      }
+      if (loading) return <LoadingComp />;
       if (error) {
         return <div>{error.message}</div>;
       }

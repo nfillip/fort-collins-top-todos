@@ -15,10 +15,12 @@ import SingleLocation from './pages/SingleLocation.jsx'
 import Community from "./pages/Community.jsx"
 import Chat from "./pages/Chat.jsx"
 import Test from "./pages/Test.jsx"
+import Error from "./pages/Error.jsx"
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <App />,
+		errorElement: <Error />,
 		children: [
 			{
 				index: true,
@@ -49,10 +51,6 @@ const router = createBrowserRouter([
 				element: <Saved />
 			},
 			{
-				path: "singlelocation",
-				element: <SingleLocation />
-			},
-			{
 				path: "community",
 				element: <Community />
 			},
@@ -63,7 +61,11 @@ const router = createBrowserRouter([
 			{
 				path: "test",
 				element: <Test />
-			}
+			},
+			{
+				path: "error",
+				element: <Error />
+			},
 
 		],
 	},

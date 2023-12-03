@@ -11,8 +11,37 @@ background: #201824;
 .headNavLinks {
     text-decoration: none;
     list-style: none;
-    color:inherit
+    color:inherit;
+    width: 100%;
+    display: flex;
 }
+/* LOADING PAGE */
+.logo {
+    height: 9rem;
+    will-change: filter;
+    transition: filter 300ms;
+  }
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+  .logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+  }
+
+  @keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+      animation: logo-spin infinite 20s linear;
+    }
+  }
 /* HOME PAGE */
 .homeImage {
     width: 100%;
@@ -26,7 +55,6 @@ background: #201824;
     flex-direction: column;
     justify-content: start;
     align-items:center;
-    /* color: white; */
     
 }
 .homeTitle {

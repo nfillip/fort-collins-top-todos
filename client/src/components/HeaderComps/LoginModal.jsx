@@ -137,7 +137,13 @@ export default function LoginModal({refetchHeader}) {
         }
       });
       Auth.signUp(data.createUser.token)
-      window.location.reload();
+      Swal.fire({
+        title: `Welcome ${username}!`,
+        text: "You're signed in'!",
+        icon: "success"
+      });
+      refetchHeader();
+      // window.location.reload();
       handleClose();
     } catch (err) {
       console.error(err)

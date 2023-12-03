@@ -40,6 +40,7 @@ import Auth from "../utils/auth";
 import EditProfileModal from "../components/ProfileComps/EditProfileModal"
 import CommunityCard from "../components/CommunityComps/CommunityCard"
 import {ALL_USERS} from "../utils/queries"
+import LoadingComp from "../components/LoadingComp/LoadingComp"
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -96,9 +97,7 @@ export default function Community() {
       const openEditModal = () => {
 
       }
-      if (loading) {
-        return <span className="loading loading-ball loading-lg"></span>;
-      }
+      if (loading) return <LoadingComp />;
       if (error) {
         return <div>{error.message}</div>;
       }

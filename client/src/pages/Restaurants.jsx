@@ -31,14 +31,14 @@ import { autoPlay } from "react-swipeable-views-utils";
 import SaveButton from "../components/SunsetComps/SaveButton";
 import UpVoteButton from "../components/SunsetComps/UpVoteButton";
 import CardMap from "../components/SunsetComps/CardMap"
-
+import LoadingComp from "../components/LoadingComp/LoadingComp"
 export default function Restaurants() {
   const cat = "restaurant";
   const { data, loading, error, refetch } = useQuery(RESTAURANT_LOCATIONS,{
     fetchPolicy: 'network-only'
   });
 
-  if (loading) return <span>...loading</span>;
+  if (loading) return <LoadingComp />;
   if (error) {
     console.log(error);
     return `Error! ${error.message}`;

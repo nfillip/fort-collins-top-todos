@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 //local imports
 import { BARS_LOCATIONS } from "../utils/queries";
+import LoadingComp from "../components/LoadingComp/LoadingComp"
 //MUI imports
 import CardMap from "../components/SunsetComps/CardMap"
 
@@ -13,7 +14,7 @@ export default function Bars() {
     fetchPolicy: 'network-only'
   });
 
-  if (loading) return <span>...loading</span>;
+  if (loading) return <LoadingComp />;
   if (error) {
     console.log(error);
     return `Error! ${error.message}`;

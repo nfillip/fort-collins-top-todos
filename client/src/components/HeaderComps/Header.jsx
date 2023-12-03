@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
@@ -41,7 +41,7 @@ function Header() {
     },
     // pollInterval: 500
   })
-
+  const navigate = useNavigate();
 
   // Create a Cloudinary instance and set your cloud name.
 	const cld = new Cloudinary({
@@ -93,6 +93,9 @@ function Header() {
           showConfirmButton: false
         });
         Auth.logout();
+        refetch();
+        navigate('/')
+        
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
@@ -159,23 +162,23 @@ function Header() {
               }}
             >
               <MenuItem key="home" onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
+                <Typography textAlign="center"sx = {{display: "flex", width: "100%"}}>
                   <Link className = "headNavLinks" to="/sunset">Sunsets</Link>
                 </Typography>
               </MenuItem>
   
               <MenuItem key="views" onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
+                <Typography textAlign="center"sx = {{display: "flex", width: "100%"}}>
                   <Link className = "headNavLinks" to="/views">Views</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="bars" onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
+                <Typography textAlign="center"sx = {{display: "flex", width: "100%"}}>
                   <Link className = "headNavLinks" to="/bars">Bars</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="restaurants" onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
+                <Typography textAlign="center"sx = {{display: "flex", width: "100%"}}>
                   <Link className = "headNavLinks" to="/restaurants">Restaurants</Link>
                 </Typography>
               </MenuItem>
@@ -251,28 +254,28 @@ function Header() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem key="profile" onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">
+              <MenuItem key="profile" onClick={handleCloseUserMenu}  >
+                <Typography textAlign="center" sx = {{display: "flex", width: "100%"}}>
                   <Link className = "headNavLinks" to="/profile">Profile</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="saved" onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">
+                <Typography textAlign="center"sx = {{display: "flex", width: "100%"}}>
                   <Link className = "headNavLinks" to="/saved">Saved Locations</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="community" onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">
+                <Typography textAlign="center"sx = {{display: "flex", width: "100%"}}>
                   <Link className = "headNavLinks" to="/community">Community</Link>
                 </Typography>
               </MenuItem>
               <MenuItem key="chat" onClick={handleCloseUserMenu}>
-              <Typography textAlign="center">
+              <Typography textAlign="center"sx = {{display: "flex", width: "100%"}}>
                   <Link className = "headNavLinks" to="/chat">Chat</Link>
               </Typography>
               </MenuItem>
               <MenuItem key="signup" onClick={handleCloseUserMenu}>
-                <Typography onClick = {handleLogout} textAlign="center">
+                <Typography onClick = {handleLogout} textAlign="center"sx = {{display: "flex", width: "100%"}}>
                   Logout
                 </Typography>
                 
