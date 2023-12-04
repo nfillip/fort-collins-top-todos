@@ -6,7 +6,7 @@ import Home from './pages/Home.jsx'
 import Sunset from './pages/Sunset.jsx'
 import Profile from './pages/Profile.jsx'
 import Bars from './pages/Bars.jsx'
-import Views from './pages/Views.jsx'
+import Hikes from './pages/Hikes.jsx'
 import Restaurants from './pages/Restaurants.jsx'
 import Saved from './pages/Saved.jsx'
 import Community from "./pages/Community.jsx"
@@ -31,8 +31,8 @@ const router = createBrowserRouter([
 				element: <Bars />
 			},
 			{
-				path: "views",
-				element: <Views />
+				path: "hikes",
+				element: <Hikes />
 			},
 			{
 				path: "restaurants",

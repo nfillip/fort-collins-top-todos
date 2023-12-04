@@ -58,7 +58,7 @@ const resolvers = {
     },
     viewsLocations: async () => {
       const viewsLocations = await Location.find({
-        categories: "view"
+        categories: "hike"
       })
       .populate({
         path: "blog",

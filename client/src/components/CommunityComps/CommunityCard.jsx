@@ -56,14 +56,14 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
       .then((result) => {
         if (result.isConfirmed) {
           handleRemoveFriend();
-          swalWithBootstrapButtons.fire({
+          swal.fire({
             title: "Removed Friend",
             timer: 1500,
             icon: "success",
             showConfirmButton: false,
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire({
+          swal.fire({
             title: "Cancelled",
             icon: "error",
             showConfirmButton: false,

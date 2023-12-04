@@ -8,8 +8,8 @@ import LoadingComp from "../components/LoadingComp/LoadingComp"
 import Error from "./Error"
 
 export default function Bars() {
-  const cat = "view";
-  //query locations with "view" category
+  const cat = "hike";
+  //query locations with "hike" category
   const { data, loading, error, refetch } = useQuery(VIEWS_LOCATIONS,{
     fetchPolicy: 'network-only',
   });

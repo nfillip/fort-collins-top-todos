@@ -19,9 +19,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import Popper from "@mui/material/Popper";
-import Fade from "@mui/material/Fade";
-import Paper from "@mui/material/Paper";
 //Cloudinary
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
@@ -38,14 +35,11 @@ export default function LoginModal({ refetchHeader }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [pwErrorMessage, setPwErrorMessage] = useState("");
   const [unErrorMessage, setUnErrorMessage] = useState("");
-   //popper
-   const [anchorEl, setAnchorEl] = useState(null);
-   const [openPopper, setOpenPopper] = useState(false);
-   const [placement, setPlacement] = useState("top");
   //useMutations
   const [login] = useMutation(LOGIN);
   const [signUp] = useMutation(CREATE_USER);
-  //useEffect
+  //variables
+  // const loginButton = document.getElementById("loginButton")
   // Create a Cloudinary instance and set your cloud name.
   const cld = new Cloudinary({
     cloud: {
@@ -90,7 +84,7 @@ export default function LoginModal({ refetchHeader }) {
   // ensure when enter is pressed, modal form submits
   const handleKeyDown = (e) => {
     if (e.code === "Enter" && logOrSign === "login") {
-      handleLogin();
+      handleLogin(e);
     } else if (e.code === "Enter" && logOrSign === "signup") {
       handleLogin(e);
     } else {
@@ -111,8 +105,6 @@ export default function LoginModal({ refetchHeader }) {
 
   // attempt login
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setAnchorEl(e.currentTarget);
     try {
       const { data } = await login({
         variables: {
@@ -130,12 +122,13 @@ export default function LoginModal({ refetchHeader }) {
       Auth.login(data.login.token);
       refetchHeader();
     } catch (err) {
-      console.log("Hey")
-      setOpenPopper(!openPopper);
-      setPlacement("top");
-      setTimeout(() => {
-        setOpenPopper(false);
-      }, 2000);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Incorrect login credentials!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       console.error(err);
     }
   };
@@ -162,8 +155,23 @@ export default function LoginModal({ refetchHeader }) {
         refetchHeader();
         handleClose();
       } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Incorrect user credentials!",
+          showConfirmButton: false,
+          timer: 2000,
+        });
         console.error(err);
       }
+    }else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Incorrect user credentials!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
 
@@ -270,24 +278,7 @@ export default function LoginModal({ refetchHeader }) {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Popper
-            sx={{ zIndex: "100001" }}
-            open={openPopper}
-            anchorEl={anchorEl}
-            placement="top"
-            transition
-          >
-            {({ TransitionProps }) => (
-              <Fade {...TransitionProps} timeout={350}>
-                <Paper>
-                  <Typography sx={{ p: 2, color: "red" }}>
-                    Invalid credentials
-                  </Typography>
-                </Paper>
-              </Fade>
-            )}
-          </Popper>
-              <Button onClick={handleLogin}>Login</Button>
+              <Button id = "loginButton" onClick={handleLogin}>Login</Button>
             </DialogActions>
           </>
         ) : (

@@ -3,7 +3,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useQuery} from "@apollo/client";
 import { QUERY_SELF_PROFILE } from "../../utils/queries";
-import { useTheme } from "@mui/material";
+import { switchClasses, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -36,7 +36,7 @@ function Header() {
     onCompleted: (data) => {
       setImageId(data.me.profilePicURL);
       setProfileUsername(data.me.username);
-    }
+    },
   });
   const navigate = useNavigate();
 
@@ -66,14 +66,7 @@ function Header() {
   };
 
   const handleLogout = () => {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger",
-      },
-      buttonsStyling: false,
-    });
-    swalWithBootstrapButtons
+    swal
       .fire({
         title: "Are you sure you want to logout?",
         icon: "warning",
@@ -84,7 +77,7 @@ function Header() {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          swalWithBootstrapButtons.fire({
+          swal.fire({
             title: "Logged Out!",
             text: "See you next time!",
             timer: 1500,
@@ -97,7 +90,7 @@ function Header() {
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {
-          swalWithBootstrapButtons.fire({
+          swal.fire({
             title: "Cancelled",
             icon: "error",
             showConfirmButton: false,
@@ -176,13 +169,13 @@ function Header() {
                 </Typography>
               </MenuItem>
 
-              <MenuItem key="views" onClick={handleCloseNavMenu}>
+              <MenuItem key="hikes" onClick={handleCloseNavMenu}>
                 <Typography
                   textAlign="center"
                   sx={{ display: "flex", width: "100%" }}
                 >
-                  <Link className="headNavLinks" to="/views">
-                    Views
+                  <Link className="headNavLinks" to="/hikes">
+                    Hikes
                   </Link>
                 </Typography>
               </MenuItem>
@@ -241,12 +234,12 @@ function Header() {
               </Link>
             </Button>
             <Button
-              key="views"
+              key="hikes"
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              <Link className="headNavLinks" to="/views">
-                Views
+              <Link className="headNavLinks" to="/hikes">
+                Hikes
               </Link>
             </Button>
             <Button

@@ -217,8 +217,8 @@ export default function AddLocationModal() {
               />
               <FormControlLabel
                 control={<Checkbox />}
-                label="View"
-                value="view"
+                label="Hike"
+                value="hike"
                 onChange={handleLocCategoryChange}
               />
               <FormControlLabel
