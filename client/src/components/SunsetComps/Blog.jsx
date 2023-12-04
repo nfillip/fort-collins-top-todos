@@ -82,9 +82,9 @@ export default function Blog({ location, refetchPageLocs }) {
             timer: 2000,
           });
         }
-        refetchPageLocs();
         handleClose();
         setNewBlog("");
+        refetchPageLocs();
       } else {
         Swal.fire({
           icon: "error",
