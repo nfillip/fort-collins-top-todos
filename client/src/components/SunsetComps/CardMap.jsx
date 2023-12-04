@@ -12,7 +12,7 @@ import SingleCard from "./SingleCard";
 import AddLocationModal from "./AddLocModal";
 
 // auto swap through photos
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+// const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 export default function CardMap({ data, cat, refetchPageLocs }) {
   let titleLine = ``;

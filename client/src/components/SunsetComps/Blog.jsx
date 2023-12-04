@@ -142,10 +142,12 @@ export default function Blog({ location, refetchPageLocs }) {
                 </Box>
               </>
             ) : (
+              <>
               <Typography key={index}>
                 {blogMessage.messageText}
                 {blogMessage.createdAt}
               </Typography>
+              </>
             )}
           </>
         ))}

@@ -243,7 +243,7 @@ const resolvers = {
             {$push: {barsLikes: user._id}}
           )
           break;
-        case "view":
+        case "hike":
           const addViewsLike = await Location.findOneAndUpdate(
               {_id: locationId},
               {$push: {viewsLikes: user._id}}
@@ -271,7 +271,7 @@ const resolvers = {
             {$pull: {barsLikes: user._id}}
           )
           break;
-        case "view":
+        case "hike":
           const addViewsLike = await Location.findOneAndUpdate(
               {_id: locationId},
               {$pull: {viewsLikes: user._id}}

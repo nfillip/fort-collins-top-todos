@@ -20,15 +20,15 @@ import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
+// import { autoPlay } from "react-swipeable-views-utils";
 //local imports
 import SaveButton from "./SaveButton";
 import UpVoteButton from "./UpVoteButton";
 import Blog from "./Blog";
 
 // auto swipe through photos on card
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
+const AutoPlaySwipeableViews = SwipeableViews;
+// const AutoPlaySwipeableViews = autoplay(SwipeableViews);
 // expand card information
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -167,7 +167,7 @@ export default function SingleCard({ location, index, cat, refetchPageLocs }) {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent>
                 <Typography paragraph>{location.name} Blog:</Typography>
-                <Blog location={location} />
+                <Blog location={location} refetchPageLocs={refetchPageLocs} />
               </CardContent>
             </Collapse>
           </Card>

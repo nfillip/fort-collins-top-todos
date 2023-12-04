@@ -41,7 +41,11 @@ export default function ActiveChat({ activeChat }) {
   if (activeChat == "") return "Select a conversation...";
   if (loading) return <span className="loading loading-ball loading-lg"></span>;
   if (err) return `Error! ${err}`;
-  let selfId = Auth.getProfile().data._id;
+  let selfId;
+  if(Auth.loggedIn()){
+     selfId = Auth.getProfile().data._id;
+  }
+ 
 
   return (
     <>
