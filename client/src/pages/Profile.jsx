@@ -111,6 +111,12 @@ export default function Profile() {
         otherId: id,
       },
     });
+    swal.fire({
+      title: "You have a new friend!",
+      timer: 1500,
+      icon: "success",
+      showConfirmButton: false,
+    });
     refetch();
   };
 

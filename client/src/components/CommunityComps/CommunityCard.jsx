@@ -92,6 +92,12 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
         otherId: user._id,
       },
     });
+    swal.fire({
+      title: "You have a new friend!",
+      timer: 1500,
+      icon: "success",
+      showConfirmButton: false,
+    });
     refetchCommunity();
   };
 

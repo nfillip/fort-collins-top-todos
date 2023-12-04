@@ -13,8 +13,8 @@ export const HeaderProvider = ({ children }) => {
     const initialState = {
         headerProfileUsername: headerProfileUsername,
         setHeaderProfileUsername: setHeaderProfileUsername,
-        headerProfilePic, headerProfilePic,
-        setHeaderProfilePic, setHeaderProfilePic
+        headerProfilePic: headerProfilePic,
+        setHeaderProfilePic: setHeaderProfilePic
     };
 
     return (

@@ -103,7 +103,6 @@ export default function EditProfileModal({ refetch, profilePicURL }) {
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
-
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {

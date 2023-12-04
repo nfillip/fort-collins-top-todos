@@ -32,7 +32,7 @@ import SingleCard from "./SingleCard";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
 
-export default function AddLocationModal({ id }) {
+export default function AddLocationModal({ id, refetchPageLocs }) {
   //location build useState
   const [open, setOpen] = useState(false);
   const [locationName, setLocationName] = useState("");
@@ -149,6 +149,7 @@ export default function AddLocationModal({ id }) {
       } else {
         console.log("failed");
       }
+      refetchPageLocs();
     }
   };
   //close modal

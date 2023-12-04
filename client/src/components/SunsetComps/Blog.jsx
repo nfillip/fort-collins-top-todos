@@ -157,7 +157,7 @@ export default function Blog({ location, refetchPageLocs }) {
         <Button variant="contained" onClick={handleClickOpen}>
           Post to Blog
         </Button>
-        <EditLocationModal id={location._id} />
+        <EditLocationModal id={location._id} refetchPageLocs = {refetchPageLocs}/>
       </Box>
       <Dialog open={open} onClose={handleClose} onClick={preventBubbling}>
         <DialogTitle>Post to Blog</DialogTitle>
