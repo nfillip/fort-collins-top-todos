@@ -39,7 +39,7 @@ export default function UpVoteButton({ location, cat }) {
             }
           }
           break;
-        case "view":
+        case "hike":
           setNumLikes(location.viewsLikes.length);
           for (let i = 0; i < location.viewsLikes.length; i++) {
             if (data.me._id == location.viewsLikes[i]._id) {
