@@ -63,7 +63,7 @@ export default function Loading() {
         >
           <a href="" target="_blank"></a>
           <a href="https://react.dev" target="_blank">
-            <img src={collogo} className="logo react" alt="React logo" />
+            <img src= "https://res.cloudinary.com/dkxtk2v4z/image/upload/v1701731596/logo-removebg-preview_1_h9leqa.png" className="logo react" alt="React logo" />
           </a>
           <Typography
             className="spinner"

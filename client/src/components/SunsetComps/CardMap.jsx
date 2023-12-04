@@ -6,13 +6,11 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
 //local imports
 import SingleCard from "./SingleCard";
 import AddLocationModal from "./AddLocModal";
 
 // auto swap through photos
-// const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 export default function CardMap({ data, cat, refetchPageLocs }) {
   let titleLine = ``;
