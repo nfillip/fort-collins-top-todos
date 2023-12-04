@@ -252,7 +252,7 @@ const resolvers = {
         case "restaurant":
             const addRestLikes = await Location.findOneAndUpdate(
                 {_id: locationId},
-                {$push: {restaurantLikes: user._id}}
+                {$push: {restaurantsLikes: user._id}}
               )
             break;
       }
@@ -280,7 +280,7 @@ const resolvers = {
         case "restaurant":
             const addRestLikes = await Location.findOneAndUpdate(
                 {_id: locationId},
-                {$pull: {restaurantLikes: user._id}}
+                {$pull: {restaurantsLikes: user._id}}
               )
             break;
       }
