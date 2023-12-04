@@ -1,9 +1,14 @@
+//react imports
 import { Link, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { useState } from "react";
 import { useQuery} from "@apollo/client";
+// local imports
 import { QUERY_SELF_PROFILE } from "../../utils/queries";
+import {useHeaderContext} from '../../utils/HeaderContext'
 import { switchClasses, useTheme } from "@mui/material";
+import logo from "../../assets/logo.png";
+// MUI imports
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -19,25 +24,34 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import LoginModal from "./LoginModal";
 import Auth from "../../utils/auth";
+// cloudinary imports
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
-import logo from "../../assets/logo.png";
+
+//accordian drop down
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
+  //useTheme
   const theme = useTheme();
+  //useState
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [imageId, setImageId] = useState("");
   const [profileUsername, setProfileUsername] = useState("");
-
+ //userContext
+  const contextObj = useHeaderContext();
+  //useQuery
   const { error, loading, data, refetch } = useQuery(QUERY_SELF_PROFILE, {
     onCompleted: (data) => {
       setImageId(data.me.profilePicURL);
       setProfileUsername(data.me.username);
+      contextObj.setHeaderProfileUsername(data.me.username)
+      contextObj.setHeaderProfilePic(data.me.profilePicURL)
     },
   });
+  //useNavigate
   const navigate = useNavigate();
 
   // Create a Cloudinary instance and set your cloud name.
@@ -46,25 +60,26 @@ function Header() {
       cloudName: "dkxtk2v4z",
     },
   });
-
   // Instantiate a CloudinaryImage object for the image with the public ID, 'docs/models'.
   const myImage = cld.image(imageId);
 
+  //open Navigate menu
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+  //open User menu
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
+  //close Navigate menu
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
+  //close User Menu
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  //Logout User and show sweet alerts
   const handleLogout = () => {
     swal
       .fire({
@@ -271,8 +286,8 @@ function Header() {
                       display: { xs: "none", md: "flex" },
                       color: "white",
                     }}
-                  >{`Hey ${profileUsername} `}</Typography>
-                  <Avatar src={imageId} />
+                  >{`Hey ${contextObj.headerProfileUsername} `}</Typography>
+                  <Avatar src={contextObj.headerProfilePic} />
                 </IconButton>
               </Tooltip>
               <Menu

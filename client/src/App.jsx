@@ -8,7 +8,7 @@ import { createTheme, colors, ThemeProvider, useTheme } from "@mui/material";
 import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
 import Header from "./components/HeaderComps/Header";
-
+import {HeaderProvider} from './utils/HeaderContext'
 const theme = createTheme({
   palette: {
     primary: {
@@ -51,11 +51,13 @@ const client = new ApolloClient({
 
 export default function App() {
   return (
+    <HeaderProvider>
     <ThemeProvider theme = {theme}>
     <ApolloProvider client={client}>
       <Header></Header>
       <Outlet />
     </ApolloProvider>
     </ThemeProvider>
+    </HeaderProvider>
   );
 }

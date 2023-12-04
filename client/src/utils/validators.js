@@ -9,6 +9,6 @@ export function validatePassword(password) {
   }
 
 export function validateUsername(username) {
-  const re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{2,12}$/;
+  const re = /^(?=.*[A-Za-z])[A-Za-z\d@$!%*?&]{2,12}$/;
   return re.test(String(username));
 }

@@ -1,6 +1,7 @@
 //react imports
 import React from "react";
 import { useQuery } from "@apollo/client";
+import {useHeaderContext} from '../utils/HeaderContext'
 //local imports
 import {SUNSET_LOCATIONS } from "../utils/queries";
 import CardMap from "../components/SunsetComps/CardMap"

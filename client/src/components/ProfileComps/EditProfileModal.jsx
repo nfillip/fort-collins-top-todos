@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 //local imports
 import { UPDATE_USER } from "../../utils/mutations.js";
+import {useHeaderContext} from '../../utils/HeaderContext'
 import Auth from "../../utils/auth";
 import {
   validateEmail,
@@ -48,7 +49,8 @@ export default function EditProfileModal({ refetch, profilePicURL }) {
   const [placement, setPlacement] = useState("top");
   //useMutations
   const [editProfile] = useMutation(UPDATE_USER);
-  //useEffect
+  //useContext
+  const contextObj = useHeaderContext();
   // Create a Cloudinary instance and set your cloud name.
   const cld = new Cloudinary({
     cloud: {
@@ -118,6 +120,12 @@ export default function EditProfileModal({ refetch, profilePicURL }) {
             ...newUserData,
           },
         });
+        if(newUserData.username && newUserData.username !== "" ){
+          contextObj.setHeaderProfileUsername(newUserData.username)
+        }
+        if(newUserData.profilePicUrl && newUserData.profilePicUrl !== ""){
+          contextObj.setHeaderProfilePic(newUserData.profilePicUrl)
+        }
         handleClose();
         refetch();
         setNewUserData({});
