@@ -50,7 +50,7 @@ export default function ActiveChat({ activeChat }) {
   return (
     <>
       {data.oneMatch.user1._id == selfId ? (
-        <Typography>{data.oneMatch.user2.username}</Typography>
+        <Typography sx={{ color: "white", fontSize: "2rem" }}>{data.oneMatch.user2.username}</Typography>
       ) : (
         <Typography sx={{ color: "white", fontSize: "2rem" }}>
           {data.oneMatch.user1.username}
