@@ -122,8 +122,8 @@ const itemData = [
     title: "elliots2",
   },
   {
-    img: "https://res.cloudinary.com/dkxtk2v4z/image/upload/v1700337384/social2_tscvys.jpg",
-    title: "social2",
+    img: "https://res.cloudinary.com/dkxtk2v4z/image/upload/v1701666446/grayrock2_tkpnin.jpg",
+    title: "greyrock1",
   },
   {
     img: "https://res.cloudinary.com/dkxtk2v4z/image/upload/v1700252692/whiskeystill_lv9ogg.jpg",
