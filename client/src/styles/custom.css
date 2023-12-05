@@ -124,7 +124,10 @@ background-color: rgb(148, 16, 148);
     border: .2rem solid purple;
     border-radius: 5px;
 }
-
+/* drawer background color */
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper, .css-4t3x6l-MuiPaper-root-MuiDrawer-paper, .css-wf16b5, .css-1l8j5k8 {
+    background-color: #a3add1 !important
+}
 /* Sweet Alert */
 .swal2-container {
     z-index: 1000001

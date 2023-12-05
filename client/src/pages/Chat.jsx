@@ -84,7 +84,7 @@ export default function ResponsiveDrawer(props) {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth},
           }}
         >
             <DrawerInfo matches = {matches} activeChat = {activeChat} setActiveChat = {setActiveChat} />
