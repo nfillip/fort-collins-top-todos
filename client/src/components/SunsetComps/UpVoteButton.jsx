@@ -1,5 +1,5 @@
 //react imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 //MUI imports
 import IconButton from "@mui/material/IconButton";
@@ -17,6 +17,21 @@ export default function UpVoteButton({ location, cat }) {
   //useMutations
   const [addUpVote] = useMutation(UPVOTE_LOCATION);
   const [removeUpVote] = useMutation(REMOVE_VOTE_LOCATION);
+  // switch (cat) {
+  //   case "sunset":
+  //     setNumLikes(location.sunsetLikes.length);
+  //     break;
+  //   case "bar":
+  //     setNumLikes(location.barsLikes.length);
+  //     break;
+  //   case "hike":
+  //     setNumLikes(location.viewsLikes.length);
+  //     console.log("hellp")
+  //     break;
+  //   case "restaurant":
+  //     setNumLikes(location.restaurantsLikes.length);
+  //     break;
+  // }
   //useQueries
   const { data, loading, error, refetch } = useQuery(QUERY_SELF_PROFILE, {
     onCompleted: (data) => {
@@ -24,7 +39,7 @@ export default function UpVoteButton({ location, cat }) {
       let isSaved = false;
       switch (cat) {
         case "sunset":
-          setNumLikes(location.sunsetLikes.length);
+          // setNumLikes(location.sunsetLikes.length);
           for (let i = 0; i < location.sunsetLikes.length; i++) {
             if (data.me._id == location.sunsetLikes[i]._id) {
               isSaved = true;
@@ -32,7 +47,7 @@ export default function UpVoteButton({ location, cat }) {
           }
           break;
         case "bar":
-          setNumLikes(location.barsLikes.length);
+          // setNumLikes(location.barsLikes.length);
           for (let i = 0; i < location.barsLikes.length; i++) {
             if (data.me._id == location.barsLikes[i]._id) {
               isSaved = true;
@@ -40,7 +55,7 @@ export default function UpVoteButton({ location, cat }) {
           }
           break;
         case "hike":
-          setNumLikes(location.viewsLikes.length);
+          // setNumLikes(location.viewsLikes.length);
           for (let i = 0; i < location.viewsLikes.length; i++) {
             if (data.me._id == location.viewsLikes[i]._id) {
               isSaved = true;
@@ -48,7 +63,7 @@ export default function UpVoteButton({ location, cat }) {
           }
           break;
         case "restaurant":
-          setNumLikes(location.restaurantsLikes.length);
+          // setNumLikes(location.restaurantsLikes.length);
           for (let i = 0; i < location.restaurantsLikes.length; i++) {
             if (data.me._id == location.restaurantsLikes[i]._id) {
               isSaved = true;
@@ -60,6 +75,25 @@ export default function UpVoteButton({ location, cat }) {
     },
   });
 
+  useEffect(() => {
+    console.log("Hey There")
+     switch (cat) {
+    case "sunset":
+      setNumLikes(location.sunsetLikes.length);
+      break;
+    case "bar":
+      setNumLikes(location.barsLikes.length);
+      break;
+    case "hike":
+      setNumLikes(location.viewsLikes.length);
+      break;
+    case "restaurant":
+      setNumLikes(location.restaurantsLikes.length);
+      break;
+  }
+  }, [])
+
+ 
   //increase likes on card
   const handleUpVote = async (e) => {
     e.preventDefault();
