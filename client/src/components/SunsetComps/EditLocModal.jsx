@@ -146,6 +146,12 @@ export default function AddLocationModal({ id, refetchPageLocs }) {
       if (updateLoc) {
         console.log("added location");
         handleClose();
+        swal.fire({
+          title: "Location Updated!",
+          timer: 1500,
+          icon: "success",
+          showConfirmButton: false,
+        });
       } else {
         console.log("failed");
       }

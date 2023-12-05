@@ -32,7 +32,7 @@ import SingleCard from "./SingleCard";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
 
-export default function AddLocationModal() {
+export default function AddLocationModal({refetchPageLocs}) {
   //location build useState
   const [open, setOpen] = useState(false);
   const [locationName, setLocationName] = useState("");
@@ -124,7 +124,14 @@ export default function AddLocationModal() {
       });
       if (addingLoc) {
         console.log("added location");
+        refetchPageLocs();
         handleClose();
+        swal.fire({
+          title: "Location Added!",
+          timer: 1500,
+          icon: "success",
+          showConfirmButton: false,
+        });
       } else {
         console.log("failed");
       }

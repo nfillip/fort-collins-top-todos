@@ -55,7 +55,7 @@ export default function CardMap({ data, cat, refetchPageLocs }) {
               Fort Collins
             </Typography>
           </Box>
-          <AddLocationModal />
+          <AddLocationModal refetchPageLocs = {refetchPageLocs} />
         </Box>
         <Grid container spacing={2} sx={{ paddingTop: 0 }}>
           {data.map((location, index) => (
