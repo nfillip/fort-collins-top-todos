@@ -20,9 +20,11 @@ const userSchema = new Schema({
 	},
     profilePic: {
         type: String,
+		default: "deafult_t5mxt7"
     },
 	profilePicURL: {
 		type: String,
+		default: "https://res.cloudinary.com/dkxtk2v4z/image/upload/v1702333557/deafult_t5mxt7.png"
 	},
 	savedLocations:
 		[{ type: Schema.Types.ObjectId, ref: "Location" }],

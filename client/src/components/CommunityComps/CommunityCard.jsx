@@ -146,7 +146,7 @@ export default function CommunityCard({ user, index, refetchCommunity }) {
         component="img"
         height="255"
         image={user.profilePicURL}
-        alt="Paella dish"
+        alt= {user.profilePicURL}
       />
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         {buttonStyler === 1 ? (

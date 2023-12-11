@@ -182,7 +182,7 @@ export default function SingleCard({ location, index, cat, refetchPageLocs }) {
               component="img"
               height="255"
               image={location.imagesURL[0]}
-              alt="Paella dish"
+              alt={location.imagesURL[0]}
             />
             <Box sx={{ height: 46 }}></Box>
             <CardContent

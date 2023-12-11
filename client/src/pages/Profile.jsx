@@ -164,7 +164,7 @@ export default function Profile() {
             component="img"
             height="255"
             image={data.me.profilePicURL}
-            alt="Paella dish"
+            alt={data.me.profilePicURL}
           />
           <CardContent>
             <Typography color="text.secondary">{data.me.email}</Typography>
