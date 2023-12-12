@@ -10,11 +10,14 @@ export const useHeaderContext = () => useContext(HeaderContext);
 export const HeaderProvider = ({ children }) => {
     const [headerProfileUsername, setHeaderProfileUsername] = useState("(loading...)")
     const [headerProfilePic, setHeaderProfilePic] = useState("empty")
+    const [loginModalOpen, setLoginModalOpen] = useState(false)
     const initialState = {
         headerProfileUsername: headerProfileUsername,
         setHeaderProfileUsername: setHeaderProfileUsername,
         headerProfilePic: headerProfilePic,
-        setHeaderProfilePic: setHeaderProfilePic
+        setHeaderProfilePic: setHeaderProfilePic,
+        loginModalOpen: loginModalOpen,
+        setLoginModalOpen: setLoginModalOpen
     };
 
     return (

@@ -9,13 +9,15 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Auth from "../../utils/auth";
 import { QUERY_SELF_PROFILE } from "../../utils/queries";
 import { SAVE_LOCATION, UNSAVE_LOCATION } from "../../utils/mutations";
-
+import {useHeaderContext} from '../../utils/HeaderContext'
 export default function SaveButton({ location, cat }) {
   //useStates
   const [active, setActive] = useState(false);
   //useMutations
   const [saveLocation] = useMutation(SAVE_LOCATION);
   const [unSaveLocation] = useMutation(UNSAVE_LOCATION);
+   //userContext
+   const contextObj = useHeaderContext();
   //useQueries
   const { data, loading, error, refetch } = useQuery(QUERY_SELF_PROFILE, {
     onCompleted: (data) => {
@@ -45,12 +47,18 @@ export default function SaveButton({ location, cat }) {
       setActive(!active);
     } else {
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Only logged in users can save locations!",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+        icon: "warning",
+        title: "Login/Signup to Save Locations!",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Login/Signup",
+        cancelButtonText: "Cancel",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          contextObj.setLoginModalOpen(true)
+        }
+      })
     }
   };
 

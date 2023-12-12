@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Auth from "../../utils/auth";
 import { QUERY_SELF_PROFILE } from "../../utils/queries";
 import { UPVOTE_LOCATION, REMOVE_VOTE_LOCATION } from "../../utils/mutations";
-
+import {useHeaderContext} from '../../utils/HeaderContext'
 export default function UpVoteButton({ location, cat }) {
   //useStates
   const [active, setActive] = useState(false);
@@ -17,6 +17,8 @@ export default function UpVoteButton({ location, cat }) {
   //useMutations
   const [addUpVote] = useMutation(UPVOTE_LOCATION);
   const [removeUpVote] = useMutation(REMOVE_VOTE_LOCATION);
+  //userContext
+  const contextObj = useHeaderContext();
   // switch (cat) {
   //   case "sunset":
   //     setNumLikes(location.sunsetLikes.length);
@@ -34,6 +36,7 @@ export default function UpVoteButton({ location, cat }) {
   // }
   //useQueries
   const { data, loading, error, refetch } = useQuery(QUERY_SELF_PROFILE, {
+    fetchPolicy: 'network-only',
     onCompleted: (data) => {
       // determine # of likes to display on each card
       let isSaved = false;
@@ -76,7 +79,6 @@ export default function UpVoteButton({ location, cat }) {
   });
 
   useEffect(() => {
-    console.log("Hey There")
      switch (cat) {
     case "sunset":
       setNumLikes(location.sunsetLikes.length);
@@ -110,14 +112,19 @@ export default function UpVoteButton({ location, cat }) {
         setNumLikes(numLikes + 1);
         console.log("location Upvoted");
       } else {
-        console.log("not loggedIN");
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Only logged in users can upvote!",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+          icon: "warning",
+          title: "Login/Signup to Upvote!",
+          showConfirmButton: true,
+          showCancelButton: true,
+          confirmButtonText: "Login/Signup",
+          cancelButtonText: "Cancel",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            contextObj.setLoginModalOpen(true)
+          }
+        })
       }
     } catch (err) {
       console.error(err);

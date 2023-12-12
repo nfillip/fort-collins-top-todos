@@ -1,6 +1,7 @@
 //react imports
 import React, { useState, useRef, useEffect } from "react";
 import { useMutation } from "@apollo/client";
+import {useNavigate } from "react-router-dom";
 //local imports
 import { LOGIN, CREATE_USER } from "../../utils/mutations.js";
 import Auth from "../../utils/auth";
@@ -9,6 +10,7 @@ import {
   validatePassword,
   validateUsername,
 } from "../../utils/validators.js";
+import {useHeaderContext} from '../../utils/HeaderContext'
 //MatUI imports
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -24,6 +26,8 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
 
 export default function LoginModal({ refetchHeader }) {
+   //userContext
+   const contextObj = useHeaderContext();
   //useStates
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -35,9 +39,12 @@ export default function LoginModal({ refetchHeader }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [pwErrorMessage, setPwErrorMessage] = useState("");
   const [unErrorMessage, setUnErrorMessage] = useState("");
+  const [buttonHidden, setButtonHidden] = useState(true)
   //useMutations
   const [login] = useMutation(LOGIN);
   const [signUp] = useMutation(CREATE_USER);
+  //useNavigate
+   const navigate = useNavigate();
   //variables
   // const loginButton = document.getElementById("loginButton")
   // Create a Cloudinary instance and set your cloud name.
@@ -70,12 +77,14 @@ export default function LoginModal({ refetchHeader }) {
   
   // open login modal
   const handleClickOpen = () => {
-    setOpen(true);
+    // setOpen(true);
+    contextObj.setLoginModalOpen(true)
   };
 
   // close login modal
   const handleClose = () => {
-    setOpen(false);
+    // setOpen(false);
+    contextObj.setLoginModalOpen(false)
     setPassword("");
     setEmail("");
     setUsername("");
@@ -121,6 +130,7 @@ export default function LoginModal({ refetchHeader }) {
       console.log("login success!");
       Auth.login(data.login.token);
       refetchHeader();
+      navigate('/')
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -154,6 +164,7 @@ export default function LoginModal({ refetchHeader }) {
         });
         refetchHeader();
         handleClose();
+        navigate('/')
       } catch (err) {
         Swal.fire({
           icon: "error",
@@ -215,10 +226,10 @@ export default function LoginModal({ refetchHeader }) {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      {buttonHidden? <Button variant="outlined" onClick={handleClickOpen}>
         Login/SignUp
-      </Button>
-      <Dialog open={open} onClose={handleClose} onKeyDown={handleKeyDown}>
+      </Button>:<></> }
+      <Dialog open={contextObj.loginModalOpen} onClose={handleClose} onKeyDown={handleKeyDown}>
         {logOrSign === "login" ? (
           <>
             <div>
