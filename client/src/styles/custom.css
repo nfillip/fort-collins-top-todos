@@ -15,6 +15,14 @@ background: #201824;
     width: 100%;
     display: flex;
 }
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    width: 50vw;
+    min-width: 300px;
+}
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    width: 100%;
+}
 /* LOADING PAGE */
 .logo {
     height: 9rem;

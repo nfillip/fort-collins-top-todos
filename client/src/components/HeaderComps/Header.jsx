@@ -359,8 +359,15 @@ function Header() {
             </Box>
           ) : (
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+              <Tooltip title="Login/Signup">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Typography
+                    sx={{
+                      mr: 2,
+                      display: { xs: "none", md: "flex" },
+                      color: "white",
+                    }}
+                  >{`Login/Signup`}</Typography>
                   <Avatar src="/broken-image.jpg" />
                 </IconButton>
               </Tooltip>

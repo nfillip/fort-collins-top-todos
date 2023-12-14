@@ -21,7 +21,8 @@ export default function SaveButton({ location, cat }) {
   //useQueries
   const { data, loading, error, refetch } = useQuery(QUERY_SELF_PROFILE, {
     onCompleted: (data) => {
-      setActive(true);
+      // setActive(true);
+      console.log(data)
       let isSaved = false;
       for (let i = 0; i < data.me.savedLocations.length; i++) {
         if (data.me.savedLocations[i]._id == location._id) {
@@ -78,6 +79,7 @@ export default function SaveButton({ location, cat }) {
       console.error(err);
     }
   };
+  console.log(active)
   return (
     <>
       {active ? (

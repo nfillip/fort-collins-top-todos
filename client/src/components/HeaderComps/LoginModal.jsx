@@ -12,6 +12,7 @@ import {
 } from "../../utils/validators.js";
 import {useHeaderContext} from '../../utils/HeaderContext'
 //MatUI imports
+import Box from '@mui/material/Box'
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -239,9 +240,10 @@ export default function LoginModal({ refetchHeader }) {
                 Signup
               </Button>
             </div>
-            <DialogTitle>Login Here!</DialogTitle>
+            <Typography sx = {{display: "flex", justifyContent: "center"}}><DialogTitle sx = {{text: "center"}}>Login Here!</DialogTitle> </Typography>
+            
             <DialogContent>
-              <div>
+            <div>
                 {!errorMessage ? (
                   <TextField
                     id="filled-basic"
@@ -262,7 +264,7 @@ export default function LoginModal({ refetchHeader }) {
                     onChange={handleInputChange}
                   />
                 )}
-              </div>
+              </div>  
               <div>
                 {!pwErrorMessage ? (
                   <TextField
@@ -313,12 +315,15 @@ export default function LoginModal({ refetchHeader }) {
                 borderColor: "solid red",
               }}
             >
-              <DialogTitle sx={{ pl: 0 }}>Sign Up Here!</DialogTitle>
+              <DialogTitle sx={{ pl: 0, position: "relative" }}>Sign Up Here!
+              </DialogTitle>
+              
               <IconButton
                 onClick={() => widgetRef.current.open()}
-                sx={{ p: 0 }}
+                sx={{ p: 0, position: "relative" }}
               >
                 <Avatar src={imageURL} />
+                <Box sx = {{position: "absolute", bottom: "-3px", fontSize: ".8rem", width: "90px", color: "purple"}}>Add Photo</Box>
               </IconButton>
             </Typography>
             <DialogContent>
