@@ -19,21 +19,6 @@ export default function UpVoteButton({ location, cat }) {
   const [removeUpVote] = useMutation(REMOVE_VOTE_LOCATION);
   //userContext
   const contextObj = useHeaderContext();
-  // switch (cat) {
-  //   case "sunset":
-  //     setNumLikes(location.sunsetLikes.length);
-  //     break;
-  //   case "bar":
-  //     setNumLikes(location.barsLikes.length);
-  //     break;
-  //   case "hike":
-  //     setNumLikes(location.viewsLikes.length);
-  //     console.log("hellp")
-  //     break;
-  //   case "restaurant":
-  //     setNumLikes(location.restaurantsLikes.length);
-  //     break;
-  // }
   //useQueries
   const { data, loading, error, refetch } = useQuery(QUERY_SELF_PROFILE, {
     fetchPolicy: 'network-only',

@@ -17,7 +17,6 @@ export default function DrawerInfo({ matches, activeChat, setActiveChat }) {
   // determine which chat to display
   const handleActive = (matchId) => {
     setActiveChat(matchId);
-    console.log();
   };
   return (
     <div>

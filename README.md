@@ -1,7 +1,7 @@
 # fort-collins-top-todos [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 FoCo Fun is unleashing the future of local social networking. This aesthetic app is designed to help Fort Collins residents share their favorite spots around town and make friends while doing so!  
 
-We foster a welcoming community for users  to view top spots, add new locations, blog, share photography, connect with the community and live chat!
+We foster a welcoming community for users to view top spots, add new locations, blog, share photography, connect with the community and live chat!
 
 ---
 ## Description

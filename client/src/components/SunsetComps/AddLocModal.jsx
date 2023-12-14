@@ -87,13 +87,11 @@ export default function AddLocationModal({refetchPageLocs}) {
       let temp = locationCategory;
       temp.push(e.target.value);
       setLocationCategory(temp);
-      console.log(locationCategory);
     } else {
       let temp = locationCategory;
       let index = temp.indexOf(e.target.value);
       temp.splice(index, 1);
       setLocationCategory(temp);
-      console.log(locationCategory);
     }
   };
   //add location to database

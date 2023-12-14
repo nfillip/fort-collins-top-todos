@@ -64,7 +64,6 @@ export default function LoginModal({ refetchHeader }) {
       },
       async function (error, result) {
         if (result.info.public_id) {
-          console.log(result.info);
           setImageURL(result.info.secure_url);
           setImageID(result.info.public_id);
         }

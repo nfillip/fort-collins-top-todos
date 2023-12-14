@@ -108,7 +108,6 @@ export default function AddLocationModal({ id, refetchPageLocs }) {
       const newData = { ...newLocData };
       newData.categories = temp;
       setNewLocData(newData);
-      console.log(locationCategory);
     } else {
       let temp = locationCategory;
       let index = temp.indexOf(e.target.value);
@@ -117,7 +116,6 @@ export default function AddLocationModal({ id, refetchPageLocs }) {
       const newData = { ...newLocData };
       newData.categories = temp;
       setNewLocData(newData);
-      console.log(locationCategory);
     }
   };
   //add location to database

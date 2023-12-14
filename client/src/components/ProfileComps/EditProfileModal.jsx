@@ -112,7 +112,6 @@ export default function EditProfileModal({ refetch, profilePicURL }) {
         !unErrorMessage &&
         (email !== "" || password !== "" || username !== "" || imageURL !== "")
       ) {
-        console.log(newUserData);
         const data = await editProfile({
           variables: {
             id: Auth.getProfile().data._id,
