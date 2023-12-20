@@ -149,9 +149,6 @@ background-color: rgb(148, 16, 148);
     }
 }
 @media (width>900px) {
-    /* .homeImage{
-        background-image: url(../assets/horsetooth-land.avif)
-    } */
     .homeTitle{
         font-size: 6rem;
         margin-left: 20rem;
